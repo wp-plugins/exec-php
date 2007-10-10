@@ -3,16 +3,13 @@
 Plugin Name: Exec PHP
 Plugin URI: http://www.soeren-weber.net/post/2005/08/18/50
 Description: Allows &lt;?PHP ?&gt; tags inside of your posts.
-Version: 1.0
+Version: 1.1
 Author: S&ouml;ren Weber
 Author URI: http://soeren-weber.net
 */
 
 function execphp_replace($match)
 {
-  if (empty($match['2']))
-    return "";
-
   // to be compatible with older PHP4 installations
   // don't use fancy ob_XXX shortcut functions
   ob_start();
@@ -28,7 +25,7 @@ function execphp_apply($content)
   // to check them with a print_r($matches)
   $pattern = '/'.
     '(<[\s]*\?php)'. // the opening of the <?php tag
-    '(((\'(.*?)\')|(\"(.*?)\")|(.*?))*?)'. // ignore content of PHP quoted strings
+    '(((([\'\"])([^\\\5]|\\.)*?\5)|(.*?))*)'. // ignore content of PHP quoted strings
     '(\?>)'. // the closing ? > tag
     '/is';
 
