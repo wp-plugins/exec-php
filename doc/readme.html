@@ -12,7 +12,7 @@
 <p>The Exec-PHP plugin allows <code>&lt;?php ?&gt;</code> tags inside the content or excerpt of your posts and pages to be executed just as in usual PHP files.</p>
 
 <h3>Make it quick. Where can I download it?</h3>
-<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 3.1 here!</a></p>
+<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 3.2 here!</a></p>
 
 <h3>Why is there so much text below?</h3>
 <p>Because I hate cool plugins that are badly documented. Even the smallest piece of code needs some documentation. The following text is pretty exhaustive. Feel free to skip the sections you are not interested in. If you have a question about the plugin please first make sure you refer to the latest version of the plugin and the question is not answered on this page or in the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments of the plugin homepage</a>. Then - and only then - <a href="http://bluesome.net/post/2005/08/18/50/#response-50">post your question here</a>.</p><!--more-->
@@ -61,6 +61,7 @@
 			<li><a href="#faq">FAQ - Frequently asked questions</a>
 				<ol>
 					<li><a href="#globals">Why does my included PHP script spits out parsing errors?</a></li>
+					<li><a href="#already_defined">Why does my newsfeed spits out parsing errors?</a></li>
 					<li><a href="#brokentag">Why does WordPress mess' up my <code>&lt;?php ?&gt;</code> tags after saving the post?</a></li>
 					<li><a href="#printcode">How can I just print out PHP code and don't execute it?</a></li>
 				</ol>
@@ -69,6 +70,7 @@
 	</li>
 	<li><a href="#past_present_future">Past, present and future</a>
 		<ol>
+			<li><a href="#new_versions">New versions</a></li>
 			<li><a href="#history">History of older versions</a>
 				<ol>
 					<li><a href="#version_1_0">Version 1.0 (2005-08-18)</a></li>
@@ -77,6 +79,7 @@
 					<li><a href="#version_2_0">Version 2.0 (2005-12-22)</a></li>
 					<li><a href="#version_3_0">Version 3.0 (2006-08-06)</a></li>
 					<li><a href="#version_3_1">Version 3.1 (2007-02-09)</a></li>
+					<li><a href="#version_3_2">Version 3.2 (2007-02-10)</a></li>
 				</ol>
 			</li>
 			<li><a href="#roadmap">Roadmap</a></li>
@@ -236,9 +239,13 @@ echo "\n\thandling\"";
 
 <h5 id="globals">Why does my included PHP script spits out parsing errors?</h5>
 <p>Assume your included code is working outside an article and the path to the include file is correct. PHP may still spit out error messages even if everything seems to be correct. This can happen when your included file assumes it runs on global level and does not use the keyword <code>global</code> to declare its global variables. As example create a new post with the following code:</p>
-<pre><code>&lt;?php include(get_settings('home'). '/test.php'); ?&gt;</code></pre>
 
-<p>After that copy the following code into a new file named <code>test.php</code> and store it in your webservers root directory:</p>
+<p>Article:</p>
+<pre><code>&lt;?php require_once(get_settings('home'). '/example.php'); ?&gt;</code></pre>
+
+<p>After that copy the following code into a new file named <code>example.php</code> and store it in your webservers root directory:</p>
+
+<p>File (here example.php):</p>
 <pre><code>&lt;?php
 $g_text = 'Hello World';
 function hello()
@@ -249,18 +256,51 @@ function hello()
 hello();
 ?&gt;</code></pre>
 
-<p>Although the file <code>test.php</code> will execute fine if you just access the file directly, this test will end up in unexpected behaviour because assigning a value to the <code>$g_text</code> variable hasn't taken place in global scope in terms of the used WordPress hook to execute your code. This is because of how WordPress works and there is no way to handle this in the plugin. You can work around this problem by adding the following PHP code into your post before the include statement or into the file you want to include at the very beginning:</p>
+<p>Although the file <code>example.php</code> will execute fine if you just access the file directly, this test will end up in unexpected behaviour because assigning a value to the <code>$g_text</code> variable hasn't taken place in global scope in terms of the used WordPress hook to execute your code. This is because of how WordPress works and there is no way to handle this in the plugin. You can work around this problem by adding the following PHP code into your post before the include statement or into the file you want to include at the very beginning:</p>
 <pre><code>global $g_text;</code></pre>
 
 <p>No need to say, you have to do this for each global variable where this wasn't already done by the original programmer of the code. Another way would be to contact the original programmer and kindly ask him to change his code.</p>
 
+<h5 id="already_defined">Why does my newsfeed spits out parsing errors?</h5>
+<p>Assume your code is working outside an article. PHP may still spit out error messages in your newsfeed but not if you are viewing your article even if everything seems to be correct. This will happen if you have defined your own functions, classes, etc. For the newsfeeds WordPress will read the content of each article twice (once for the summary and once for the whole article) and so causing the PHP to be executed twice. For example the following code in your article would work if you view the article on your webpage but would cause your newsfeed to break:<p>
+
+<p>Article:</p>
+<pre><code>&lt;?php
+function hello()
+{
+  echo 'Hello World';
+}
+hello();
+?&gt;</code></pre>
+
+<p>As a general rule I would advise to separate all definitions into a file and reference to it by calling <code>require_once()</code>. So the above example would be split into two parts, your article and a file.</p>
+
+<p>Article:</p>
+<pre><code>&lt;?php
+require_once(get_settings('home'). '/example.php');
+hello();
+?&gt;</code></pre>
+
+<p>File (here example.php):</p>
+<pre><code>&lt;?php
+function hello()
+{
+  echo 'Hello World';
+}
+?&gt;</code></pre>
+
+<p>Please note that <code>require_once()</code> is using a fully qualified path. This is mandatory because depending on the context of the viewer a relative path would point to different locations e.g. for viewing your main blog page, viewing a single post, viewing the newsfeed, etc.</p>
+
 <h5 id="brokentag">Why does WordPress mess' up my <code>&lt;?php ?&gt;</code> tags after saving the post?</h5>
-<a href="http://en.wikipedia.org/wiki/Rtfm">RTFM</a>. <a href="#execute_php">Read this</a>.
+<p><a href="http://en.wikipedia.org/wiki/Rtfm">RTFM</a>. <a href="#execute_php">Read this</a>.</p>
 
 <h5 id="printcode">How can I just print out PHP code and don't execute it?</h5>
 <p>If you just want to print out code and don't want to execute it, e.g. like it is done here on this page, you have to make sure to convert your code to the correct XHTML representation. To do so you have to escape your whole code or at least change your tags from <code>&lt;?php ?&gt;</code> to <code>&amp;lt;?php ?&amp;gt;</code>. You can do this conversion in a semi automated fashion by using the <a href="http://www.village-idiot.org/archives/2006/04/09/wp-simplecode/">WP-Simplecode</a> plugin.</p>
 
 <h3 id="past_present_future">Past, present and future</h3>
+
+<h4 id="new_versions">New versions</h4>
+<p>New versions may come out from time to time including new features or bugfixes. You can keep track of the plugins development by manually checking or subscribing to the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments</a>. New releases will always justify the code and will cause the version number to be increased. Nevertheless the downloadable archive may change from time to time without having the version number to be increased. This will happen when I update the plugins documentation. In this case there will be no announcement on this site, because this may happen rather frequently.</p>
 
 <h4 id="history">History of older versions</h4>
 
@@ -302,10 +342,16 @@ hello();
 
 <h5 id="version_3_1">Version 3.1 (2007-02-09)</h5>
 <ul>
-	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a></li>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php_3.1.zip">Plugin</a></li>
 	<li>Bugfix: Removing tag style converter because a) it caused a serious slow down in the WordPress admin interface and b) PCRE proved to be very buggy and unreliable. Note for myself: Never use PCRE again!</li>
-	<li>Feature: Adding internatilization (just to be complete)</li>
+	<li>Feature: Adding internationalization (just to be complete)</li>
 	<li>Feature: Now works in RSS feeds</li>
+</ul>
+
+<h5 id="version_3_2">Version 3.2 (2007-02-10)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a></li>
+	<li>Bugfix: Removing obsolete config interface hooks</li>
 </ul>
 
 <h4 id="roadmap">Roadmap</h4>

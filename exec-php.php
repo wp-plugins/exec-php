@@ -3,14 +3,14 @@
 Plugin Name: Exec-PHP
 Plugin URI: http://bluesome.net/post/2005/08/18/50/
 Description: Allows &lt;?php ?&gt; tags inside the content or excerpt of your posts and pages to be executed just as in usual PHP files
-Version: 3.1
+Version: 3.2
 Author: S&ouml;ren Weber
 Author URI: http://bluesome.net
 Update Server: http://bluesome.net/
 Min WP Version: 2.0
 */
 
-define('EXECPHP_VERSION', '3.1');
+define('EXECPHP_VERSION', '3.2');
 define('EXECPHP_PLUGIN_ID', 'exec-php');
 define('EXECPHP_CAPABILITY', 'exec_php');
 
@@ -78,20 +78,12 @@ function execphp_install()
 	// not needed anymore
 	delete_option(EXECPHP_OPTION_HAS_OLD_STYLE);
 	delete_option(EXECPHP_OPTION_IGNORE_OLD_STYLE_WARNING);
-
 	execphp_install_capability();
-}
-
-function execphp_init_admin()
-{
-	execphp_install();
-	add_submenu_page('options-general.php', __('Exec-PHP', EXECPHP_PLUGIN_ID),
-		__('Exec-PHP', EXECPHP_PLUGIN_ID), 10, __FILE__, 'execphp_config_page');
 }
 
 function execphp_init()
 {
-	add_filter('admin_menu', 'execphp_init_admin');
+	add_filter('admin_menu', 'execphp_install');
 	add_filter('the_content', 'execphp_eval_php', 1);
 	add_filter('the_content_rss', 'execphp_eval_php', 1);
 	add_filter('the_excerpt', 'execphp_eval_php', 1);
