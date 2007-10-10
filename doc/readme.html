@@ -12,7 +12,7 @@
 <p>The Exec-PHP plugin allows <code>&lt;?php ?&gt;</code> tags inside the content or excerpt of your posts and pages to be executed just as in usual PHP files.</p>
 
 <h3>Make it quick. Where can I download it?</h3>
-<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 3.2 here!</a></p>
+<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 3.3 here!</a></p>
 
 <h3>Why is there so much text below?</h3>
 <p>Because I hate cool plugins that are badly documented. Even the smallest piece of code needs some documentation. The following text is pretty exhaustive. Feel free to skip the sections you are not interested in. If you have a question about the plugin please first make sure you refer to the latest version of the plugin and the question is not answered on this page or in the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments of the plugin homepage</a>. Then - and only then - <a href="http://bluesome.net/post/2005/08/18/50/#response-50">post your question here</a>.</p><!--more-->
@@ -55,11 +55,12 @@
 	<li><a href="#troubleshooting">Troubleshooting</a>
 		<ol>
 			<li><a href="#incompatibilities">Incompatibilities to other plugins or themes</a></li>
-			<li><a href="#issues">Known issues</a></li>
+			<li><a href="#limitations">Limitations</a></li>
 			<li><a href="#bugs">Reporting bugs</a></li>
 			<li><a href="#tests">Tests to assert plugins functionality</a></li>
 			<li><a href="#faq">FAQ - Frequently asked questions</a>
 				<ol>
+					<li><a href="#wordpressmu">Does the plugin works with WordPress MU?</a></li>
 					<li><a href="#globals">Why does my included PHP script spits out parsing errors?</a></li>
 					<li><a href="#already_defined">Why does my newsfeed spits out parsing errors?</a></li>
 					<li><a href="#brokentag">Why does WordPress mess' up my <code>&lt;?php ?&gt;</code> tags after saving the post?</a></li>
@@ -80,6 +81,7 @@
 					<li><a href="#version_3_0">Version 3.0 (2006-08-06)</a></li>
 					<li><a href="#version_3_1">Version 3.1 (2007-02-09)</a></li>
 					<li><a href="#version_3_2">Version 3.2 (2007-02-10)</a></li>
+					<li><a href="#version_3_3">Version 3.3 (2007-08-11)</a></li>
 				</ol>
 			</li>
 			<li><a href="#roadmap">Roadmap</a></li>
@@ -187,7 +189,7 @@
 <h4 id="incompatibilities">Incompatibilities to other plugins or themes</h4>
 <p>Currently there are no known incompatibilities to other plugins or themes.</p>
 
-<h4 id="issues">Known issues</h4>
+<h4 id="issues">Limitations</h4>
 <p>Besides of limitations with the <a href="#execute_php">WYSIWYG rich editor mentioned above</a>, there currently are no known issues.</p>
 
 <h4 id="bugs">Reporting bugs</h4>
@@ -236,6 +238,9 @@ echo "\n\thandling\"";
 </table>
 
 <h4 id="faq">FAQ - Frequently asked questions</h4>
+
+<h5 id="wordpressmu">Does the plugin works with WordPress MU?</h5>
+<p>WordPress is not WordPress MU. The plugin was designed for WordPress. If it works for WordPress MU: Lucky you. If not: Provide a patch to me but don't ask for support. I don't have an environment, time or interest to support this.</p>
 
 <h5 id="globals">Why does my included PHP script spits out parsing errors?</h5>
 <p>Assume your included code is working outside an article and the path to the include file is correct. PHP may still spit out error messages even if everything seems to be correct. This can happen when your included file assumes it runs on global level and does not use the keyword <code>global</code> to declare its global variables. As example create a new post with the following code:</p>
@@ -350,8 +355,15 @@ function hello()
 
 <h5 id="version_3_2">Version 3.2 (2007-02-10)</h5>
 <ul>
-	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a></li>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php_3.2.zip">Plugin</a></li>
 	<li>Bugfix: Removing obsolete config interface hooks</li>
+</ul>
+
+<h5 id="version_3_2">Version 3.3 (2007-08-11)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a></li>
+	<li>Bugfix: Removing spaces around PHP code</li>
+	<li>Bugfix: Removing obsolete plugin hooks for WordPress 1.x</li>
 </ul>
 
 <h4 id="roadmap">Roadmap</h4>

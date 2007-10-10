@@ -2,15 +2,15 @@
 /*
 Plugin Name: Exec-PHP
 Plugin URI: http://bluesome.net/post/2005/08/18/50/
-Description: Allows &lt;?php ?&gt; tags inside the content or excerpt of your posts and pages to be executed just as in usual PHP files
-Version: 3.2
+Description: Allows &lt;?php ?&gt; tags inside the content or excerpt of your articles to be executed just as in usual PHP files
+Version: 3.3
 Author: S&ouml;ren Weber
 Author URI: http://bluesome.net
 Update Server: http://bluesome.net/
 Min WP Version: 2.0
 */
 
-define('EXECPHP_VERSION', '3.2');
+define('EXECPHP_VERSION', '3.3');
 define('EXECPHP_PLUGIN_ID', 'exec-php');
 define('EXECPHP_CAPABILITY', 'exec_php');
 
@@ -19,7 +19,7 @@ define('EXECPHP_OPTION_HAS_OLD_STYLE', 'exec-php_has_old_style');
 define('EXECPHP_OPTION_IGNORE_OLD_STYLE_WARNING', 'exec-php_ignore_old_style_warning');
 
 // --------------------------------------------------------------------------
-// Wordpress 2.x and above support
+// Wordpress 2.x support
 // --------------------------------------------------------------------------
 
 function execphp_eval_php($content)
@@ -36,7 +36,7 @@ function execphp_eval_php($content)
 	// to be compatible with older PHP4 installations
 	// don't use fancy ob_XXX shortcut functions
 	ob_start();
-	eval(" ?> $content <?php ");
+	eval(" ?>$content<?php ");
 	$output = ob_get_contents();
 	ob_end_clean();
 	return $output;
@@ -50,8 +50,8 @@ function execphp_install_capability()
 {
 	global $wp_roles;
 
-	// if there is at least one role with the EXECPHP_CAPABILITY capability, then
-	// the plugin was previously been installed and we must not do
+	// if there is at least one role with the EXECPHP_CAPABILITY capability,
+	// then the plugin was previously been installed and we must not do
 	// anything; don't rely that the cap is attachted to the same roles
 	// as during installation because this could already be changed
 	// by the administrator
@@ -96,14 +96,7 @@ function execphp_init()
 
 global $wp_version;
 if (substr($wp_version, 0, 2) == "1.")
-{
-	/* WP 1.x not supported anymore
-	add_filter('init', 'execphp_init_1_x');
-	*/
 	_e("This version of Exec-PHP does not support Wordpress 1.x anymore", EXECPHP_PLUGIN_ID);
-}
 else
-{
 	add_filter('init', 'execphp_init');
-}
 ?>
