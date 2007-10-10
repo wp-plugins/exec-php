@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de_DE">
+<head>
+<title>Bluesome - Exec-PHP plugin for WordPress</title>
+</head>
+<body>
+<h1>Bluesome</h1>
+<h2>Exec-PHP plugin for WordPress</h2>
+
+<!-- start of content -->
+<h3>What does this plugin do?</h3>
+<p>The Exec-PHP plugin allows <code>&lt;?php ?&gt;</code> tags inside the content or excerpt of your posts and pages to be executed just as in usual PHP files.</p>
+
+<h3>Make it quick. Where can I download it?</h3>
+<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 3.1 here!</a></p>
+
+<h3>Why is there so much text below?</h3>
+<p>Because I hate cool plugins that are badly documented. Even the smallest piece of code needs some documentation. The following text is pretty exhaustive. Feel free to skip the sections you are not interested in. If you have a question about the plugin please first make sure you refer to the latest version of the plugin and the question is not answered on this page or in the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments of the plugin homepage</a>. Then - and only then - <a href="http://bluesome.net/post/2005/08/18/50/#response-50">post your question here</a>.</p><!--more-->
+
+<h3>Table of content</h3>
+<ol>
+	<li><a href="#introduction">Introduction</a>
+		<ol>
+			<li><a href="#motivation">Motivation</a></li>
+			<li><a href="#concepts">Concepts of Exec-PHP</a></li>
+			<li><a href="#difference">Difference to other similar plugins</a>
+				<ol>
+					<li><a href="#runphp_somerville">RunPHP 0.2.2 (Mark Somerville)</a></li>
+					<li><a href="#runphp_vanlommel">RunPHP 2.1.1 (James Van Lommel)</a></li>
+					<li><a href="#php_exec">PHP Exec 1.7</a></li>
+					<li><a href="#ezstatic_3">EzStatic 3</a></li>
+					<li><a href="#other_plugins">Other plugins</a></li>
+				</ol>
+			</li>
+		</ol>
+	</li>
+	<li><a href="#installation">Installation</a>
+		<ol>
+			<li><a href="#requirements">Requirements</a></li>
+			<li><a href="#install">Installing the plugin</a></li>
+			<li><a href="#upgrade">Upgrade from previous versions</a></li>
+			<li><a href="#upgrade_2_0">Upgrade from version 2.0 and earlier</a></li>
+			<li><a href="#deactivation">Deactivating the plugin</a></li>
+			<li><a href="#uninstall">Uninstalling the plugin</a></li>
+		</ol>
+	</li>
+	<li><a href="#usage">Usage</a>
+		<ol>
+			<li><a href="#execute_php">Executing PHP</a></li>
+			<li><a href="#security">A word about security</a></li>
+			<li><a href="#allow_execution">Allowing PHP execution</a></li>
+			<li><a href="#capabilities">Needed capabilities to execute PHP code successfully</a></li>
+		</ol>
+	</li>
+	<li><a href="#troubleshooting">Troubleshooting</a>
+		<ol>
+			<li><a href="#incompatibilities">Incompatibilities to other plugins or themes</a></li>
+			<li><a href="#issues">Known issues</a></li>
+			<li><a href="#bugs">Reporting bugs</a></li>
+			<li><a href="#tests">Tests to assert plugins functionality</a></li>
+			<li><a href="#faq">FAQ - Frequently asked questions</a>
+				<ol>
+					<li><a href="#globals">Why does my included PHP script spits out parsing errors?</a></li>
+					<li><a href="#brokentag">Why does WordPress mess' up my <code>&lt;?php ?&gt;</code> tags after saving the post?</a></li>
+					<li><a href="#printcode">How can I just print out PHP code and don't execute it?</a></li>
+				</ol>
+			</li>
+		</ol>
+	</li>
+	<li><a href="#past_present_future">Past, present and future</a>
+		<ol>
+			<li><a href="#history">History of older versions</a>
+				<ol>
+					<li><a href="#version_1_0">Version 1.0 (2005-08-18)</a></li>
+					<li><a href="#version_1_1">Version 1.1 (2005-08-19)</a></li>
+					<li><a href="#version_1_2">Version 1.2 (2005-12-04)</a></li>
+					<li><a href="#version_2_0">Version 2.0 (2005-12-22)</a></li>
+					<li><a href="#version_3_0">Version 3.0 (2006-08-06)</a></li>
+					<li><a href="#version_3_1">Version 3.1 (2007-02-09)</a></li>
+				</ol>
+			</li>
+			<li><a href="#roadmap">Roadmap</a></li>
+		</ol>
+	</li>
+</ol>
+
+
+<h3 id="introduction">Introduction</h3>
+
+<h4 id="motivation">Motivation</h4>
+<p>When I was in need of a PHP plugin for my WordPress blog back in 2005, there was no plugin available that allowed me to write PHP code the way I was used to. For example some plugins required the PHP code to be encapsulated in XHTML tags like <code>&lt;phpcode&gt; &lt;/phpcode&gt;</code>. This differed from the usual way you write PHP code where you only use <code>&lt;?php ?&gt;</code>. Some of the plugins evaluated the code after WordPress applied some filters like texturize. Because this also texturized the PHP code, the plugins had to undo the texturize just for the code part. For more complex code this can not be done correctly and often led into a parsing error even if the code was syntactically correct.</p>
+
+<h4 id="concepts">Concepts of Exec-PHP</h4>
+<p>Exec-PHP is a &quot;no frills&quot; plugin. Since version 3.1 it is simply &quot;install and forget&quot;. It does not come with any own config interface. All the configuration you may want to apply to it can be done by third party plugins. Technically Exec-PHP executes code inside of <code>&lt;?php ?&gt;</code> tags by just wrapping your whole text into <code>?&gt; &lt;?php</code> tags and hand it over to the PHP <code>eval()</code> function. By that no parsing of your code needs to be done by the plugin itself.</p>
+
+<h4 id="difference">Difference to other similar plugins</h4>
+<p>There are a lot of PHP plugins available all doing slightly different things. The following list was gathered back in the beginning of 2007 and may not be complete and probably outdated because some of the plugins may have been updated, including more features. Therefore the names of the compared plugins are given including the version number.</p>
+
+<h5 id="runphp_somerville">RunPHP 0.2.2 (Mark Somerville)</h5>
+<p>The <a href="http://mark.scottishclimbs.com/2004/7/2/running-php-in-wordpress-posts/">RunPHP</a> plugin by Mark Somerville uses XHTML tag syntax to separate code from HTML. It does strange conversions to &quot;fix&quot; texturized posts and does not support WordPress' roles and capabilites system.</p>
+
+<h5 id="runphp_vanlommel">RunPHP 2.1.1 (James Van Lommel)</h5>
+<p>The <a href="http://www.nosq.com/blog/2006/01/runphp-plugin-for-WordPress/">RunPHP</a> plugin by James Van Lommel creates parsing errors with most of the <a href="#tests">test code below</a>.</p>
+
+<h5 id="php_exec">PHP Exec 1.7</h5>
+<p>The <a href="http://priyadi.net/archives/2005/03/02/WordPress-php-exec-plugin/">PHP Exec</a> plugin by Priyadi Iman Nurcahyo uses XHTML tag syntax to separate code from HTML. It does strange conversions to &quot;fix&quot; texturized posts.</p>
+
+<h5 id="ezstatic_3">EzStatic 3</h5>
+<p>The <a href="http://redalt.com/wiki/EzStatic3">EzStatic 3</a> plugin by Owen Winkler does not execute test #16 (<a href="#tests">see below</a>).</p>
+
+<h5 id="other_plugins">Other plugins</h5>
+<p>Nowadays there are a lot of additional plugins around that I am simply to lazy to write some further text. If Exec-PHPs functionality does miss some feature you are desperatly seeking, you may want to take a look on one of the various WordPress plugin database pages or <a href="http://bluesome.net/post/2005/08/18/50/#response-50">drop a feature request</a>.</p>
+
+<h3 id="installation">Installation</h3>
+
+<h4 id="requirements">Requirements</h4>
+<p>You need the following software to be installed on your webserver in order to run the Exec-PHP plugin:</p>
+<ul>
+	<li>A running installation of <a href="http://WordPress.org">WordPress 2.x</a></li>
+	<li><strong>The <a href="http://bluesome.net/data/2005/08/exec-php.zip">Exec-PHP</a> plugin</strong> ;)</li>
+	<li>Optional: The <a href="http://redalt.com/wiki/Role+Manager">Role Manager</a> plugin by Owen Winkler</li>
+</ul>
+
+<h4 id="install">Installing the plugin</h4>
+<p>As with the most WordPress plugins, installation is easy:</p>
+<ul>
+	<li>Download the <a href="http://bluesome.net/data/2005/08/exec-php.zip">Exec-PHP</a> plugin archive and extract it to your WordPress <code>plugins</code> directory</li>
+	<li>Activate the plugin in your WordPress admin panel</li>
+</ul>
+<p>Finished. It couldn't be easier. The rest is self-explanatory. ;)</p>
+
+<h4 id="upgrade">Upgrade from previous versions</h4>
+<p>Usually if not specifically mentioned on this page you can upgrade from a previous version of this plugin by simply removing the content of the <code>exec-php</code> directory in your WordPress <code>plugins</code> directory and afterwards <a href="#install">follow the installation instructions</a>. Note that an upgrade may implicitly migrate settings of an older plugin version. Therefore you may not be able to downgrade back to an older version of the plugin.</p>
+
+<h4 id="upgrade_2_0">Upgrade from version 2.0 and earlier</h4>
+<p>Because directory layout has changed, you have to remove your old <code>exec-php.php</code> file from your plugins folder manually and afterwards <a href="#install">follow the installation instructions</a>. If you have used the alternative styled tags <code>[?php ?]</code> or you have used the old PHP format of <code>&lt; ?php ?&gt;</code> (notice the space) or  <code>&lt;? ?&gt;</code> you have to migrate all of these into the form of <code>&lt;?php ?&gt;</code>. You can either do this manually or use the <a href="http://thedeadone.net/software/search-and-replace-wordpress-plugin/">Search and Replace</a> plugin. Since version 3.1 an automatic migration isn't supported anymore for certain reasons.</p>
+
+<h4 id="deactivation">Deactivating the plugin</h4>
+<p>Deactivating the plugin will most likely cause your articles to display messed up and may display almost all of your PHP code to your readers. Because of that your PHP code shouldn't contain sensible data e.g. passwords.</p>
+
+<h4 id="uninstall">Uninstalling the plugin</h4>
+<p>For uninstalling the plugin simply delete the <code>exec-php</code> directory from the WordPress <code>plugins</code> directory. You even don't need to deactivate the plugin in the WordPress admin panel. <a href="#deactivation">Read this topic</a> if you want to know what happens to your articles in this case.</p>
+
+<h3 id="usage">Usage</h3>
+
+<h4 id="execute_php">Executing PHP</h4>
+<p>With Exec-PHP you can execute PHP code inside of your posts and pages (in the following called articles) including their excerpts. To execute code inside of articles, just type in the PHP code as you would do in the usual way. To have the plugin work properly do both of the following things:</p>
+<ul>
+	<li>Disable the WYSIWYG rich editor</li>
+	<li>Disable &quot;WordPress should correct invalidly nested XHTML automatically&quot; in your WordPress options</li>
+</ul>
+<p>For validating, that the plugin works properly, log in as Administrator, create a new post and write the following text:</p>
+<pre><code>&lt;?php echo "This is the Exec-PHP 'Hello World'"; ?&gt;</code></pre>
+<p>When displaying the post and everything works fine, you should see:</p>
+<pre><code>This is the Exec-PHP 'Hello World'</code></pre>
+
+<h4 id="security">A word about security</h4>
+<p>By using this plugin an author can use the full PHP and WordPress API. There are no restrictions to execute certain functionality. Allowing your authors to write PHP code in articles will expose your WordPress installation in specific and your server installation in general. By that an author can easily take over your blog, delete files on your server, delete the database, etc.. If in doubt, don't allow an author to execute PHP code. This can be easily <a href="#allow_execution">adjusted for each author</a> on a per user base.</p>
+
+<h4 id="allow_execution">Allowing PHP execution</h4>
+<p>After installation, execution of PHP code is limited to the &quot;Administrator&quot; and &quot;Editor&quot; role by default. By assigning the capability &quot;exec_php&quot; to another role or user will allow them to also execute PHP code in their posts.<p>
+
+<p>Assigning capabilities to roles or users is out of the scope of this plugin. Because WordPress has no built-in configuration page in the admin panel to assign roles/capabilities, you need to install one of the available role/capability manager plugins. There may be more such plugins available as shown in the following list:</p>
+<ul>
+	<li><a href="http://redalt.com/wiki/Role+Manager">Role Manager</a> by Owen Winkler</li>
+</ul>
+
+<h4 id="capabilities">Needed capabilities to execute PHP code successfully</h4>
+<p>An author may still experience problems in writing and executing PHP code although he fullfills all the above <a href="#execute_php">usage requirements</a>. This is because an author also needs the &quot;unfiltered_html&quot; capability assigned to.</p>
+
+<p>The following matrix shows which capability an author needs to perform specific tasks with the plugin:</p>
+<p><table>
+<tr><td style="text-align:center;"><strong>Task</strong></td>
+<td style="text-align:center;"><strong>exec_php</strong></td>
+<td style="text-align:center;"><strong>unfiltered_html</strong></td></tr>
+<tr><td>Write/edit articles including PHP code</td><td>&nbsp;</td><td style="text-align:center;"><strong>X</strong></td></tr>
+<tr><td>Execute PHP code inside of articles</td><td style="text-align:center;"><strong>X</strong></td><td>&nbsp;</td></tr>
+</table></p>
+
+<p>To make things clear: If an author wants to write a new article and want to execute PHP code inside of it, he needs to have both capabilities assigned to. Otherwise the PHP code will get messed up during saving the article and the raw PHP code itself will be displayed instead of executing it.</p>
+
+<h3 id="troubleshooting">Troubleshooting</h3>
+
+<h4 id="incompatibilities">Incompatibilities to other plugins or themes</h4>
+<p>Currently there are no known incompatibilities to other plugins or themes.</p>
+
+<h4 id="issues">Known issues</h4>
+<p>Besides of limitations with the <a href="#execute_php">WYSIWYG rich editor mentioned above</a>, there currently are no known issues.</p>
+
+<h4 id="bugs">Reporting bugs</h4>
+<p>You can <a href="http://bluesome.net/post/2005/08/18/50/#response-50">post bug reports to the comments</a>. Before doing this make sure your PHP script is running properly in a separate file. If it does, assure that you did not hit the <a href="#globals">&quot;globals&quot; issue</a>. If you still think it's a bug, keep in mind that WordPress' commenting system is not build to write unescaped code, so better convert it to the correct XHTML entities before commenting here, point to the code using an external link or <a href="http://bluesome.net/post/author/soeren/#contact-2">get in contact with me by using the contact form of my author page</a>.</p>
+
+<h4 id="tests">Tests to assert plugins functionality</h4>
+<p>Following is a list of tests that were made to assert the plugins functionality. On the left side the PHP code taken directly from the tests is written. On the right side the live output generated by the Exec-PHP plugin is shown. If you view this documentation as a static HTML file obviously the PHP code isn't executed and will look messy. Because of the content of this test, this page will not verify as XHTML. If you think, your favorite PHP plugin is better than this one, try out all the tests below and see if this works correctly.</p>
+
+<table width="100%" cellspacing="5px">
+<tr><td><strong>#</strong></td><td><strong>Code</strong></td><td><strong>Output</strong></td></tr>
+<tr><td>1</td><td><code>&lt;?php ?&gt;</code></td><td><?php ?></td></tr>
+<tr><td>2</td><td><code>&lt;?php echo "a?>1"; ?&gt;</code></td><td><?php echo "a?>1"; ?></td></tr>
+<tr><td>3</td><td><code>&lt;?php echo 'b?>1'; ?&gt;</code></td><td><?php echo 'b?>1'; ?></td></tr>
+<tr><td>4</td><td><code>&lt;?php echo "a?>2"; ?&gt;</code></td><td><?php echo "a?>2"; ?></td></tr>
+<tr><td>5</td><td><code>&lt;?php echo 'b?>2'; ?&gt;</code></td><td><?php echo 'b?>2'; ?></td></tr>
+<tr><td>6</td><td><code>&lt;?php?&gt;</code></td><td><?php?></td></tr>
+<tr><td>7</td><td><code>&lt;?php echo"a?>3";?&gt;</code></td><td><?php echo"a?>3";?></td></tr>
+<tr><td>8</td><td><code>&lt;?php echo'b?>3';?&gt;</code></td><td><?php echo'b?>3';?></td></tr>
+<tr><td>9</td><td><code>&lt;?php echo"a?>4";?&gt;</code></td><td><?php echo"a?>4";?></td></tr>
+<tr><td>10</td><td><code>&lt;?php echo'b?>4';?&gt;</code></td><td><?php echo'b?>4';?></td></tr>
+<tr><td>11</td><td><code>&lt;?php echo "c";?>1";?&gt;</code></td><td><?php echo "c";?>1";?></td></tr>
+<tr><td>12</td><td><code>&lt;?php echo 'd';?>1';?&gt;</code></td><td><?php echo 'd';?>1';?></td></tr>
+<tr><td>13</td><td><code>&lt;?php echo "c';?>2";?&gt;</code></td><td><?php echo "c';?>2";?></td></tr>
+<tr><td>14</td><td><code>&lt;?php echo 'd";?>3';?&gt;</code></td><td><?php echo 'd";?>3';?></td></tr>
+<tr><td>15</td><td><pre><code>&lt;?php
+echo "impressive\\n '";
+echo 'string\\' "';
+echo "\\n\\thandling\"";
+?&gt;</code></pre></td>
+<td><?php
+echo "impressive\n '";
+echo 'string\' "';
+echo "\n\thandling\"";
+?></td></tr>
+<tr><td>16</td><td><pre><code>&lt;?php if (1) { ?&gt;
+&lt;b&gt;Handle THIS!&lt;/b&gt;
+&lt;?php } else { ?&gt;
+&lt;i&gt;Handle THAT!&lt;/i&gt;
+&lt;?php } ?&gt;
+</code></pre></td>
+<td><?php if (1) { ?>
+<b>Handle THIS!</b>
+<?php } else { ?>
+<i>Handle THAT!</i>
+<?php } ?></td></tr>
+</table>
+
+<h4 id="faq">FAQ - Frequently asked questions</h4>
+
+<h5 id="globals">Why does my included PHP script spits out parsing errors?</h5>
+<p>Assume your included code is working outside an article and the path to the include file is correct. PHP may still spit out error messages even if everything seems to be correct. This can happen when your included file assumes it runs on global level and does not use the keyword <code>global</code> to declare its global variables. As example create a new post with the following code:</p>
+<pre><code>&lt;?php include(get_settings('home'). '/test.php'); ?&gt;</code></pre>
+
+<p>After that copy the following code into a new file named <code>test.php</code> and store it in your webservers root directory:</p>
+<pre><code>&lt;?php
+$g_text = 'Hello World';
+function hello()
+{
+  global $g_text;
+  echo $g_text;
+}
+hello();
+?&gt;</code></pre>
+
+<p>Although the file <code>test.php</code> will execute fine if you just access the file directly, this test will end up in unexpected behaviour because assigning a value to the <code>$g_text</code> variable hasn't taken place in global scope in terms of the used WordPress hook to execute your code. This is because of how WordPress works and there is no way to handle this in the plugin. You can work around this problem by adding the following PHP code into your post before the include statement or into the file you want to include at the very beginning:</p>
+<pre><code>global $g_text;</code></pre>
+
+<p>No need to say, you have to do this for each global variable where this wasn't already done by the original programmer of the code. Another way would be to contact the original programmer and kindly ask him to change his code.</p>
+
+<h5 id="brokentag">Why does WordPress mess' up my <code>&lt;?php ?&gt;</code> tags after saving the post?</h5>
+<a href="http://en.wikipedia.org/wiki/Rtfm">RTFM</a>. <a href="#execute_php">Read this</a>.
+
+<h5 id="printcode">How can I just print out PHP code and don't execute it?</h5>
+<p>If you just want to print out code and don't want to execute it, e.g. like it is done here on this page, you have to make sure to convert your code to the correct XHTML representation. To do so you have to escape your whole code or at least change your tags from <code>&lt;?php ?&gt;</code> to <code>&amp;lt;?php ?&amp;gt;</code>. You can do this conversion in a semi automated fashion by using the <a href="http://www.village-idiot.org/archives/2006/04/09/wp-simplecode/">WP-Simplecode</a> plugin.</p>
+
+<h3 id="past_present_future">Past, present and future</h3>
+
+<h4 id="history">History of older versions</h4>
+
+<h5 id="version_1_0">Version 1.0 (2005-08-18)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php_1.0.zip">Plugin</a></li>
+	<li>Feature: Allows <code>&lt;?php ?&gt;</code> tags inside your articles to execute the code inside of it</li>
+</ul>
+
+<h5 id="version_1_1">Version 1.1 (2005-08-19)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php_1.1.zip">Plugin</a></li>
+	<li>Bugfix: Escaped string delimiters in PHP strings are now parsed correctly</li>
+</ul>
+
+<h5 id="version_1_2">Version 1.2 (2005-12-04)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php_1.2.zip">Plugin</a></li>
+	<li>Bugfix: Reparing issue with reopening PHP tags (Test #16)</li>
+</ul>
+
+<h5 id="version_2_0">Version 2.0 (2005-12-22)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php_2.0.zip">Plugin</a></li>
+	<li>Feature: For WordPress 2.0 execution of PHP is now restricted to Administrators or Editors</li>
+	<li>Feature: Supporting alternative PHP tags <code>&#91;?php ?&#93;</code></li>
+</ul>
+
+<h5 id="version_3_0">Version 3.0 (2006-08-06)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php_3.0.zip">Plugin</a></li>
+	<li>Feature: Removing all alternative PHP tag styles like <code>&#91;?php ?&#93;</code> and <code>&lt; ?php ?&gt;</code>, because regex was buggy and to tough to support</li>
+	<li>Feature: Removing support for WordPress 1.x, because regex was buggy and to tough to support</li>
+	<li>Feature: Moving plugin files to plugins subfolder</li>
+	<li>Feature: Adding tag style converter</li>
+	<li>Feature: Adding support for excerpt field</li>
+	<li>Bugfix: Because of changes to PHP tag handling, the bug reported in comment 84 is fixed</li>
+</ul>
+
+<h5 id="version_3_1">Version 3.1 (2007-02-09)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a></li>
+	<li>Bugfix: Removing tag style converter because a) it caused a serious slow down in the WordPress admin interface and b) PCRE proved to be very buggy and unreliable. Note for myself: Never use PCRE again!</li>
+	<li>Feature: Adding internatilization (just to be complete)</li>
+	<li>Feature: Now works in RSS feeds</li>
+</ul>
+
+<h4 id="roadmap">Roadmap</h4>
+<p>At the moment it is not planned to include any further features into the plugin but you can add a <a href="http://bluesome.net/post/2005/08/18/50/#response-50">comment</a> to request further features.</p>
+<!-- end of content -->
+
+</body>
+</html>
