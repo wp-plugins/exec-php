@@ -2,15 +2,15 @@
 /*
 Plugin Name: Exec-PHP
 Plugin URI: http://bluesome.net/post/2005/08/18/50/
-Description: Allows &lt;?php ?&gt; tags inside the content or excerpt of your articles to be executed just as in usual PHP files
-Version: 3.3
+Description: Executes &lt;?php ?&gt; code in your posts, pages and text widgets. See the <a href="../wp-content/plugins/exec-php/doc/readme.html">documentation</a> for further information.
+Version: 3.4
 Author: S&ouml;ren Weber
 Author URI: http://bluesome.net
 Update Server: http://bluesome.net/
 Min WP Version: 2.0
 */
 
-define('EXECPHP_VERSION', '3.3');
+define('EXECPHP_VERSION', '3.4');
 define('EXECPHP_PLUGIN_ID', 'exec-php');
 define('EXECPHP_CAPABILITY', 'exec_php');
 
@@ -24,6 +24,17 @@ define('EXECPHP_OPTION_IGNORE_OLD_STYLE_WARNING', 'exec-php_ignore_old_style_war
 
 function execphp_eval_php($content)
 {
+	// to be compatible with older PHP4 installations
+	// don't use fancy ob_XXX shortcut functions
+	ob_start();
+	eval("?>$content<?php ");
+	$output = ob_get_contents();
+	ob_end_clean();
+	return $output;
+}
+
+function execphp_eval_restricted_php($content)
+{
 	global $post;
 
 	// check whether the post author is allowed to execute PHP code
@@ -33,13 +44,7 @@ function execphp_eval_php($content)
 	if (!$poster->has_cap(EXECPHP_CAPABILITY))
 		return $content;
 
-	// to be compatible with older PHP4 installations
-	// don't use fancy ob_XXX shortcut functions
-	ob_start();
-	eval(" ?>$content<?php ");
-	$output = ob_get_contents();
-	ob_end_clean();
-	return $output;
+	return execphp_eval_php($content);
 }
 
 // --------------------------------------------------------------------------
@@ -84,10 +89,11 @@ function execphp_install()
 function execphp_init()
 {
 	add_filter('admin_menu', 'execphp_install');
-	add_filter('the_content', 'execphp_eval_php', 1);
-	add_filter('the_content_rss', 'execphp_eval_php', 1);
-	add_filter('the_excerpt', 'execphp_eval_php', 1);
-	add_filter('the_excerpt_rss', 'execphp_eval_php', 1);
+	add_filter('the_content', 'execphp_eval_restricted_php', 1);
+	add_filter('the_content_rss', 'execphp_eval_restricted_php', 1);
+	add_filter('the_excerpt', 'execphp_eval_restricted_php', 1);
+	add_filter('the_excerpt_rss', 'execphp_eval_restricted_php', 1);
+	add_filter('widget_text', 'execphp_eval_php', 1);
 }
 
 // --------------------------------------------------------------------------

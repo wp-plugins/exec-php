@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exec-PHP\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-08-11 00:08+0100\n"
+"PO-Revision-Date: 2007-10-08 22:20+0100\n"
 "Last-Translator: Sören Weber <soeren@bluesome.net>\n"
 "Language-Team: Sören Weber <soeren@bluesome.net>\n"
 "MIME-Version: 1.0\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-Country: GERMANY\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: exec-php.php:99
+#: exec-php.php:105
 msgid "This version of Exec-PHP does not support Wordpress 1.x anymore"
 msgstr "Wordpress 1.x wird von dieser Version von Exec-PHP nicht mehr unterst&uuml;tzt"
 
