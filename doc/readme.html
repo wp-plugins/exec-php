@@ -48,10 +48,12 @@
 	<li><a href="#usage">Usage</a>
 		<ol>
 			<li><a href="#features">Features</a></li>
-			<li><a href="#execute_php">Executing PHP</a></li>
-			<li><a href="#allow_writing">Allowing PHP to be written</a></li>
-			<li><a href="#allow_execution">Allowing PHP execution</a></li>
-			<li><a href="#capabilities">Needed capabilities to execute PHP code successfully</a></li>
+			<li><a href="#execute_php">Executing PHP code</a></li>
+			<li><a href="#tag_balancing">WordPress' XHTML tag balancing</a></li>
+			<li><a href="#wysiwyg_editor">Writing PHP code with the WYSIWYG editor</a></li>
+			<li><a href="#allow_writing">Allowing PHP code to be written</a></li>
+			<li><a href="#allow_execution">Allowing PHP code execution</a></li>
+			<li><a href="#configuration">Overview of tasks and their required WordPress configuration</a></li>
 			<li><a href="#security">A word about security</a></li>
 		</ol>
 	</li>
@@ -133,7 +135,7 @@
 <p>If you have ever installed a WordPress plugin, then installation will be pretty easy:</p>
 <ul>
 	<li><a href="http://bluesome.net/data/2005/08/exec-php.zip">Download the Exec-PHP plugin archive and extract the files. Copy the <code>exec-php</code> directory into <code>/wp-content/plugins/</code></a></li>
-	<li>Activate the plugin through the 'Plugins' menu in WordPress</li>
+	<li>Activate the plugin through the 'Plugins' menu of WordPress</li>
 	<li><a href="#execute_php">Configure blog and user settings if needed</a></li>
 </ul>
 <p>Finished. The rest is self-explanatory. ;-)</p>
@@ -142,7 +144,7 @@
 <p>Usually if not specifically mentioned on this page you can upgrade from a previous version of this plugin by simply <a href="#uninstall">uninstalling the plugin</a> and afterwards <a href="#install">follow the installation instructions</a>. Note that an upgrade may implicitly migrate settings of an older plugin version. Therefore you may not be able to downgrade back to an older version of the plugin.</p>
 
 <h4 id="upgrade_2_0">Upgrade from version 2.0 and earlier</h4>
-<p>Because directory layout has changed, you have to remove your old <code>exec-php.php</code> file from your <code>/wp-content/plugins/</code> directory manually and afterwards <a href="#install">follow the installation instructions</a>. If you have used the alternative styled tags <code>[?php ?]</code> or you have used the old PHP format of <code>&lt; ?php ?&gt;</code> (notice the space) or  <code>&lt;? ?&gt;</code> you have to migrate all of these into the form of <code>&lt;?php ?&gt;</code>. You can either do this manually or use the <a href="http://thedeadone.net/software/search-and-replace-wordpress-plugin/">Search and Replace</a> plugin. Since version 3.1 an automatic migration isn't supported anymore for certain reasons.</p>
+<p>Because directory layout has changed, you have to remove your old <code>exec-php.php</code> file from your <code>/wp-content/plugins/</code> directory manually and afterwards <a href="#install">follow the installation instructions</a>. If you have used the alternative styled tags <code>[?php ?]</code> or you have used the old PHP tag formats of <code>&lt; ?php ?&gt;</code> (notice the space) or <code>&lt;? ?&gt;</code> you have to migrate all of these into the format of <code>&lt;?php ?&gt;</code>. You can either do this manually or use the <a href="http://thedeadone.net/software/search-and-replace-wordpress-plugin/">Search and Replace</a> plugin. Since version 3.1 an automatic migration isn't supported anymore for certain reasons.</p>
 
 <h4 id="deactivation">Deactivating the plugin</h4>
 <p>Deactivating the plugin will most likely cause your articles and widgets that contain PHP code to display messed up and may display almost all of your PHP code to your readers. Because of that your PHP code shouldn't contain sensible data e.g. passwords.</p>
@@ -159,58 +161,66 @@
 	<li>Exec-PHP works in your newsfeeds</li>
 	<li>You can write PHP code in familiar syntax, e.g. <code>&lt;?php ... ?&gt;</code></li>
 	<li>You can restrict execution of PHP code in posts and pages to certain users by using roles and capabilities</li>
-	<li>You will be notified through the 'Plugins' menu if a new version of the Exec-PHP is available</li>
+	<li>You will be notified through the 'Plugins' menu in WordPress if a new version of the Exec-PHP is available</li>
 	<li>Internationalization support (although there is not much text to translate)</li>
 	<li>Exec-PHP comes with documentation</li>
 </ul>
 
-<h4 id="execute_php">Executing PHP</h4>
+<h4 id="execute_php">Executing PHP code</h4>
 <p>With Exec-PHP you can execute PHP code in the excerpt and the content portion of your posts and pages (in the following called articles) as also as in text widgets. To execute code, just type in the PHP code as you usually would.</p>
 <p>While writing code in text widgets and the excerpt of articles works right out of the box, writing code in the content of articles may require some further tuning to the blog and user settings. To have the plugin work properly with code in the content of a users article, do as follows:</p>
 <ul>
-	<li>Disable &quot;WordPress should correct invalidly nested XHTML automatically&quot; in your WordPress options</li>
-	<li>Disable the WYSIWYG rich editor in the user's settings</li>
-	<li><a href="#allow_writing">Assign the &quot;unfiltered_html&quot; capability to the user</a></li>
-	<li><a href="#allow_execution">Assign the &quot;exec_php&quot; capability to the user</a></li>
+	<li><a href="#tag_balancing">Disable tag balancing 'WordPress should correct invalidly nested XHTML automatically' through the 'Options' menu in WordPress</a></li>
+	<li><a href="#wysiwyg_editor">Disable the WYSIWYG rich editor in the user's settings</a></li>
+	<li><a href="#allow_writing">Assign the 'unfiltered_html' capability to the user</a></li>
+	<li><a href="#allow_execution">Assign the 'exec_php' capability to the user</a></li>
 </ul>
 <p>For validating, that the plugin works properly, log in as Administrator, create a new article and write the following text:</p>
 <pre><code>&lt;?php echo "This is the Exec-PHP 'Hello World'"; ?&gt;</code></pre>
 <p>This should always work. When displaying the post and everything works fine, you should see:</p>
 <pre><code>This is the Exec-PHP 'Hello World'</code></pre>
 
-<h4 id="allow_writing">Allowing PHP to be written</h4>
-<p>Before executing PHP code, the user needs to write it first. ;-) An user may experience problems in writing PHP code in the content of an article, because in the way that WordPress will rewrite the code (and therefore will break it for later execution) during saving the article. This is because the user also needs the &quot;unfiltered_html&quot; capability assigned to.</p>
+<h4 id="tag_balancing">WordPress' XHTML tag balancing</h4>
+<p>Depending on your PHP code it may be necessary to turn off WordPress' built in XHTML tag balancing if the code is written in the content of an article. This can be done through the option 'WordPress should correct invalidly nested XHTML automatically' on the 'Options' menu in WordPress. If in question, better turn this option off.</p>
+
+<h4 id="wysiwyg_editor">Writing PHP code with the WYSIWYG editor</h4>
+<p>To successfully write PHP code in the content of an article, the WYSIWYG editor needs to be turned off. If you still are in need of writing PHP code with the TinyMCE WYSIWYG editor, you may want to experiment with <a href="http://tinymce.moxiecode.com/punbb/viewtopic.php?id=3646">some TinyMCE plugins that may allow to write PHP code</a>. Such experiments are outside of the scope of this plugin. It is not planned to support writing PHP code in the WYSIWYG editor for any upcoming release of Exec-PHP.</p>
+
+<h4 id="allow_writing">Allowing PHP code to be written</h4>
+<p>Before executing PHP code, the user needs to write it first. ;-) A user may experience problems in writing PHP code in the content of an article, because in the way that WordPress will rewrite the code (and therefore will break it for later execution) during saving the article. This is because the user also needs the 'unfiltered_html' capability assigned to.</p>
 <p>Assigning capabilities to roles or users is out of the scope of this plugin. Because WordPress has no built-in configuration page in the admin panel to assign roles/capabilities, you need to install one of the available role/capability manager plugins as the one <a href="#requirements">mentioned in the requirements</a>.</p>
 
-<h4 id="allow_execution">Allowing PHP execution</h4>
-<p>After installation, execution of PHP code is limited to the &quot;Administrator&quot; and &quot;Editor&quot; role by default. By assigning the &quot;exec_php&quot; capability to another role or user will allow them to execute PHP code in their posts.</p>
+<h4 id="allow_execution">Allowing PHP code execution</h4>
+<p>After installation, execution of PHP code is limited to the Administrator and Editor role by default. By assigning the 'exec_php' capability to another role or user will allow them to execute PHP code in their posts.</p>
 <p>Assigning capabilities to roles or users is out of the scope of this plugin. Because WordPress has no built-in configuration page in the admin panel to assign roles/capabilities, you need to install one of the available role/capability manager plugins as the one <a href="#requirements">mentioned in the requirements</a>.</p>
 
-<h4 id="capabilities">Needed capabilities to execute PHP code successfully</h4>
-<p>The following matrix shows which capability an user needs to perform specific tasks with the plugin:</p>
+<h4 id="configuration">Overview of tasks and their required WordPress configuration</h4>
+<p>The following matrix shows which settings need to be applied to perform specific tasks with the plugin:</p>
 <table>
-<tr><td style="text-align:center;"><strong>Task</strong></td><td style="text-align:center;"><strong>exec_php</strong></td><td style="text-align:center;"><strong>unfiltered_html</strong></td><td style="text-align:center;"><strong>switch_themes</strong></td></tr>
-<tr><td>Write/edit PHP code in articles</td><td>&nbsp;</td><td style="text-align:center;"><strong>X</strong></td><td>&nbsp;</td></tr>
-<tr><td>Execute PHP code in articles</td><td style="text-align:center;"><strong>X</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-<tr><td>Write/edit PHP code in widgets</td><td>&nbsp;</td><td style="text-align:center;"><strong>X</strong></td><td style="text-align:center;"><strong>X</strong></td></tr>
-<tr><td>Execute PHP code in widgets</td><td style="text-align:center;">&nbsp;</td><td>&nbsp;</td><td style="text-align:center;"><strong>X</strong></td></tr>
+<tr><td style="text-align:center;"><strong>Task</strong></td><td style="text-align:center;"><strong>Disable tag balancing</strong></td><td style="text-align:center;"><strong>Disable WYSIWYG</strong></td><td style="text-align:center;"><strong>Assign 'exec_php' cap</strong></td><td style="text-align:center;"><strong>Assign 'unfiltered_html' cap</strong></td><td style="text-align:center;"><strong>Assign 'switch_themes' cap</strong></td></tr>
+<tr><td>Write/edit PHP code in content of articles</td><td style="text-align:center;"><strong>X</strong></td><td style="text-align:center;"><strong>X</strong></td><td>&nbsp;</td><td style="text-align:center;"><strong>X</strong></td><td>&nbsp;</td></tr>
+<tr><td>Execute PHP code in content of articles</td><td>&nbsp;</td><td>&nbsp;</td><td style="text-align:center;"><strong>X</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Write/edit PHP code in excerpt of articles</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td style="text-align:center;"><strong>X</strong></td><td>&nbsp;</td></tr>
+<tr><td>Execute PHP code in excerpt of articles</td><td>&nbsp;</td><td>&nbsp;</td><td style="text-align:center;"><strong>X</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>Write/edit PHP code in widgets</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td style="text-align:center;"><strong>X</strong></td><td style="text-align:center;"><strong>X</strong></td></tr>
+<tr><td>Execute PHP code in widgets</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td style="text-align:center;"><strong>X</strong></td></tr>
 </table>
-<p>To make things clear: If an user wants to write a new article and want to execute PHP code inside of its content, he needs to have both - the 'exec_php' and 'unfiltered_html' - capabilities assigned to. Otherwise the PHP code will get messed up during saving the article and the raw PHP code itself will be displayed instead of executing it. For writing and executing code in the excerpt of an article, the user only needs the 'unfiltered_html' capability.</p>
+<p>To make things clear: If a user wants to write a new article and want to execute PHP code inside of its content, he needs to have both - the 'exec_php' and 'unfiltered_html' - capabilities assigned to. Otherwise the PHP code will get messed up during saving the article and the raw PHP code itself will be displayed instead of executing it. For writing and executing code in the excerpt of an article, the user only needs the 'unfiltered_html' capability.</p>
 <p>If a user wants to write PHP code inside of a text widget, he only needs the 'unfiltered_html' capability. The execution of PHP code inside of widgets is not restricted by any capability. This means that every user of your blog who can write widgets - which is restricted by the 'switch_themes' capability - can execute PHP code.</p>
 
 <h4 id="security">A word about security</h4>
-<p>By using this plugin a user can use the full PHP and WordPress API. There are no restrictions to execute only certain subsets of functionality. Allowing your users to write and execute PHP code will expose your WordPress installation in specific and your server installation in general. By that an user can easily take over your blog, your server or the whole internt (just kidding about the last one). If in doubt, don't allow a user to execute PHP code. This can be easily <a href="#allow_execution">adjusted on a per user base</a>.</p>
+<p>By using this plugin a user can use the full PHP API and WordPress API. There are no restrictions to execute only certain subsets of functionality. Allowing your users to write and execute PHP code will expose your WordPress installation in specific and your server installation in general. By that a user can easily take over your blog, your server or the whole internt (just kidding about the last one). If in doubt, don't allow a user to execute PHP code. This can be easily <a href="#allow_execution">adjusted on a per user base</a>.</p>
 
 <h3 id="troubleshooting">Troubleshooting</h3>
 
 <h4 id="incompatibilities">Incompatibilities to other plugins or themes</h4>
 <p>Currently there are no known incompatibilities to other plugins or themes.</p>
 
-<h4 id="issues">Limitations</h4>
-<p>Besides of limitations with the <a href="#execute_php">WYSIWYG rich editor mentioned above</a>, there currently are no known issues.</p>
+<h4 id="limitations">Limitations</h4>
+<p>Besides of limitations with the <a href="#wysiwyg_editor">WYSIWYG rich editor mentioned above</a>, there currently are no known issues.</p>
 
 <h4 id="bugs">Reporting bugs</h4>
-<p>You can <a href="http://bluesome.net/post/2005/08/18/50/#response-50">post bug reports to the comments</a>. Before doing this make sure your PHP script is running properly in a separate file. If it does, assure that you did not hit the <a href="#globals">&quot;globals&quot; issue</a>. If you still think it's a bug, keep in mind that WordPress' commenting system is not build to write unescaped code, so better convert it to the correct XHTML entities before commenting here, point to the code using an external link or <a href="http://bluesome.net/post/author/soeren/#contact-2">get in contact with me by using the contact form of my author page</a>.</p>
+<p>You can <a href="http://bluesome.net/post/2005/08/18/50/#response-50">post bug reports to the comments</a>. Before doing this make sure your PHP script is running properly in a separate file. If it does, assure that you did not hit the <a href="#globals">&quot;Globals&quot; issue</a>. If you still think it's a bug, keep in mind that WordPress' commenting system is not build to write unescaped code, so better convert it to the correct XHTML entities before commenting here, point to the code using an external link or <a href="http://bluesome.net/post/author/soeren/#contact-2">get in contact with me by using the contact form of my author page</a>.</p>
 
 <h4 id="tests">Tests to assert plugins functionality</h4>
 <p>Following is a list of tests that were made to assert the plugins functionality. On the left side the PHP code taken directly from the tests is written. On the right side the live output generated by the Exec-PHP plugin is shown. If you view this documentation as a static HTML file obviously the PHP code isn't executed and will look messy. Because of the content of this test, this page will not verify as XHTML. If you think, your favorite PHP plugin is better than this one, try out all the tests below and see if this works correctly.</p>
@@ -259,7 +269,7 @@ echo "\n\thandling\"";
 <p>WordPress is not WordPress MU. The plugin was designed for WordPress. If you want to provide a patch to let this work with WordPress MU, I will be happy to incooperate it in the official plugin release.</p>
 
 <h5 id="globals">Why does my included PHP file causes parsing errors?</h5>
-<p>Assume your included code is working outside an article and the path to the include file is correct. PHP may still spit out error messages even if everything seems to be correct. This can happen when your included file assumes it runs on global scope level and does not use the keyword <code>global</code> to declare its global variables. As example create a new article with the following code:</p>
+<p>Assume your included code is working outside an article and the path to the include file is correct. The PHP parser may still spit out error messages even if everything seems to be correct. This can happen when your included file assumes it runs on global scope level and does not use the keyword <code>global</code> to declare its global variables. As example create a new article with the following code:</p>
 <p>Article:</p>
 <pre><code>&lt;?php require_once(get_settings('home'). '/example.php'); ?&gt;</code></pre>
 <p>After that copy the following code into a new file named <code>example.php</code> and store it in your webservers root directory:</p>
@@ -278,7 +288,7 @@ hello();
 <p>No need to say, you have to do this for each global variable where this wasn't already done by the original programmer of the code. Another way would be to contact the original programmer and kindly ask him to change his code.</p>
 
 <h5 id="already_defined">Why does my newsfeed spits out parsing errors?</h5>
-<p>Assume your code is working outside an article. PHP may still spit out error messages in your newsfeed but not if you are viewing your article even if everything seems to be correct. This will happen if you have defined your own functions, classes, etc. For the newsfeeds WordPress will read the content of each article twice (once for the summary and once for the whole article) and so causing the PHP to be executed twice. For example the following code in your article would work if you view the article on your webpage but would cause your newsfeed to break:</p>
+<p>Assume your code is working outside an article. The PHP parser may still spit out error messages in your newsfeed but not if you are viewing your article even if everything seems to be correct. This will happen if you have defined your own functions, classes, etc. For the newsfeeds WordPress will read the content of each article twice (once for the summary and once for the whole article) and so causing the PHP code to be executed twice. For example the following code in your article would work if you view the article on your webpage but would cause your newsfeed to break:</p>
 <p>Article:</p>
 <pre><code>&lt;?php
 function hello()
