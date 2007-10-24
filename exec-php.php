@@ -2,7 +2,7 @@
 /*
 Plugin Name: Exec-PHP
 Plugin URI: http://bluesome.net/post/2005/08/18/50/
-Description: Executes &lt;?php ?&gt; code in your posts, pages and text widgets. See the <a href="../wp-content/plugins/exec-php/doc/readme.html">documentation</a> for further information.
+Description: Executes &lt;?php ?&gt; code in your posts, pages and text widgets. See the <a href="../wp-content/plugins/exec-php/docs/readme.html">documentation</a> for further information.
 Version: 3.4
 Author: S&ouml;ren Weber
 Author URI: http://bluesome.net
