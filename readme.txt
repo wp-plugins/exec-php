@@ -4,7 +4,7 @@ Donate link: http://bluesome.net/post/2005/08/18/50/
 Tags: code, exec, execute, eval, php, run
 Requires at least: 2.0
 Tested up to: 2.3
-Stable tag: 4.0
+Stable tag: 4.1
 
 The Exec-PHP plugin executes PHP code in posts, pages and text widgets.
 
@@ -17,6 +17,7 @@ Features:
 * Exec-PHP can execute PHP code in the excerpt and the content portion of your posts and pages
 * Exec-PHP works in your newsfeeds
 * Configurable execution of PHP code in text widgets
+* Information about which user is allowed to execute PHP with the current settings
 * You can write PHP code in familiar syntax, eg. `<?php ... ?>`
 * You can restrict execution of PHP code in posts and pages to certain users by using roles and capabilities
 * You will be notified through the 'Plugins' menu of WordPress if a new version of the Exec-PHP is available
@@ -33,7 +34,7 @@ If you have ever installed a WordPress plugin, then installation will be pretty 
 1. Activate the plugin through the 'Plugins' menu of WordPress
 1. Configure blog and user settings if needed
 
-For further information about the Exec-PHP plugin and support see the plugins homepage at [http://bluesome.net/post/2005/08/18/50/](http://bluesome.net/post/2005/08/18/50/ "Link to Exec-PHPs homepage").
+For support and further information about the Exec-PHP plugin and support see the plugins homepage at [http://bluesome.net/post/2005/08/18/50/](http://bluesome.net/post/2005/08/18/50/ "Link to Exec-PHPs homepage").
 
 == Frequently Asked Questions ==
 

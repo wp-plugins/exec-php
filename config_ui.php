@@ -4,12 +4,16 @@ require_once(dirname(__FILE__).'/cache.php');
 require_once(dirname(__FILE__).'/const.php');
 
 define('ExecPhp_ACTION_UPDATE_OPTIONS', 'update_options');
-define('ExecPhp_CONFIG_FORM_ID', 'execphp_configuration');
+define('ExecPhp_ID_CONFIG_FORM', 'execphp_configuration');
+define('ExecPhp_ID_INFO_FORM', 'execphp_information');
+define('ExecPhp_ID_INFO_WIDGETS', 'execphp_widgets');
+define('ExecPhp_ID_INFO_WRITE_ARTICLES', 'execphp_write_articles');
+define('ExecPhp_ID_INFO_EXECUTE_ARTICLES', 'execphp_execute_articles');
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // the ExecPhp_ConfigUi class displays the config interface in the
 // admin panel
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 // use this guard to avoid error messages in WP admin panel if plugin
 // is disabled because of a version conflict but you still try to reload
@@ -19,9 +23,9 @@ class ExecPhp_ConfigUi
 {
 	var $m_cache;
 
-	// ----------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------
 	// init
-	// ----------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------
 
 	// Sets up the Exec-Php config menu
 	function ExecPhp_ConfigUi(&$cache, $status)
@@ -54,16 +58,51 @@ class ExecPhp_ConfigUi
 	{
 		// delay initialization until the WP framework is loaded
 		add_submenu_page('options-general.php',
-			ExecPhp_PLUGIN_NAME,
-			ExecPhp_PLUGIN_NAME,
-			'edit_others_posts', __FILE__,
+			__('Exec-PHP Options', ExecPhp_PLUGIN_ID),
+			__('Exec-PHP', ExecPhp_PLUGIN_ID),
+			ExecPhp_CAPABILITY_MANAGE, __FILE__,
 			array(&$this, 'submenu_page_option_general'));
 	}
 
 	function filter_admin_head()
 	{
+		wp_print_scripts(array('sack'));
 ?>
+	<style type="text/css">
+		#<?php echo ExecPhp_ID_INFO_WIDGETS; ?> li,
+		#<?php echo ExecPhp_ID_INFO_WRITE_ARTICLES; ?> li,
+		#<?php echo ExecPhp_ID_INFO_EXECUTE_ARTICLES; ?> li {
+			float: left;
+			width: 20em;
+			line-height: 1em;
+		}
+
+		#<?php echo ExecPhp_ID_INFO_WIDGETS; ?> p,
+		#<?php echo ExecPhp_ID_INFO_WRITE_ARTICLES; ?> p,
+		#<?php echo ExecPhp_ID_INFO_EXECUTE_ARTICLES; ?> p {
+			text-align: center;
+		}
+
+		#<?php echo ExecPhp_ID_INFO_WIDGETS; ?> p *,
+		#<?php echo ExecPhp_ID_INFO_WRITE_ARTICLES; ?> p *,
+		#<?php echo ExecPhp_ID_INFO_EXECUTE_ARTICLES; ?> p * {
+			vertical-align: middle;
+		}
+	</style>
+
 	<script type="text/javascript">
+		//<![CDATA[
+		function ExecPhp_getUsersOfCapability(capability, display_id)
+		{
+			var ajax = new sack("<?php bloginfo('wpurl'); ?>/wp-admin/admin-ajax.php");
+			ajax.element = display_id;
+			ajax.setVar("cookie", document.cookie);
+			ajax.setVar("action", "<?php echo ExecPhp_AJAX_ACTION_USERS_OF_CAPABILITY; ?>");
+			ajax.setVar("<?php echo ExecPhp_AJAX_POST_CAPABILITY; ?>", capability);
+			ajax.onError = function() {alert('<?php _e("AJAX HTTP error", ExecPhp_PLUGIN_ID); ?>')};
+			ajax.runAJAX();
+		}
+
 		function ExecPhp_setMessage(heading, text)
 		{
 			var message = "<p><strong>" + heading + "</strong> " + text + "</p>";
@@ -82,6 +121,7 @@ class ExecPhp_ConfigUi
 				container.innerHTML = message;
 			}
 		}
+		//]]>
 	</script>
 
 <?php
@@ -91,40 +131,60 @@ class ExecPhp_ConfigUi
 	{
 		$option =& $this->m_cache->get_option();
 
-		$heading = sprintf(__('%s plugin is not active.', ExecPhp_PLUGIN_ID)
-			, ExecPhp_PLUGIN_NAME);
-		$text = sprintf(__('For security reasons the %1$s plugin functionality was turned off because no necessary upgrade of the plugin could be performed. All code may be viewable to your blog readers. This is plugin version %2$s but previously there was version %3$s installed. Downgrading from a newer version to an older version of the plugin is not supported.', ExecPhp_PLUGIN_ID)
-			, ExecPhp_PLUGIN_NAME, ExecPhp_VERSION, $option->get_version());
+		$heading = __('Exec-PHP plugin is not active.', ExecPhp_PLUGIN_ID);
+		$text = sprintf(__('For security reasons the Exec-PHP plugin functionality was turned off because no necessary upgrade of the plugin could be performed. All PHP code may be viewable to your blog readers. This is plugin version %1$s, previously there was version %2$s installed. Downgrading from a newer version to an older version of the plugin is not supported.', ExecPhp_PLUGIN_ID)
+			, ExecPhp_VERSION, $option->get_version());
 		$this->print_admin_message($heading, $text);
 	}
 
 	function filter_admin_footer_unknown()
 	{
 		$option =& $this->m_cache->get_option();
-		$heading = sprintf(__('%s plugin is not active.', ExecPhp_PLUGIN_ID)
-			, ExecPhp_PLUGIN_NAME);
-		$text = sprintf(__('For security reasons the %1$s plugin functionality was turned off because an unknown error (%2$s) occured. All code may be viewable to your blog readers. This should never happen if you use the plugin with a compatible WordPress version and installed it as described in the documentation.', ExecPhp_PLUGIN_ID)
-			, ExecPhp_PLUGIN_NAME, $option->get_cooperation_status());
+		$heading = __('Exec-PHP plugin is not active.', ExecPhp_PLUGIN_ID);
+		$text = sprintf(__('For security reasons the Exec-PHP plugin functionality was turned off because an unknown error (%s) occured. All PHP code may be viewable to your blog readers. This error should never happen if you use the plugin with a compatible WordPress version and installed it as described in the documentation.', ExecPhp_PLUGIN_ID)
+			, $option->get_status());
 		$this->print_admin_message($heading, $text);
 	}
 
-	// ----------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------
 	// tools
-	// ----------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------
 
 	function print_admin_message($heading, $text)
 	{
 ?>
 	<script type="text/javascript">
+		//<![CDATA[
 		ExecPhp_setMessage('<?php echo $heading; ?>', '<?php echo $text; ?>');
+		//]]>
 	</script>
-
 <?php
 	}
 
-	// ----------------------------------------------------------------------------
+	function print_users_of_capability($capability, $display_id, $legend, $introduction)
+	{
+?>
+			<fieldset class="options">
+				<legend><?php echo $legend; ?></legend>
+				<p><?php echo $introduction; ?></p>
+				<div id="<?php echo $display_id; ?>">
+					<?php _e('The list can not be displayed because you may have disabled Javascript or your browser does not support Javascript.', ExecPhp_PLUGIN_ID); ?>
+
+				</div>
+				<script type="text/javascript">
+					//<![CDATA[
+					document.getElementById('<?php echo $display_id; ?>').innerHTML =
+						'<p><img src="<?php echo get_option('siteurl'). '/'. ExecPhp_DIR. '/images/progress.gif'; ?>" alt="<?php _e('An animated icon signaling that this information is still be loaded.', ExecPhp_PLUGIN_ID); ?>" /> <?php _e('Loading user information...', ExecPhp_PLUGIN_ID); ?></p>';
+					ExecPhp_getUsersOfCapability('<?php echo $capability; ?>', '<?php echo $display_id; ?>');
+					//]]>
+				</script>
+			</fieldset>
+<?php
+	}
+
+	// ---------------------------------------------------------------------------
 	// interface
-	// ----------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------
 
 	// Exec-PHP configuration page
 	function submenu_page_option_general()
@@ -145,18 +205,18 @@ class ExecPhp_ConfigUi
 ?>
 	<div class="wrap">
 		<h2><?php echo sprintf(__('Exec-PHP %s Options', ExecPhp_PLUGIN_ID), ExecPhp_VERSION); ?></h2>
-		<p><?php echo sprintf(__("Exec-PHP executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets. Execution of PHP code can be restricted by assigning the &quot;exec_php&quot; capability to individual users or roles by using a role manager plugin. A <a href='%s'>local copy of the documentation</a> comes with this plugin. New versions and further documentation may be found on the <a href='http://bluesome.net/post/2005/08/18/50/'>official plugin page</a>.", ExecPhp_PLUGIN_ID), get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/readme.html'); ?></p>
-		<form action="" method="post" id="<?php echo ExecPhp_CONFIG_FORM_ID; ?>">
+		<p><?php echo sprintf(__('Exec-PHP executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets. See the <a href="%s">local documentation</a> for further information. The latest version of the plugin, documentation and information will be found on the <a href="http://bluesome.net/post/2005/08/18/50/">official plugin homepage</a>.', ExecPhp_PLUGIN_ID), get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/readme.html'); ?></p>
+		<form action="" method="post" id="<?php echo ExecPhp_ID_CONFIG_FORM; ?>">
 			<fieldset class="options">
-				<legend><?php _e('Basic options', ExecPhp_PLUGIN_ID); ?></legend>
-				<p><?php _e("The basic options define the overall behavior of the plugin.", ExecPhp_PLUGIN_ID); ?></p>
+				<legend><?php _e('Widget Options', ExecPhp_PLUGIN_ID); ?></legend>
+				<p><?php _e('The widget options define how PHP code in text widgets will be handled.', ExecPhp_PLUGIN_ID); ?></p>
 				<table class="editform optiontable">
 					<tr valign="top">
-						<th scope="row"><?php _e('Execute PHP code in widgets:', ExecPhp_PLUGIN_ID); ?></th>
+						<th scope="row"><?php _e('Execute PHP code in text widgets:', ExecPhp_PLUGIN_ID); ?></th>
 						<td>
-							<label for="<?php echo ExecPhp_POST_PRINT_USER_FORM; ?>">
+							<label for="<?php echo ExecPhp_POST_WIDGET_SUPPORT; ?>">
 								<input type="checkbox" name="<?php echo ExecPhp_POST_WIDGET_SUPPORT; ?>" id="<?php echo ExecPhp_POST_WIDGET_SUPPORT; ?>" value="true" <?php if ($option->get_widget_support()) : ?>checked="checked" <?php endif; ?>/>
-								<?php echo sprintf(__("Executing PHP code in widgets is not restricted to any user. Users who can modify widgets (which is restricted by the &quot;switch_themes&quot; capability) will also be able to execute PHP code in widgets. If you want to disallow PHP code execution in widgets for all users, mark this checkbox.", ExecPhp_PLUGIN_ID)); ?>
+								<?php _e('Executing PHP code in text widgets is not restricted to any user. By default users who can modify text widgets will also be able to execute PHP code in text widgets. Unselect this option to generally turn off execution of PHP code in text widgets.', ExecPhp_PLUGIN_ID); ?>
 
 							</label>
 						</td>
@@ -165,10 +225,26 @@ class ExecPhp_ConfigUi
 			</fieldset>
 
 			<p class="submit">
-				<input type="submit" name="<?php echo ExecPhp_ACTION_UPDATE_OPTIONS; ?>" value="<?php _e('Update Options') ?> &raquo;" />
+				<input type="submit" name="<?php echo ExecPhp_ACTION_UPDATE_OPTIONS; ?>" value="<?php _e('Update Options &raquo;') ?>" />
 				<?php wp_nonce_field(ExecPhp_ACTION_UPDATE_OPTIONS); ?>
 
 			</p>
+		</form>
+
+		<h2><?php echo sprintf(__('Exec-PHP %s Information', ExecPhp_PLUGIN_ID), ExecPhp_VERSION); ?></h2>
+		<p><?php _e('Following are some few informational lists showing which users are allowed to write or execute PHP code in different cases. Allowing to write or execute PHP code can be adjusted by assigning the necessary capabilities to individual users or roles by using a role manager plugin.', ExecPhp_PLUGIN_ID); ?></p>
+		<form action="" id="<?php echo ExecPhp_ID_INFO_FORM; ?>">
+<?php $this->print_users_of_capability(ExecPhp_CAPABILITY_WIDGETS, ExecPhp_ID_INFO_WIDGETS,
+	__('PHP Code in Text Widgets', ExecPhp_PLUGIN_ID),
+	sprintf(__('The following list shows which users have the &quot;switch_themes&quot; capability and therefore would be allowed to write and execute PHP code in text widgets <em>in case you have selected the option &quot;Execute PHP code in text widgets&quot;</em> from above.', ExecPhp_PLUGIN_ID), ExecPhp_CAPABILITY_WIDGETS)); ?>
+
+<?php $this->print_users_of_capability(ExecPhp_CAPABILITY_WRITE_ARTICLES, ExecPhp_ID_INFO_WRITE_ARTICLES,
+	__('Writing PHP Code in Articles', ExecPhp_PLUGIN_ID),
+	sprintf(__('The following list shows which users have the &quot;%s&quot; capability and therefore are allowed to write PHP code in articles.', ExecPhp_PLUGIN_ID), ExecPhp_CAPABILITY_WRITE_ARTICLES)); ?>
+
+<?php $this->print_users_of_capability(ExecPhp_CAPABILITY_EXECUTE_ARTICLES, ExecPhp_ID_INFO_EXECUTE_ARTICLES,
+	__('Executing PHP Code in Articles', ExecPhp_PLUGIN_ID),
+	sprintf(__('The following list shows which users have the &quot;%s&quot; capability and therefore are allowed to execute PHP code in articles.', ExecPhp_PLUGIN_ID), ExecPhp_CAPABILITY_EXECUTE_ARTICLES)); ?>
 		</form>
 	</div>
 <?php

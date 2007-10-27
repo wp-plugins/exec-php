@@ -13,7 +13,7 @@
 <p>The Exec-PHP plugin executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets.</p>
 
 <h3>Make it quick. Where can I download it?</h3>
-<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.0 here!</a></p>
+<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.1 here!</a></p>
 
 <h3>Why is there so much text below?</h3>
 <p>Because I hate cool plugins that are badly documented. Even the smallest piece of code needs some documentation. The following text is pretty exhaustive. Feel free to skip the sections you are not interested in. If you have a question about the plugin please first make sure you refer to the latest version of the plugin and the question is not answered on this page or in the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments of the plugin homepage</a>. Then - and only then - <a href="http://bluesome.net/post/2005/08/18/50/#response-50">post your question here</a>.</p><!--more-->
@@ -90,6 +90,7 @@
 					<li><a href="#version_3_3">Version 3.3 (2007-08-11)</a></li>
 					<li><a href="#version_3_4">Version 3.4 (2007-10-08)</a></li>
 					<li><a href="#version_4_0">Version 4.0 (2007-10-25)</a></li>
+					<li><a href="#version_4_1">Version 4.1 (2007-10-27)</a></li>
 				</ol>
 			</li>
 			<li><a href="#roadmap">Roadmap</a></li>
@@ -161,6 +162,7 @@
 	<li>Exec-PHP can execute PHP code in the excerpt and the content portion of your posts and pages</li>
 	<li>Exec-PHP works in your newsfeeds</li>
 	<li>Configurable execution of PHP code in text widgets</li>
+	<li>Information about which user is allowed to execute PHP with the current settings</li>
 	<li>You can write PHP code in familiar syntax, e.g. <code>&lt;?php ... ?&gt;</code></li>
 	<li>You can restrict execution of PHP code in posts and pages to certain users by using roles and capabilities</li>
 	<li>You will be notified through the 'Plugins' menu in WordPress if a new version of the Exec-PHP is available</li>
@@ -398,14 +400,22 @@ function hello()
 
 <h5 id="version_4_0">Version 4.0 (2007-10-25)</h5>
 <ul>
-	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a></li>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php_4.0.zip">Plugin</a></li>
 	<li>Bugfix: When the blog administrator removes the 'exec_php' capability from all roles, the plugin will not reassign the capability to the Administrator and Editor roles</li>
 	<li>Change: For new plugin installations only the Administrator role will be eligable to execute PHP code</li>
 	<li>Feature: Configurable execution of PHP code in text widgets through the Exec-PHP options menu</li>
 </ul>
 
+<h5 id="version_4_1">Version 4.1 (2007-10-27)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a></li>
+	<li>Bugfix: Display of the Exec-PHP options menu was restricted by an inappropriate capability</li>
+	<li>Bugfix: Making Exec-PHP options menu valid XHTML</li>
+	<li>Feature: The Exec-PHP options menu now displays which user is allowed to write and execute PHP. Display of this list is executed with AJAX. Therefore even for large WordPress installations with many users, the time to load the Exec-PHP options menu will still be satisfiying</li>
+</ul>
+
 <h4 id="roadmap">Roadmap</h4>
-<p>For a later release I am thinking of some kind of display on the plugin option page to show which users are currently eligable to execute PHP code in an article. For installations with a few hundred users, this may dramatically increase loading the plugin options page. Therefore some AJAX magic may do the job here. You may add a <a href="http://bluesome.net/post/2005/08/18/50/#response-50">comment</a> to request further features.</p>
+<p>At the moment it is not planned to include any further features into the plugin but you can add a <a href="http://bluesome.net/post/2005/08/18/50/#response-50">comment</a> to request further features.</p>
 <!-- end of content -->
 
 </body>

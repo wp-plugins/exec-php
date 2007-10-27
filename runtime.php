@@ -58,7 +58,7 @@ class ExecPhp_Runtime
 		if (!isset($post) || !isset($post->post_author))
 			return $content;
 		$poster = new WP_User($post->post_author);
-		if (!$poster->has_cap(ExecPhp_CAPABILITY))
+		if (!$poster->has_cap(ExecPhp_CAPABILITY_EXECUTE_ARTICLES))
 			return $content;
 
 		return $this->eval_php($content);

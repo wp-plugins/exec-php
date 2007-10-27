@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exec-PHP\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-10-25 22:49+0100\n"
+"PO-Revision-Date: 2007-10-27 14:41+0100\n"
 "Last-Translator: Sören Weber <soeren@bluesome.net>\n"
 "Language-Team: Sören Weber <soeren@bluesome.net>\n"
 "MIME-Version: 1.0\n"
@@ -14,53 +14,115 @@ msgstr ""
 "X-Poedit-Country: GERMANY\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: config_ui.php:94
-#: config_ui.php:104
-#, php-format
-msgid "%s plugin is not active."
-msgstr "%s Plugin ist nicht aktiv."
+#: ajax.php:53
+msgid "No user has this capability assigned to."
+msgstr "Kein Benutzer hat diese Berechtigung."
 
-#: config_ui.php:96
-#, php-format
-msgid "For security reasons the %1$s plugin functionality was turned off because no necessary upgrade of the plugin could be performed. All code may be viewable to your blog readers. This is plugin version %2$s but previously there was version %3$s installed. Downgrading from a newer version to an older version of the plugin is not supported."
-msgstr "Aus Sicherheitsgr&uuml;nden wurde die das %1$s Plugin abgeschaltet, denn ein notwendiges Upgrade konnte nicht ausgef&uuml;hrt werden. S&auml;mtlicher PHP code ist u.U. f&uuml;r Leser sichtbar. Dies ist Plugin-Version %2$s, zuvor war Version %3$s installiert. Downgrading von einer neueren Version auf eine &auml;ltere Version des Plugins wird nicht unterst&uuml;tzt."
+#: config_ui.php:61
+msgid "Exec-PHP Options"
+msgstr "Exec-PHP Einstellungen"
 
-#: config_ui.php:106
-#, php-format
-msgid "For security reasons the %1$s plugin functionality was turned off because an unknown error (%2$s) occured. All code may be viewable to your blog readers. This should never happen if you use the plugin with a compatible WordPress version and installed it as described in the documentation."
-msgstr "Aus Sicherheitsgr&uuml;nden wurde die das %1$s Plugin abgeschaltet, denn ein unbekannter Fehler (%2$s) ist aufgetreten. S&auml;mtlicher PHP code ist u.U. f&uuml;r Leser sichtbar. So ein Fehler sollte niemals passieren wenn das Plugin mit einer kompatiblen WordPress Version benutzt wird und wie in der Dokumentation beschrieben, installiert wurde."
+#: config_ui.php:62
+msgid "Exec-PHP"
+msgstr "Exec-PHP"
 
-#: config_ui.php:142
+#: config_ui.php:102
+msgid "AJAX HTTP error"
+msgstr "AJAX HTTP Fehler"
+
+#: config_ui.php:134
+#: config_ui.php:143
+msgid "Exec-PHP plugin is not active."
+msgstr "Exec-PHP Plugin ist nicht aktiv."
+
+#: config_ui.php:135
+#, php-format
+msgid "For security reasons the Exec-PHP plugin functionality was turned off because no necessary upgrade of the plugin could be performed. All PHP code may be viewable to your blog readers. This is plugin version %1$s, previously there was version %2$s installed. Downgrading from a newer version to an older version of the plugin is not supported."
+msgstr "Aus Sicherheitsgr&uuml;nden wurde die das Exec-PHP Plugin abgeschaltet, denn ein notwendiges Upgrade konnte nicht ausgef&uuml;hrt werden. S&auml;mtlicher PHP Code ist u.U. f&uuml;r Leser sichtbar. Dies ist Plugin-Version %1$s, zuvor war Version %2$s installiert. Downgrading von einer neueren Version auf eine &auml;ltere Version des Plugins wird nicht unterst&uuml;tzt."
+
+#: config_ui.php:144
+#, php-format
+msgid "For security reasons the Exec-PHP plugin functionality was turned off because an unknown error (%s) occured. All PHP code may be viewable to your blog readers. This error should never happen if you use the plugin with a compatible WordPress version and installed it as described in the documentation."
+msgstr "Aus Sicherheitsgr&uuml;nden wurde die das Exec-PHP Plugin abgeschaltet, denn ein unbekannter Fehler (%s) ist aufgetreten. S&auml;mtlicher PHP Code ist u.U. f&uuml;r Leser sichtbar. So ein Fehler sollte niemals passieren wenn das Plugin mit einer kompatiblen WordPress Version benutzt wird und wie in der Dokumentation beschrieben, installiert wurde."
+
+#: config_ui.php:171
+msgid "The list can not be displayed because you may have disabled Javascript or your browser does not support Javascript."
+msgstr "Die Liste kann nicht angzeigt werden, weil Javascript deaktiviert ist oder der Browser kein Javascript unterst&uuml;tzt."
+
+#: config_ui.php:177
+msgid "An animated icon signaling that this information is still be loaded."
+msgstr "Ein animiertes Symbol, das signalisiert, dass die Informationen noch geladen werden."
+
+#: config_ui.php:177
+msgid "Loading user information..."
+msgstr "Lade Benutzer Informationen..."
+
+#: config_ui.php:202
 msgid "Options saved."
 msgstr "Einstellungen gespeichert."
 
-#: config_ui.php:147
+#: config_ui.php:207
 #, php-format
 msgid "Exec-PHP %s Options"
 msgstr "Exec-PHP %s Einstellungen"
 
-#: config_ui.php:148
+#: config_ui.php:208
 #, php-format
-msgid "Exec-PHP executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets. Execution of PHP code can be restricted by assigning the &quot;exec_php&quot; capability to individual users or roles by using a role manager plugin. A <a href='%s'>local copy of the documentation</a> comes with this plugin. New versions and further documentation may be found on the <a href='http://bluesome.net/post/2005/08/18/50/'>official plugin page</a>."
-msgstr "Exec-PHP f&uuml;hrt <code>&lt;?php ?&gt;</code> Code in Beitr&auml;gen, Seiten und Text-Widgets aus. Die Ausf&uuml;hrung von PHP Code kann unterbunden werden, indem die Capability &quot;exec_php&quot; einzelnen Benutzern oder Rollen mit einem Role-Manager Plugin zugewiesen wird. Eine <a href='%s'>lokale Kopie der Dokumentation</a> wird mit dem Plugin ausgeliefert. Neuere Versionen und weitere Informationen k&ouml;nnen auf der <a href='http://bluesome.net/post/2005/08/18/50/'>offiziellen Plugin-Homepage</a> gefunden werden."
+msgid "Exec-PHP executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets. See the <a href=\"%s\">local documentation</a> for further information. The latest version of the plugin, documentation and information will be found on the <a href=\"http://bluesome.net/post/2005/08/18/50/\">official plugin homepage</a>."
+msgstr "Exec-PHP f&uuml;hrt <code>&lt;?php ?&gt;</code> Code in Beitr&auml;gen, Seiten und Text Widgets aus. F&uuml;r weitere Informationen lese die <a href='%s'>lokale Dokumentation</a>. Die neuste Version des Plugins, Dokumentation und Informationen k&ouml;nnen auf der <a href='http://bluesome.net/post/2005/08/18/50/'>offiziellen Plugin Homepage</a> gefunden werden."
 
-#: config_ui.php:151
-msgid "Basic options"
-msgstr "Grundeinstellungen"
+#: config_ui.php:211
+msgid "Widget Options"
+msgstr "Widget Einstellungen"
 
-#: config_ui.php:152
-msgid "The basic options define the overall behavior of the plugin."
-msgstr "Die Grundeinstellungen definieren das allgemeine Verhalten des Plugins."
+#: config_ui.php:212
+msgid "The widget options define how PHP code in text widgets will be handled."
+msgstr "Die Widget Einstellungen definieren, wie PHP Code in Text Widgets behandelt werden soll."
 
-#: config_ui.php:155
-msgid "Execute PHP code in widgets:"
-msgstr "F&uuml;hre PHP Code in Text-Widgets aus:"
+#: config_ui.php:215
+msgid "Execute PHP code in text widgets:"
+msgstr "F&uuml;hre PHP Code in Text Widgets aus:"
 
-#: config_ui.php:159
-msgid "Executing PHP code in widgets is not restricted to any user. Users who can modify widgets (which is restricted by the &quot;switch_themes&quot; capability) will also be able to execute PHP code in widgets. If you want to disallow PHP code execution in widgets for all users, mark this checkbox."
-msgstr "Das Ausf&uuml;hren von PHP Code in Text-Widgets ist nicht an bestimmte Benutzer gebunden. Benutzer, die Widgets modifizieren k&ouml;nnen (eingeschr&auml;nkt durch die &quot;switch_themes&quot; Capability), sind auch in der Lage, PHP Code in Widgets auszuf&uuml;hren. Wenn die Ausf&uuml;hrung von PHP Code in Widgets abgeschaltet werden soll, markiere diese Checkbox."
+#: config_ui.php:219
+msgid "Executing PHP code in text widgets is not restricted to any user. By default users who can modify text widgets will also be able to execute PHP code in text widgets. Unselect this option to generally turn off execution of PHP code in text widgets."
+msgstr "Das Ausf&uuml;hren von PHP Code in Text Widgets ist nicht an bestimmte Benutzer gebunden. Benutzer, die Text Widgets modifizieren k&ouml;nnen, sind auch in der Lage, PHP Code in Text Widgets auszuf&uuml;hren. Deaktiviere diese Einstellung, wenn die Ausf&uuml;hrung von PHP Code in Widgets abgeschaltet werden soll."
 
-#: config_ui.php:168
-msgid "Update Options"
-msgstr "Einstellungen speichern."
+#: config_ui.php:228
+msgid "Update Options &raquo;"
+msgstr "Einstellungen aktualisieren &raquo;"
+
+#: config_ui.php:234
+#, php-format
+msgid "Exec-PHP %s Information"
+msgstr "Exec-PHP %s Informationen"
+
+#: config_ui.php:235
+msgid "Following are some few informational lists showing which users are allowed to write or execute PHP code in different cases. Allowing to write or execute PHP code can be adjusted by assigning the necessary capabilities to individual users or roles by using a role manager plugin."
+msgstr "Die nachfolgenden Listen zeigen an, welche Benutzer f&uuml;r unterschiedliche F&auml;lle die Berechtigung haben PHP Code zu schreiben und auszuf&uuml;hren. Das Schreiben und Ausf&uuml;hren von PHP Code kann durch das Zuweisen von Berechtigungen zu einzelnen Benutzern oder Rollen mit Hilfe eines Rollen-Manager Plugins eingestellt werden."
+
+#: config_ui.php:238
+msgid "PHP Code in Text Widgets"
+msgstr "PHP Code in Text Widgets"
+
+#: config_ui.php:239
+msgid "The following list shows which users have the &quot;switch_themes&quot; capability and therefore would be allowed to write and execute PHP code in text widgets <em>in case you have selected the option &quot;Execute PHP code in text widgets&quot;</em> from above."
+msgstr "Die folgende Liste zeigt an, welche Benutzer die &quot;%s&quot; Berechtigung haben und dementsprechend in der Lage sind, PHP Code in Text Widgets zu schreiben <em>sofern oben &quot;F&uuml;hre PHP Code in Text Widgets aus&quot; angew&auml;hlt wurde</em>."
+
+#: config_ui.php:242
+msgid "Writing PHP Code in Articles"
+msgstr "PHP Code in Artikeln schreiben"
+
+#: config_ui.php:243
+#, php-format
+msgid "The following list shows which users have the &quot;%s&quot; capability and therefore are allowed to write PHP code in articles."
+msgstr "Die folgende Liste zeigt an, welche Benutzer die &quot;%s&quot; Berechtigung haben und dementsprechend in der Lage sind, PHP Code in Artikeln zu schreiben."
+
+#: config_ui.php:246
+msgid "Executing PHP Code in Articles"
+msgstr "PHP Code in Artikeln ausf&uuml;hren"
+
+#: config_ui.php:247
+#, php-format
+msgid "The following list shows which users have the &quot;%s&quot; capability and therefore are allowed to execute PHP code in articles."
+msgstr "Die folgende Liste zeigt an, welche Benutzer die &quot;%s&quot; Berechtigung haben und dementsprechend in der Lage sind, PHP Code in Artikeln auszuf&uuml;hren."
 

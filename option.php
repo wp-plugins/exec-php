@@ -53,6 +53,10 @@ class ExecPhp_Option
 				$this->install_capability();
 				$old_version = '4.0';
 			}
+			else if ($old_version == '4.0')
+			{
+				$old_version = '4.1';
+			}
 			else
 			{
 				// very bad; programming error or system is messed up
@@ -110,7 +114,7 @@ class ExecPhp_Option
 		// renamed by the blog administrator
 		$role = get_role('administrator');
 		if ($role !== NULL)
-			$role->add_cap(ExecPhp_CAPABILITY);
+			$role->add_cap(ExecPhp_CAPABILITY_EXECUTE_ARTICLES);
 	}
 
 	// ---------------------------------------------------------------------------

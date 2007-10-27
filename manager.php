@@ -1,5 +1,6 @@
 <?php
 
+require_once(dirname(__FILE__).'/ajax.php');
 require_once(dirname(__FILE__).'/cache.php');
 require_once(dirname(__FILE__).'/config_ui.php');
 require_once(dirname(__FILE__).'/const.php');
@@ -17,6 +18,7 @@ class ExecPhp_Manager
 	var $m_cache = NULL;
 	var $m_runtime = NULL;
 	var $m_config_ui = NULL;
+	var $m_ajax = NULL;
 
 	// ---------------------------------------------------------------------------
 	// init
@@ -40,6 +42,7 @@ class ExecPhp_Manager
 		$this->m_status = $option->get_status();
 		$this->m_runtime =& new ExecPhp_Runtime($this->m_cache, $this->m_status);
 		$this->m_config_ui =& new ExecPhp_ConfigUi($this->m_cache, $this->m_status);
+		$this->m_ajax =& new ExecPhP_Ajax();
 	}
 }
 
