@@ -279,7 +279,7 @@ echo "\n\thandling\"";
 <h5 id="globals">Why does my included PHP file causes parsing errors?</h5>
 <p>Assume your included code is working outside an article and the path to the include file is correct. The PHP parser may still spit out error messages even if everything seems to be correct. This can happen when your included file assumes it runs on global scope level and does not use the keyword <code>global</code> to declare its global variables. As example create a new article with the following code:</p>
 <p>Article:</p>
-<pre><code>&lt;?php require_once(get_settings('home'). '/example.php'); ?&gt;</code></pre>
+<pre><code>&lt;?php require_once(get_option('home'). '/example.php'); ?&gt;</code></pre>
 <p>After that copy the following code into a new file named <code>example.php</code> and store it in your webservers root directory:</p>
 <p>File (here example.php):</p>
 <pre><code>&lt;?php
@@ -308,7 +308,7 @@ hello();
 <p>As a general rule I would advise to separate all definitions into a file and reference to it by calling <code>require_once()</code>. So the above example would be split into two parts, your article and a file.</p>
 <p>Article:</p>
 <pre><code>&lt;?php
-require_once(get_settings('home'). '/example.php');
+require_once(get_option('home'). '/example.php');
 hello();
 ?&gt;</code></pre>
 <p>File (here example.php):</p>
