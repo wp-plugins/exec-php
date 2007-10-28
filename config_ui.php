@@ -204,8 +204,14 @@ class ExecPhp_ConfigUi
 ?>
 	<div class="wrap">
 		<h2><?php echo sprintf(__('Exec-PHP %s Options', ExecPhp_PLUGIN_ID), ExecPhp_VERSION); ?></h2>
-		<p><?php echo sprintf(__('Exec-PHP executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets. See the <a href="%s">local documentation</a> for further information. The latest version of the plugin, documentation and information will be found on the <a href="http://bluesome.net/post/2005/08/18/50/">official plugin homepage</a>.', ExecPhp_PLUGIN_ID), get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/readme.html'); ?></p>
 		<form action="" method="post" id="<?php echo ExecPhp_ID_CONFIG_FORM; ?>">
+			<?php wp_nonce_field(ExecPhp_ACTION_UPDATE_OPTIONS); ?>
+
+			<p class="submit">
+				<input type="submit" name="<?php echo ExecPhp_ACTION_UPDATE_OPTIONS; ?>" value="<?php _e('Update Options &raquo;') ?>" />
+			</p>
+			<p><?php echo sprintf(__('Exec-PHP executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets. See the <a href="%s">local documentation</a> for further information. The latest version of the plugin, documentation and information will be found on the <a href="http://bluesome.net/post/2005/08/18/50/">official plugin homepage</a>.', ExecPhp_PLUGIN_ID), get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/readme.html'); ?></p>
+
 			<fieldset class="options">
 				<legend><?php _e('Widget Options', ExecPhp_PLUGIN_ID); ?></legend>
 				<p><?php _e('The widget options define how PHP code in text widgets will be handled.', ExecPhp_PLUGIN_ID); ?></p>
@@ -225,14 +231,13 @@ class ExecPhp_ConfigUi
 
 			<p class="submit">
 				<input type="submit" name="<?php echo ExecPhp_ACTION_UPDATE_OPTIONS; ?>" value="<?php _e('Update Options &raquo;') ?>" />
-				<?php wp_nonce_field(ExecPhp_ACTION_UPDATE_OPTIONS); ?>
-
 			</p>
 		</form>
 
 		<h2><?php echo sprintf(__('Exec-PHP %s Information', ExecPhp_PLUGIN_ID), ExecPhp_VERSION); ?></h2>
-		<p><?php _e('Following are some few informational lists showing which users are allowed to write or execute PHP code in different cases. Allowing to write or execute PHP code can be adjusted by assigning the necessary capabilities to individual users or roles by using a role manager plugin.', ExecPhp_PLUGIN_ID); ?></p>
 		<form action="" id="<?php echo ExecPhp_ID_INFO_FORM; ?>">
+			<p><?php _e('Following are some few informational lists showing which users are allowed to write or execute PHP code in different cases. Allowing to write or execute PHP code can be adjusted by assigning the necessary capabilities to individual users or roles by using a role manager plugin.', ExecPhp_PLUGIN_ID); ?></p>
+
 <?php $this->print_users_of_capability(ExecPhp_CAPABILITY_WIDGETS, ExecPhp_ID_INFO_WIDGETS,
 	__('PHP Code in Text Widgets', ExecPhp_PLUGIN_ID),
 	sprintf(__('The following list shows which users have the &quot;switch_themes&quot; capability and therefore would be allowed to write and execute PHP code in text widgets <em>in case you have selected the option &quot;Execute PHP code in text widgets&quot;</em> from above.', ExecPhp_PLUGIN_ID), ExecPhp_CAPABILITY_WIDGETS)); ?>
