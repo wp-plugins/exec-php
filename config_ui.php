@@ -130,7 +130,6 @@ class ExecPhp_ConfigUi
 	function filter_admin_footer_plugin_version()
 	{
 		$option =& $this->m_cache->get_option();
-
 		$heading = __('Exec-PHP plugin is not active.', ExecPhp_PLUGIN_ID);
 		$text = sprintf(__('For security reasons the Exec-PHP plugin functionality was turned off because no necessary upgrade of the plugin could be performed. All PHP code may be viewable to your blog readers. This is plugin version %1$s, previously there was version %2$s installed. Downgrading from a newer version to an older version of the plugin is not supported.', ExecPhp_PLUGIN_ID)
 			, ExecPhp_VERSION, $option->get_version());
