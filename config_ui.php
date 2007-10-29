@@ -9,6 +9,7 @@ define('ExecPhp_ID_INFO_FORM', 'execphp_information');
 define('ExecPhp_ID_INFO_WIDGETS', 'execphp_widgets');
 define('ExecPhp_ID_INFO_WRITE_ARTICLES', 'execphp_write_articles');
 define('ExecPhp_ID_INFO_EXECUTE_ARTICLES', 'execphp_execute_articles');
+define('ExecPhp_ID_MESSAGE', 'exec-php-message-');
 
 // -----------------------------------------------------------------------------
 // the ExecPhp_ConfigUi class displays the config interface in the
@@ -52,6 +53,11 @@ class ExecPhp_ConfigUi
 			add_filter('admin_footer', array(&$this, 'filter_admin_footer_unknown'));
 		else
 			remove_filter('admin_footer', array(&$this, 'filter_admin_footer_unknown'));
+
+		if ($this->rtfm())
+			add_filter('edit_form_advanced', array(&$this, 'filter_edit_form_advanced'));
+		else
+			remove_filter('edit_form_advanced', array(&$this, 'filter_edit_form_advanced'));
 	}
 
 	function filter_admin_menu_option()
@@ -103,10 +109,10 @@ class ExecPhp_ConfigUi
 			ajax.runAJAX();
 		}
 
-		function ExecPhp_setMessage(heading, text)
+		function ExecPhp_setMessage(parent, heading, text)
 		{
 			var message = "<p><strong>" + heading + "</strong> " + text + "</p>";
-			var container = document.getElementById("exec-php-message");
+			var container = document.getElementById("<?php echo ExecPhp_ID_MESSAGE; ?>" + parent);
 			try
 			{
 				container.innerHTML = container.innerHTML + message;
@@ -115,8 +121,8 @@ class ExecPhp_ConfigUi
 			{
 				container = document.createElement("div");
 				container.className = "updated fade-ff0000";
-				container.setAttribute("id", "exec-php-message");
-				var adminmenu = document.getElementById("adminmenu");
+				container.setAttribute("id", "<?php echo ExecPhp_ID_MESSAGE; ?>" + parent);
+				var adminmenu = document.getElementById(parent);
 				adminmenu.parentNode.insertBefore(container, adminmenu.nextSibling);
 				container.innerHTML = message;
 			}
@@ -145,6 +151,14 @@ class ExecPhp_ConfigUi
 		$this->print_admin_message($heading, $text);
 	}
 
+	function filter_edit_form_advanced()
+	{
+		$option =& $this->m_cache->get_option();
+		$heading = __('Exec-PHP Screw Up Warning.', ExecPhp_PLUGIN_ID);
+		$text = __('Saving this post will screw up all contained PHP code and will render it permanently unuseful. Ignore this warning in case this article does not or will not make use of PHP code. Read the Exec-PHP documentation if you are unsure what to do next.', ExecPhp_PLUGIN_ID);
+		$this->print_user_message($heading, $text);
+	}
+
 	// ---------------------------------------------------------------------------
 	// tools
 	// ---------------------------------------------------------------------------
@@ -154,7 +168,18 @@ class ExecPhp_ConfigUi
 ?>
 	<script type="text/javascript">
 		//<![CDATA[
-		ExecPhp_setMessage('<?php echo $heading; ?>', '<?php echo $text; ?>');
+		ExecPhp_setMessage('adminmenu', '<?php echo $heading; ?>', '<?php echo $text; ?>');
+		//]]>
+	</script>
+<?php
+	}
+
+	function print_user_message($heading, $text)
+	{
+?>
+	<script type="text/javascript">
+		//<![CDATA[
+		ExecPhp_setMessage('submenu', '<?php echo $heading; ?>', '<?php echo $text; ?>');
 		//]]>
 	</script>
 <?php
@@ -179,6 +204,17 @@ class ExecPhp_ConfigUi
 				</script>
 			</fieldset>
 <?php
+	}
+
+	function rtfm()
+	{
+		// check whether the article author has read the documentation
+		$has_unfiltered_cap = current_user_can(ExecPhp_CAPABILITY_WRITE_ARTICLES);
+		if (!$has_unfiltered_cap)
+			return true;
+		if (user_can_richedit())
+			return true;
+		return false;
 	}
 
 	// ---------------------------------------------------------------------------
