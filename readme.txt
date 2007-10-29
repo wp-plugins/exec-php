@@ -20,7 +20,7 @@ Features:
 * Information about which user is allowed to execute PHP with the current settings
 * You can write PHP code in familiar syntax, eg. `<?php ... ?>`
 * You can restrict execution of PHP code in posts and pages to certain users by using roles and capabilities
-* You will be notified through the 'Plugins' menu of WordPress if a new version of the Exec-PHP is available
+* Update notifications through the 'Plugins' menu in WordPress if a new version of the Exec-PHP is available
 * Internationalization support
 * Exec-PHP comes with documentation
 
