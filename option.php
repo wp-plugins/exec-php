@@ -9,9 +9,10 @@ define('ExecPhp_OPTION_IGNORE_OLD_STYLE_WARNING', 'exec-php_ignore_old_style_war
 
 // -----------------------------------------------------------------------------
 // the ExecPhp_Option class handles the loading and storing of the
-// plugin option including all needed conversion routines during upgrade
+// plugin options including all needed conversion routines during upgrade
 // -----------------------------------------------------------------------------
 
+if (!class_exists('ExecPhp_Option')) :
 class ExecPhp_Option
 {
 	var $m_status = ExecPhp_STATUS_UNINITIALIZED;
@@ -49,13 +50,25 @@ class ExecPhp_Option
 				delete_option(ExecPhp_OPTION_HAS_OLD_STYLE);
 				delete_option(ExecPhp_OPTION_IGNORE_OLD_STYLE_WARNING);
 
-				// install capabilities only at the first installation
-				$this->install_capability();
+				// be sure standard roles are available, these may be deleted or
+				// renamed by the blog administrator
+				$role = get_role('administrator');
+				if ($role !== NULL)
+					$role->add_cap(ExecPhp_CAPABILITY_EXECUTE_ARTICLES);
 				$old_version = '4.0';
 			}
 			else if ($old_version == '4.0')
 			{
 				$old_version = '4.1';
+			}
+			else if ($old_version == '4.1')
+			{
+				// be sure standard roles are available, these may be deleted or
+				// renamed by the blog administrator
+				$role = get_role('administrator');
+				if ($role !== NULL)
+					$role->add_cap(ExecPhp_CAPABILITY_EDIT_OTHERS_PHP);
+				$old_version = '4.2';
 			}
 			else
 			{
@@ -108,15 +121,6 @@ class ExecPhp_Option
 		return $version;
 	}
 
-	function install_capability()
-	{
-		// be sure standard roles are available, these may be deleted or
-		// renamed by the blog administrator
-		$role = get_role('administrator');
-		if ($role !== NULL)
-			$role->add_cap(ExecPhp_CAPABILITY_EXECUTE_ARTICLES);
-	}
-
 	// ---------------------------------------------------------------------------
 	// access
 	// ---------------------------------------------------------------------------
@@ -142,5 +146,6 @@ class ExecPhp_Option
 		return $this->m_widget_support;
 	}
 }
+endif;
 
 ?>

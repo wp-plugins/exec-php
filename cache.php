@@ -6,6 +6,7 @@ require_once(dirname(__FILE__).'/option.php');
 // the ExecPhp_Cache serves as a cache for the option
 // -----------------------------------------------------------------------------
 
+if (!class_exists('ExecPhp_Cache')) :
 class ExecPhp_Cache
 {
 	var $m_option = NULL;
@@ -31,5 +32,6 @@ class ExecPhp_Cache
 		return $this->m_option;
 	}
 }
+endif;
 
 ?>

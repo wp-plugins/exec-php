@@ -1,24 +1,29 @@
 <?php
 
+require_once(dirname(__FILE__).'/admin_ui.php');
 require_once(dirname(__FILE__).'/ajax.php');
 require_once(dirname(__FILE__).'/cache.php');
 require_once(dirname(__FILE__).'/config_ui.php');
 require_once(dirname(__FILE__).'/const.php');
 require_once(dirname(__FILE__).'/option.php');
 require_once(dirname(__FILE__).'/runtime.php');
+require_once(dirname(__FILE__).'/write_ui.php');
 
 // -----------------------------------------------------------------------------
 // the ExecPhp_Manager class handles the plugin initialization phase,
 // assuring the infrastructure is set up properly
 // -----------------------------------------------------------------------------
 
+if (!class_exists('ExecPhp_Manager')) :
 class ExecPhp_Manager
 {
 	var $m_status = ExecPhp_STATUS_UNINITIALIZED;
 	var $m_cache = NULL;
-	var $m_runtime = NULL;
-	var $m_config_ui = NULL;
 	var $m_ajax = NULL;
+	var $m_runtime = NULL;
+	var $m_admin_ui = NULL;
+	var $m_write_ui = NULL;
+	var $m_config_ui = NULL;
 
 	// ---------------------------------------------------------------------------
 	// init
@@ -35,15 +40,22 @@ class ExecPhp_Manager
 		add_filter('init', array(&$this, 'filter_init'));
 	}
 
+	// ---------------------------------------------------------------------------
+	// filter
+	// ---------------------------------------------------------------------------
+
 	function filter_init()
 	{
 		$this->m_cache =& new ExecPhp_Cache();
 		$option =& $this->m_cache->get_option();
 		$this->m_status = $option->get_status();
-		$this->m_runtime =& new ExecPhp_Runtime($this->m_cache, $this->m_status);
-		$this->m_config_ui =& new ExecPhp_ConfigUi($this->m_cache, $this->m_status);
-		$this->m_ajax =& new ExecPhP_Ajax();
+		$this->m_ajax =& new ExecPhP_Ajax($this->m_cache);
+		$this->m_runtime =& new ExecPhp_Runtime($this->m_cache);
+		$this->m_admin_ui =& new ExecPHP_AdminUi($this->m_cache, $this->m_status);
+		$this->m_write_ui =& new ExecPhp_WriteUi($this->m_cache, $this->m_admin_ui);
+		$this->m_config_ui =& new ExecPhp_ConfigUi($this->m_cache, $this->m_admin_ui);
 	}
 }
+endif;
 
 ?>

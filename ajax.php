@@ -1,37 +1,58 @@
 <?php
 
-define('ExecPhp_AJAX_ACTION_USERS_OF_CAPABILITY', 'users_of_capability');
-define('ExecPhp_AJAX_POST_CAPABILITY', 'capability');
+require_once(dirname(__FILE__).'/const.php');
 
 // -----------------------------------------------------------------------------
 // the ExecPhp_Ajax class handles the AJAX communication incoming from the
-// ConfigUi for requesting which users are allowed to execute PHP in widgets
+// AdminUi for requesting which users are allowed to execute PHP in widgets
 // and articles
 // -----------------------------------------------------------------------------
 
+if (!class_exists('ExecPhp_Ajax')) :
 class ExecPhp_Ajax
 {
+	var $m_cache;
+
 	// ---------------------------------------------------------------------------
 	// init
 	// ---------------------------------------------------------------------------
 
-	function ExecPhp_Ajax()
+	function ExecPhp_Ajax(&$cache)
 	{
-		add_filter('wp_ajax_'. ExecPhp_AJAX_ACTION_USERS_OF_CAPABILITY,
-			array(&$this, 'filter_ajax_users_for_capability'));
+		$this->m_cache = $cache;
+		add_filter('wp_ajax_'. ExecPhp_ACTION_REQUEST_USERS,
+			array(&$this, 'filter_ajax_request_user'));
+	}
+
+	// ---------------------------------------------------------------------------
+	// filter
+	// ---------------------------------------------------------------------------
+
+	function filter_ajax_request_user()
+	{
+		if (!current_user_can(ExecPhp_CAPABILITY_EDIT_PLUGINS)
+			&& !current_user_can(ExecPhp_CAPABILITY_EDIT_USERS))
+			die('-1');
+		die($this->handle_request());
 	}
 
 	// ---------------------------------------------------------------------------
 	// query
 	// ---------------------------------------------------------------------------
 
-	function filter_ajax_users_for_capability()
+	function adjust_reply($js_var, $output)
 	{
-		if (!current_user_can(ExecPhp_CAPABILITY_MANAGE))
-			die('-1');
 
-		$capability = attribute_escape(stripslashes($_POST[ExecPhp_AJAX_POST_CAPABILITY]));
+		if (empty($output))
+			$output = '<p>'. __('No user matching the query.', ExecPhp_PLUGIN_ID). '</p>';
+		else
+			$output = "<ul>{$output}</ul>";
+		$output = "$js_var = '$output'; ";
+		return $output;
+	}
 
+	function handle_request()
+	{
 		global $wpdb;
 		$query = "SELECT ID AS user_id FROM {$wpdb->users} ORDER BY display_name";
 		$wpdb->query($query);
@@ -39,22 +60,35 @@ class ExecPhp_Ajax
 		if (!is_array($s))
 			$s = array();
 
-		$output = '';
+		$option =& $this->m_cache->get_option();
+		$widget_support = $option->get_widget_support();
+
+		$output_edit_others_php = '';
+		$output_switch_themes = '';
+		$output_exec_php = '';
 		foreach ($s as $i)
 		{
-			$u =& new WP_User($i->user_id);
-			if ($u->has_cap($capability))
-			{
-				$display_name = $u->data->display_name;
-				$output .= "<li>{$display_name}</li>";
-			}
+			$user =& new WP_User($i->user_id);
+			$has_switch_themes = $user->has_cap(ExecPhp_CAPABILITY_EXECUTE_WIDGETS);
+			$has_exec_php = $user->has_cap(ExecPhp_CAPABILITY_EXECUTE_ARTICLES);
+			$has_edit_others_posts = $user->has_cap(ExecPhp_CAPABILITY_EDIT_OTHERS_POSTS);
+			$has_edit_others_pages = $user->has_cap(ExecPhp_CAPABILITY_EDIT_OTHERS_PAGES);
+			$has_edit_others_php = $user->has_cap(ExecPhp_CAPABILITY_EDIT_OTHERS_PHP);
+
+			if (($has_edit_others_posts || $has_edit_others_pages)
+				&& $has_edit_others_php && ! $has_exec_php)
+				$output_edit_others_php .= "<li>{$user->data->display_name}</li>";
+			if ($has_switch_themes && $widget_support)
+				$output_switch_themes .= "<li>{$user->data->display_name}</li>";
+			if ($has_exec_php)
+				$output_exec_php .= "<li>{$user->data->display_name}</li>";
 		}
-		if (empty($output))
-			$output = '<p>'. __('No user has this capability assigned to.', ExecPhp_PLUGIN_ID). '</p>';
-		else
-			$output = "<ul>{$output}</ul>";
-		die("$output");
+		$output_edit_others_php = $this->adjust_reply('edit_others_php', $output_edit_others_php);
+		$output_switch_themes = $this->adjust_reply('switch_themes', $output_switch_themes);
+		$output_exec_php = $this->adjust_reply('exec_php', $output_exec_php);
+		return $output_edit_others_php. $output_switch_themes. $output_exec_php;
 	}
 }
+endif;
 
 ?>
