@@ -42,3 +42,8 @@ For support and further information about the Exec-PHP plugin and support see th
 = Where do I get support or the latest documentation =
 
 For support and further information about the Exec-PHP plugin see the plugins homepage at [http://bluesome.net/post/2005/08/18/50/](http://bluesome.net/post/2005/08/18/50/ "Link to Exec-PHPs homepage").
+
+== Screenshots ==
+
+1. The plugin option menu
+2. An Exec-PHP warning in the 'Write' dialog
