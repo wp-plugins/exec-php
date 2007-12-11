@@ -26,30 +26,30 @@ class ExecPhp_WriteUi
 	{
 		$this->m_cache = $cache;
 		$this->m_admin_ui = $admin_ui;
-		add_filter('edit_form_advanced', array(&$this, 'filter_edit_form_advanced'));
-		add_filter('sidebar_admin_page', array(&$this, 'filter_sidebar_admin_page'));
+		add_action('edit_form_advanced', array(&$this, 'action_edit_form_advanced'));
+		add_action('sidebar_admin_page', array(&$this, 'action_sidebar_admin_page'));
 	}
 
 	// ---------------------------------------------------------------------------
-	// filter
+	// hooks
 	// ---------------------------------------------------------------------------
 
-	function filter_edit_form_advanced()
+	function action_edit_form_advanced()
 	{
 		if ($this->rtfm_article())
 		{
-			$heading = __('Exec-PHP Conversion Warning.', ExecPhp_PLUGIN_ID);
-			$text = sprintf(__('Saving this article will render all contained PHP code permanently unuseful. Ignore this warning in case this article does not contain PHP code. <a href="%s">Read the Exec-PHP documentation if you are unsure what to do next</a>.', ExecPhp_PLUGIN_ID)
+			$heading = __('Exec-PHP WYSIWYG Conversion Warning.', ExecPhp_PLUGIN_ID);
+			$text = sprintf(__('Saving this article will render all contained PHP code permanently unuseful. Even if you are saving this article through the Code editor. You can turn off this warning in your user profile. Ignore this warning in case this article does not contain PHP code. <a href="%s">Read the Exec-PHP documentation if you are unsure what to do next</a>.', ExecPhp_PLUGIN_ID)
 				, get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/readme.html#execute_php');
 			$this->m_admin_ui->print_user_message($heading, $text);
 		}
 	}
 
-	function filter_sidebar_admin_page()
+	function action_sidebar_admin_page()
 	{
 		if ($this->rtfm_widget())
 		{
-			$heading = __('Exec-PHP Conversion Warning.', ExecPhp_PLUGIN_ID);
+			$heading = __('Exec-PHP Widget Conversion Warning.', ExecPhp_PLUGIN_ID);
 			$text = sprintf(__('Saving the widgets will render all contained PHP code permanently unuseful. Ignore this warning in case the text widgets do not contain PHP code. <a href="%s">Read the Exec-PHP documentation if you are unsure what to do next</a>.', ExecPhp_PLUGIN_ID)
 				, get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/readme.html#execute_php');
 			$this->m_admin_ui->print_user_message($heading, $text);
@@ -66,6 +66,12 @@ class ExecPhp_WriteUi
 		global $post;
 
 		$current_user = wp_get_current_user();
+
+		// the user turned off the wysiwyg warning in its preferences
+		$usermeta =& $this->m_cache->get_usermeta($current_user->ID);
+		if ($usermeta->hide_wysiwyg_warning())
+			return false;
+
 		if (!isset($post->author) || $post->post_author == $current_user->ID)
 		{
 			// the editor is equal to the writer of the article

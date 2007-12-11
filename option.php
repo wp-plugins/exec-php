@@ -70,6 +70,10 @@ class ExecPhp_Option
 					$role->add_cap(ExecPhp_CAPABILITY_EDIT_OTHERS_PHP);
 				$old_version = '4.2';
 			}
+			else if ($old_version == '4.2')
+			{
+				$old_version = '4.3';
+			}
 			else
 			{
 				// very bad; programming error or system is messed up
@@ -96,8 +100,6 @@ class ExecPhp_Option
 
 	function load()
 	{
-		global $wp_version;
-
 		$option = get_option(ExecPhp_PLUGIN_ID);
 
 		// introduced in 4.0

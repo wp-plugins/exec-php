@@ -20,15 +20,15 @@ class ExecPhp_Ajax
 	function ExecPhp_Ajax(&$cache)
 	{
 		$this->m_cache = $cache;
-		add_filter('wp_ajax_'. ExecPhp_ACTION_REQUEST_USERS,
-			array(&$this, 'filter_ajax_request_user'));
+		add_action('wp_ajax_'. ExecPhp_ACTION_REQUEST_USERS,
+			array(&$this, 'action_ajax_request_user'));
 	}
 
 	// ---------------------------------------------------------------------------
-	// filter
+	// hooks
 	// ---------------------------------------------------------------------------
 
-	function filter_ajax_request_user()
+	function action_ajax_request_user()
 	{
 		if (!current_user_can(ExecPhp_CAPABILITY_EDIT_PLUGINS)
 			&& !current_user_can(ExecPhp_CAPABILITY_EDIT_USERS))
@@ -43,9 +43,7 @@ class ExecPhp_Ajax
 	function adjust_reply($js_var, $output)
 	{
 
-		if (empty($output))
-			$output = '<p>'. __('No user matching the query.', ExecPhp_PLUGIN_ID). '</p>';
-		else
+		if (!empty($output))
 			$output = "<ul>{$output}</ul>";
 		$output = "$js_var = '$output'; ";
 		return $output;

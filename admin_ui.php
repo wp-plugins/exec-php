@@ -13,6 +13,8 @@ require_once(dirname(__FILE__).'/const.php');
 if (!class_exists('ExecPhp_AdminUi')) :
 class ExecPhp_AdminUi
 {
+	var $m_cache;
+
 	// ---------------------------------------------------------------------------
 	// init
 	// ---------------------------------------------------------------------------
@@ -20,18 +22,19 @@ class ExecPhp_AdminUi
 	function ExecPhp_AdminUi(&$cache, $status)
 	{
 		$this->m_cache = $cache;
-		$this->toggle_filter($status);
-		add_filter('admin_head', array(&$this, 'filter_admin_head'));
-		add_filter('admin_footer', array(&$this, 'filter_admin_footer'));
+		$this->toggle_action($status);
+		add_action('admin_head', array(&$this, 'action_admin_head'));
+		add_action('admin_footer', array(&$this, 'action_admin_footer'));
 	}
 
 	// ---------------------------------------------------------------------------
-	// filter
+	// hooks
 	// ---------------------------------------------------------------------------
 
-	function filter_admin_head()
+	function action_admin_head()
 	{
-		wp_print_scripts(array('sack'));
+		if (function_exists('wp_print_scripts'))
+			wp_print_scripts(array('sack'));
 ?>
 	<script type="text/javascript">
 		//<![CDATA[
@@ -71,23 +74,29 @@ class ExecPhp_AdminUi
 			var switch_themes;
 			var exec_php;
 			var container;
-			var security_hole = false;
+			var security_hole = true;
 
 			eval(ajax.response);
 
 			container = document.getElementById("<?php echo ExecPhp_ID_INFO_EXECUTE_ARTICLES; ?>");
 			try {
+				if (!exec_php.length)
+					exec_php = "<p><?php _e('No user matching the query.', ExecPhp_PLUGIN_ID); ?></p>";
 				container.innerHTML = exec_php;
 			} catch (e) {;}
 
 			container = document.getElementById("<?php echo ExecPhp_ID_INFO_WIDGETS; ?>");
 			try {
+				if (!switch_themes.length)
+					switch_themes = "<p><?php _e('No user matching the query.', ExecPhp_PLUGIN_ID); ?></p>";
 				container.innerHTML = switch_themes;
 			} catch (e) {;}
 
-			if (edit_others_php.substr(0, 4) == "<ul>")
-				security_hole = true;
-
+			if (!edit_others_php.length)
+			{
+				edit_others_php = "<p><?php _e('No user matching the query.', ExecPhp_PLUGIN_ID); ?></p>";
+				security_hole = false;
+			}
 			container = document.getElementById("<?php echo ExecPhp_ID_INFO_SECURITY_HOLE; ?>");
 			try {
 				container.innerHTML = edit_others_php;
@@ -144,7 +153,7 @@ class ExecPhp_AdminUi
 		}
 	}
 
-	function filter_admin_footer()
+	function action_admin_footer()
 	{
 		if (current_user_can(ExecPhp_CAPABILITY_EDIT_PLUGINS)
 			|| current_user_can(ExecPhp_CAPABILITY_EDIT_USERS))
@@ -159,7 +168,7 @@ class ExecPhp_AdminUi
 		}
 	}
 
-	function filter_admin_footer_plugin_version()
+	function action_admin_footer_plugin_version()
 	{
 		$option =& $this->m_cache->get_option();
 		$heading = __('Exec-PHP Error.', ExecPhp_PLUGIN_ID);
@@ -168,7 +177,7 @@ class ExecPhp_AdminUi
 		$this->print_admin_message($heading, $text);
 	}
 
-	function filter_admin_footer_unknown()
+	function action_admin_footer_unknown()
 	{
 		$option =& $this->m_cache->get_option();
 		$heading = __('Exec-PHP Error.', ExecPhp_PLUGIN_ID);
@@ -177,18 +186,18 @@ class ExecPhp_AdminUi
 		$this->print_admin_message($heading, $text);
 	}
 
-	function toggle_filter($status)
+	function toggle_action($status)
 	{
 		if ($status == ExecPhp_STATUS_PLUGIN_VERSION_MISMATCH)
-			add_filter('admin_footer', array(&$this, 'filter_admin_footer_plugin_version'));
+			add_action('admin_footer', array(&$this, 'action_admin_footer_plugin_version'));
 		else
-			remove_filter('admin_footer', array(&$this, 'filter_admin_footer_plugin_version'));
+			remove_action('admin_footer', array(&$this, 'action_admin_footer_plugin_version'));
 
 		if ($status != ExecPhp_STATUS_OKAY
 			&& $status != ExecPhp_STATUS_PLUGIN_VERSION_MISMATCH)
-			add_filter('admin_footer', array(&$this, 'filter_admin_footer_unknown'));
+			add_action('admin_footer', array(&$this, 'action_admin_footer_unknown'));
 		else
-			remove_filter('admin_footer', array(&$this, 'filter_admin_footer_unknown'));
+			remove_action('admin_footer', array(&$this, 'action_admin_footer_unknown'));
 	}
 
 	// ---------------------------------------------------------------------------

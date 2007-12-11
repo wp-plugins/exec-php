@@ -2,9 +2,9 @@
 Contributors: McShelby
 Donate link: http://bluesome.net/post/2005/08/18/50/
 Tags: code, exec, execute, eval, php, run
-Requires at least: 2.2
+Requires at least: 2.0
 Tested up to: 2.3.1
-Stable tag: 4.2
+Stable tag: 4.3
 
 The Exec-PHP plugin executes PHP code in posts, pages and text widgets.
 
@@ -14,16 +14,16 @@ The Exec-PHP plugin executes PHP code in posts, pages and text widgets.
 
 Features:
 
-* Exec-PHP can execute PHP code in the excerpt and the content portion of your posts and pages
-* Exec-PHP works in your newsfeeds
-* Configurable execution of PHP code in text widgets
-* Information about which user is allowed to execute PHP with the current security settings
-* User warnings for inappropriate blog and user settings
-* You can write PHP code in familiar syntax, eg. `<?php ... ?>`
-* You can restrict execution of PHP code in posts and pages to certain users by using roles and capabilities
-* Update notifications through the 'Plugins' menu in WordPress if a new version of the Exec-PHP is available
+* Executes PHP code in the excerpt and the content portion of your posts and pages
+* Works in your newsfeeds
+* Configurable execution of PHP code in text widgets (for WordPress 2.2 or higher)
+* Information about which user is allowed to execute PHP with the current security settings (for WordPress 2.1 or higher)
+* Configurable user warnings for inappropriate blog and user settings (for WordPress 2.1 or higher)
+* Write PHP code in familiar syntax, eg. `<?php ... ?>`
+* Restrict execution of PHP code in posts and pages to certain users by using roles and capabilities
+* Update notifications through the 'Plugins' menu in WordPress if a new version of the Exec-PHP is available (for WordPress 2.3 or higher)
 * Internationalization support
-* Exec-PHP comes with documentation
+* Comes with documentation
 
 For support and further information about the Exec-PHP plugin see the plugins homepage at [http://bluesome.net/post/2005/08/18/50/](http://bluesome.net/post/2005/08/18/50/ "Link to Exec-PHPs homepage").
 
@@ -46,4 +46,5 @@ For support and further information about the Exec-PHP plugin see the plugins ho
 == Screenshots ==
 
 1. The plugin option menu
-2. An Exec-PHP warning in the 'Write' dialog
+2. An Exec-PHP warning in the 'Write' menu
+3. Exec-PHP warning configuration in the 'Profile' menu

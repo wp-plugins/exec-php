@@ -13,10 +13,10 @@
 <p>The Exec-PHP plugin executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets.</p>
 
 <h3>Make it quick. Where can I download it?</h3>
-<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.2 here!</a></p>
+<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.3 here!</a></p>
 
 <h3>Why is there so much text below?</h3>
-<p>Because I hate cool plugins that are badly documented. Even the smallest piece of code needs some documentation. The following text is pretty exhaustive. Feel free to skip the sections you are not interested in. If you have a question about the plugin please first make sure you refer to the latest version of the plugin and the question is not answered on this page or in the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments of the plugin homepage</a>. Then - and only then - <a href="http://bluesome.net/post/2005/08/18/50/#response-50">post your question here</a>.</p><!--more-->
+<p>Because I hate cool plugins that are badly documented. Even the smallest piece of code needs some documentation. The following text is pretty exhaustive. Feel free to skip the sections you are not interested in. If you have a question about the plugin please first make sure you refer to the latest version of the plugin and the question is not answered on this page or in the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments section of the plugin homepage</a>. Then - and only then - <a href="http://bluesome.net/post/2005/08/18/50/#response-50">post your question here</a>.</p><!--more-->
 
 <h3 id="toc">Table of content</h3>
 <ol>
@@ -53,13 +53,14 @@
 		<ol>
 			<li><a href="#execute_php">Executing PHP code</a></li>
 			<li><a href="#configuration">Configuration</a></li>
+			<li><a href="#misconfiguration">Misconfiguration</a></li>
 			<li><a href="#basic_test">Basic test</a></li>
 			<li><a href="#tag_balancing">WordPress' XHTML tag balancing</a></li>
 			<li><a href="#wysiwyg_editor">Writing PHP code with the WYSIWYG editor</a></li>
 			<li><a href="#allow_writing">Allowing PHP code to be written in articles</a></li>
 			<li><a href="#allow_execution">Allowing PHP code execution in articles</a></li>
 			<li><a href="#allow_widget">Allowing PHP code in text widgets</a></li>
-			<li><a href="#configuration">Overview of tasks and their required WordPress configuration</a></li>
+			<li><a href="#wp_configuration">Overview of tasks and their required WordPress configuration</a></li>
 			<li><a href="#security">A word about security</a></li>
 			<li><a href="#security_holes">Security holes</a></li>
 		</ol>
@@ -72,11 +73,12 @@
 			<li><a href="#tests">Tests to assert plugins functionality</a></li>
 			<li><a href="#faq">FAQ - Frequently asked questions</a>
 				<ol>
+					<li><a href="#brokentag">Why does WordPress mess' up my <code>&lt;?php ?&gt;</code> tags after saving the post?</a></li>
+					<li><a href="#evalerror">Why does the plugin fail with an <code>eval()</code> error when executing my code?</a></li>
+					<li><a href="#printcode">How can I just print out PHP code and don't execute it?</a></li>
 					<li><a href="#wordpressmu">Does the plugin works with WordPress MU?</a></li>
 					<li><a href="#globals">Why does my included PHP file causes parsing errors?</a></li>
 					<li><a href="#already_defined">Why does my newsfeed spits out parsing errors?</a></li>
-					<li><a href="#brokentag">Why does WordPress mess' up my <code>&lt;?php ?&gt;</code> tags after saving the post?</a></li>
-					<li><a href="#printcode">How can I just print out PHP code and don't execute it?</a></li>
 				</ol>
 			</li>
 		</ol>
@@ -98,6 +100,7 @@
 					<li><a href="#version_4_0">Version 4.0 (2007-10-25)</a></li>
 					<li><a href="#version_4_1">Version 4.1 (2007-10-27)</a></li>
 					<li><a href="#version_4_2">Version 4.2 (2007-11-03)</a></li>
+					<li><a href="#version_4_3">Version 4.3 (2007-12-11)</a></li>
 				</ol>
 			</li>
 			<li><a href="#roadmap">Roadmap</a></li>
@@ -112,16 +115,16 @@
 
 <h4 id="features">Features</h4>
 <ul>
-	<li><a href="#execute_php">Exec-PHP can execute PHP code in the excerpt and the content portion of your posts and pages</a></li>
-	<li><a href="#execute_php">Exec-PHP works in your newsfeeds</a></li>
-	<li><a href="#allow_widget">Configurable execution of PHP code in text widgets</a></li>
-	<li><a href="#allow_widget">Information about which user is allowed to execute PHP with the current security settings</a></li>
-	<li><a href="#execute_php">User warnings for inappropriate blog and user settings</a></li>
-	<li><a href="#basic_test">You can write PHP code in familiar syntax, e.g. <code>&lt;?php ... ?&gt;</code></a></li>
-	<li><a href="#configuration">You can restrict execution of PHP code in posts and pages to certain users by using roles and capabilities</a></li>
-	<li><a href="http://wordpress.org/extend/plugins/exec-php/">Update notifications through the 'Plugins' menu in WordPress if a new version of the Exec-PHP is available</a></li>
+	<li><a href="#execute_php">Executes PHP code in the excerpt and the content portion of your posts and pages</a></li>
+	<li><a href="#execute_php">Works in your newsfeeds</a></li>
+	<li><a href="#allow_widget">Configurable execution of PHP code in text widgets (for WordPress 2.2 or higher)</a></li>
+	<li><a href="#allow_widget">Information about which user is allowed to execute PHP with the current security settings (for WordPress 2.1 or higher)</a></li>
+	<li><a href="#execute_php">Configurable user warnings for inappropriate blog and user settings (for WordPress 2.1 or higher)</a></li>
+	<li><a href="#basic_test">Write PHP code in familiar syntax, e.g. <code>&lt;?php ... ?&gt;</code></a></li>
+	<li><a href="#wp_configuration">Restrict execution of PHP code in posts and pages to certain users by using roles and capabilities</a></li>
+	<li><a href="http://wordpress.org/extend/plugins/exec-php/">Update notifications through the 'Plugins' menu in WordPress if a new version of the Exec-PHP is available (for WordPress 2.3 or higher)</a></li>
 	<li><a href="#translation">Internationalization support</a></li>
-	<li><a href="#toc">Exec-PHP comes with documentation</a></li>
+	<li><a href="#toc">Comes with documentation</a></li>
 </ul>
 
 <h4 id="concepts">Concepts of Exec-PHP</h4>
@@ -153,7 +156,7 @@
 <h4 id="requirements">Requirements</h4>
 <p>You need the following software to be installed on your webserver in order to run the Exec-PHP plugin:</p>
 <ul>
-	<li><a href="http://WordPress.org">A running installation of WordPress 2.2 or higher</a></li>
+	<li><a href="http://WordPress.org">A running installation of WordPress 2.0 or higher</a></li>
 	<li><a href="http://bluesome.net/data/2005/08/exec-php.zip">The Exec-PHP plugin</a> ;-)</li>
 	<li><a href="http://im-web-gefunden.de/wordpress-plugins/role-manager/">Optional: The Role Manager plugin by Thomas Schneider</a></li>
 </ul>
@@ -202,13 +205,18 @@
 	<li><a href="#allow_writing">Assign the 'unfiltered_html' capability to the user</a></li>
 	<li><a href="#allow_execution">Assign the 'exec_php' capability to the user</a></li>
 </ul>
-<p>If the blog or user settings are not appropriate ot write PHP code, you will get a warning on the 'Write' dialog or 'Widgets' dialog respectivly.</p>
-<p><a href="../screenshot-2-full.png"><img src="../screenshot-2.png" alt="An Exec-PHP warning in the 'Write' dialog" /></a></p>
 
 <h4 id="configuration">Configuration</h4>
-<p>The plugin comes with its own option menu that is accessible through 'Options / Exec-PHP'. The option menu is only accessible for users that do have the 'edit_plugins' capability. This is usually only assigned to the Blog Administrator.</p>
+<p>The plugin comes with its own option menu that is accessible through 'Options / Exec-PHP'. The option menu is only accessible for users that do have the 'edit_plugins' capability. This is usually only assigned to the Blog Administrator. If you have disabled Javascript or you are running Exec-PHP with WordPress 2.0.x you will not see or only see parts of the Plugin Option menu.</p>
 <p>The option menu is divided into two parts, the option section and the information section. In the option section you can <a href="#allow_widget">adjust the plugin's behavior</a> to your needs while the information section <a href="#security_holes">shows which users are allowed to execute PHP code</a> in different scenarios.</p>
 <p><a href="../screenshot-1-full.png"><img src="../screenshot-1.png" alt="The plugin option menu" /></a></p>
+
+<h4 id="misconfiguration">Misconfiguration</h4>
+<p>If the blog or user settings are not appropriate to write PHP code, you will get a warning on the 'Write' dialog or 'Widgets' menu respectivly.</p>
+<p><a href="../screenshot-2-full.png"><img src="../screenshot-2.png" alt="An Exec-PHP warning in the 'Write' menu" /></a></p>
+<p>The WYSIWYG Convesion Warning can be turned off through the user 'Profile' menu. Nevertheless, this is not the recommended way, because this can cause you to accidently render PHP code in articles permanently unuseful.</p>
+<p><a href="../screenshot-3-full.png"><img src="../screenshot-3.png" alt="Exec-PHP warning configuration in the 'Profile' menu" /></a></p>
+<p>If you have disabled Javascript or you are running Exec-PHP with WordPress 2.0.x you will not receive any warnings if your blog or user settings are not configured appropriately to run Exec-PHP.</p>
 
 <h4 id="basic_test">Basic test</h4>
 <p>For validating, that the plugin works properly, log in as Administrator, <a href="#execute_php">apply the settings listed above</a>, create a new article and write the following text:</p>
@@ -220,7 +228,7 @@
 <p>Depending on your PHP code it may be necessary to turn off WordPress' built in XHTML tag balancing if the code is written in the content of an article. This can be done through the option 'WordPress should correct invalidly nested XHTML automatically' on the 'Options / Write' menu in WordPress. If in question, better turn this option off.</p>
 
 <h4 id="wysiwyg_editor">Writing PHP code with the WYSIWYG editor</h4>
-<p>To successfully write PHP code in the content of an article, the WYSIWYG editor needs to be turned off through the 'Users / Your Profile' menu. If you still are in need of writing PHP code with the TinyMCE WYSIWYG editor, you may want to experiment with <a href="http://tinymce.moxiecode.com/punbb/viewtopic.php?id=3646">some TinyMCE plugins that may allow to write PHP code</a>. Such experiments are outside of the scope of this plugin. From my point of view there is a general requirements conflict when you are in need of writing PHP code with any kind of WYSIWYG editor. Therefore it is not planned to natively support writing PHP code in the WYSIWYG editor for any upcoming release of the Exec-PHP plugin.</p>
+<p>To successfully write PHP code in the content of an article, the WYSIWYG editor needs to be turned off through the 'Users / Your Profile' menu. It is not enough to simply keep the WYSIWYG editor on, switch to the 'Code' tab of the editor in the 'Write' menu and save the article. This will render all contained PHP code permanently unuseful. If you still are in need of writing PHP code with the TinyMCE WYSIWYG editor, you may want to experiment with <a href="http://tinymce.moxiecode.com/punbb/viewtopic.php?id=3646">some TinyMCE plugins that may allow to write PHP code</a>. Such experiments are outside of the scope of this plugin. From my point of view there is a general requirements conflict when you are in need of writing PHP code with any kind of WYSIWYG editor. Therefore it is not planned to natively support writing PHP code in the WYSIWYG editor for any upcoming release of the Exec-PHP plugin.</p>
 
 <h4 id="allow_writing">Allowing PHP code to be written in articles</h4>
 <p>Before executing PHP code, the user needs to write it first. ;-) A user may experience problems in writing PHP code in the content of an article, because in the way that WordPress will rewrite the code (and therefore will break it for later execution) during saving the article. This is because the user also needs the 'unfiltered_html' capability assigned to.</p>
@@ -233,7 +241,7 @@
 <h4 id="allow_widget">Allowing PHP code in text widgets</h4>
 <p>By default execution of PHP code in widgets is activated. Any user who has the 'switch_themes' capability can write and execute PHP code in text widgets. Because this may be a security issue, you may want to disable PHP code execution in widgets through the plugin option menu.</p>
 
-<h4 id="configuration">Overview of tasks and their required WordPress configuration</h4>
+<h4 id="wp_configuration">Overview of tasks and their required WordPress configuration</h4>
 <p>The following matrix shows which settings need to be applied to perform specific tasks with the plugin:</p>
 <table>
 <tr><td style="text-align:center;"><strong>Task</strong></td><td style="text-align:center;"><strong><a href="#tag_balancing">Disable tag balancing</a></strong></td><td style="text-align:center;"><strong><a href="#wysiwyg_editor">Disable WYSIWYG</a></strong></td><td style="text-align:center;"><strong><a href="#allow_execution">Assign 'exec_php' cap</a></strong></td><td style="text-align:center;"><strong><a href="#allow_writing">Assign 'unfiltered_html' cap</a></strong></td><td style="text-align:center;"><strong><a href="#allow_widget">Assign 'switch_themes' cap</a></strong></td></tr>
@@ -308,6 +316,15 @@ echo "\n\thandling\"";
 
 <h4 id="faq">FAQ - Frequently asked questions</h4>
 
+<h5 id="brokentag">Why does WordPress mess' up my <code>&lt;?php ?&gt;</code> tags after saving the post?</h5>
+<p><a href="http://en.wikipedia.org/wiki/Rtfm">RTFM</a>. <a href="#execute_php">Read this</a>.</p>
+
+<h5 id="evalerror">Why does the plugin fail with an <code>eval()</code> error when executing my code?</h5>
+<p>If you experience a PHP error message like <code>'Some error in /home/minime/htdocs/blog/wp-content/plugins/exec-php/runtime.php(41) : eval()’d code on line 4'</code> then it's time to repair your PHP code. If you are unsure where your code breaks, first run it in a separate file to punch out all bugs and afterwards copy the code into your article or widget. To reduce the noise in the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments section of the plugin homepage</a> I will delete all entries refering to this topic.</p>
+
+<h5 id="printcode">How can I just print out PHP code and don't execute it?</h5>
+<p>If you just want to print out code and don't want to execute it, e.g. like it is done here on this page, you have to make sure to convert your code to the correct XHTML representation. To do so you have to escape your whole code or at least change your tags from <code>&lt;?php ?&gt;</code> to <code>&amp;lt;?php ?&amp;gt;</code>. You can do this conversion in a semi automated fashion by using the <a href="http://www.village-idiot.org/archives/2006/04/09/wp-simplecode/">WP-Simplecode</a> plugin.</p>
+
 <h5 id="wordpressmu">Does the plugin works with WordPress MU?</h5>
 <p>WordPress is not WordPress MU. The plugin was designed for WordPress. If you want to provide a patch to let this work with WordPress MU, I will be happy to incooperate it in the official plugin release.</p>
 
@@ -354,12 +371,6 @@ function hello()
 }
 ?&gt;</code></pre>
 <p>Please note that <code>require_once()</code> is using a fully qualified path. This is mandatory because depending on the context of the viewer a relative path would point to different locations e.g. for viewing your main blog page, viewing a single post, viewing the newsfeed, etc.</p>
-
-<h5 id="brokentag">Why does WordPress mess' up my <code>&lt;?php ?&gt;</code> tags after saving the post?</h5>
-<p><a href="http://en.wikipedia.org/wiki/Rtfm">RTFM</a>. <a href="#execute_php">Read this</a>.</p>
-
-<h5 id="printcode">How can I just print out PHP code and don't execute it?</h5>
-<p>If you just want to print out code and don't want to execute it, e.g. like it is done here on this page, you have to make sure to convert your code to the correct XHTML representation. To do so you have to escape your whole code or at least change your tags from <code>&lt;?php ?&gt;</code> to <code>&amp;lt;?php ?&amp;gt;</code>. You can do this conversion in a semi automated fashion by using the <a href="http://www.village-idiot.org/archives/2006/04/09/wp-simplecode/">WP-Simplecode</a> plugin.</p>
 
 <h3 id="past_present_future">Past, present and future</h3>
 
@@ -455,12 +466,22 @@ function hello()
 
 <h5 id="version_4_2">Version 4.2 (2007-11-03)</h5>
 <ul>
-	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a> (english and german translation)</li>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php_4.2.zip">Plugin</a> (english and german translation)</li>
 	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">French translation</a></li>
 	<li>Requirements: WordPress 2.2 or higher</li>
 	<li>Change: Remodeling the 'Information' section of the plugin option menu</li>
 	<li>Feature: Showing security alarms in the 'Information' section of the plugin option menu</li>
 	<li>Feature: A warning will be printed on the 'Write' and the 'Widgets dialog in case blog or user settings will screw up written PHP code during saving the article or widgets</li>
+</ul>
+
+<h5 id="version_4_3">Version 4.3 (2007-12-11)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a> (english and german translation)</li>
+	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">French translation</a></li>
+	<li>Requirements: WordPress 2.0 or higher</li>
+	<li>Bugfix: Requirements lowered to WordPress 2.0 or higher</li>
+	<li>Bugfix: Delay loading of text translations to support language switching plugins</li>
+	<li>Feature: The WYSIWYG Conversion Warning can now be turned off through the Profile menu of the user</li>
 </ul>
 
 <h4 id="roadmap">Roadmap</h4>
