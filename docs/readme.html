@@ -13,7 +13,7 @@
 <p>The Exec-PHP plugin executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets.</p>
 
 <h3>Make it quick. Where can I download it?</h3>
-<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.3 here!</a></p>
+<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.4 here!</a></p>
 
 <h3>Why is there so much text below?</h3>
 <p>Because I hate cool plugins that are badly documented. Even the smallest piece of code needs some documentation. The following text is pretty exhaustive. Feel free to skip the sections you are not interested in. If you have a question about the plugin please first make sure you refer to the latest version of the plugin and the question is not answered on this page or in the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments section of the plugin homepage</a>. Then - and only then - <a href="http://bluesome.net/post/2005/08/18/50/#response-50">post your question here</a>.</p><!--more-->
@@ -101,6 +101,7 @@
 					<li><a href="#version_4_1">Version 4.1 (2007-10-27)</a></li>
 					<li><a href="#version_4_2">Version 4.2 (2007-11-03)</a></li>
 					<li><a href="#version_4_3">Version 4.3 (2007-12-11)</a></li>
+					<li><a href="#version_4_4">Version 4.4 (2008-01-29)</a></li>
 				</ol>
 			</li>
 			<li><a href="#roadmap">Roadmap</a></li>
@@ -209,13 +210,13 @@
 <h4 id="configuration">Configuration</h4>
 <p>The plugin comes with its own option menu that is accessible through 'Options / Exec-PHP'. The option menu is only accessible for users that do have the 'edit_plugins' capability. This is usually only assigned to the Blog Administrator. If you have disabled Javascript or you are running Exec-PHP with WordPress 2.0.x you will not see or only see parts of the Plugin Option menu.</p>
 <p>The option menu is divided into two parts, the option section and the information section. In the option section you can <a href="#allow_widget">adjust the plugin's behavior</a> to your needs while the information section <a href="#security_holes">shows which users are allowed to execute PHP code</a> in different scenarios.</p>
-<p><a href="../screenshot-1-full.png"><img src="../screenshot-1.png" alt="The plugin option menu" /></a></p>
+<p><a href="../docs/screenshot-1-full.png"><img src="../screenshot-1.png" alt="The plugin option menu" /></a></p>
 
 <h4 id="misconfiguration">Misconfiguration</h4>
 <p>If the blog or user settings are not appropriate to write PHP code, you will get a warning on the 'Write' dialog or 'Widgets' menu respectivly.</p>
-<p><a href="../screenshot-2-full.png"><img src="../screenshot-2.png" alt="An Exec-PHP warning in the 'Write' menu" /></a></p>
+<p><a href="../docs/screenshot-2-full.png"><img src="../screenshot-2.png" alt="An Exec-PHP warning in the 'Write' menu" /></a></p>
 <p>The WYSIWYG Convesion Warning can be turned off through the user 'Profile' menu. Nevertheless, this is not the recommended way, because this can cause you to accidently render PHP code in articles permanently unuseful.</p>
-<p><a href="../screenshot-3-full.png"><img src="../screenshot-3.png" alt="Exec-PHP warning configuration in the 'Profile' menu" /></a></p>
+<p><a href="../docs/screenshot-3-full.png"><img src="../screenshot-3.png" alt="Exec-PHP warning configuration in the 'Profile' menu" /></a></p>
 <p>If you have disabled Javascript or you are running Exec-PHP with WordPress 2.0.x you will not receive any warnings if your blog or user settings are not configured appropriately to run Exec-PHP.</p>
 
 <h4 id="basic_test">Basic test</h4>
@@ -476,12 +477,21 @@ function hello()
 
 <h5 id="version_4_3">Version 4.3 (2007-12-11)</h5>
 <ul>
-	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a> (english and german translation)</li>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php_4.3.zip">Plugin</a> (english and german translation)</li>
 	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">French translation</a></li>
 	<li>Requirements: WordPress 2.0 or higher</li>
 	<li>Bugfix: Requirements lowered to WordPress 2.0 or higher</li>
 	<li>Bugfix: Delay loading of text translations to support language switching plugins</li>
 	<li>Feature: The WYSIWYG Conversion Warning can now be turned off through the Profile menu of the user</li>
+</ul>
+
+<h5 id="version_4_4">Version 4.4 (2008-01-29)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a> (english and german translation)</li>
+	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">French translation</a></li>
+	<li>Requirements: WordPress 2.0 or higher</li>
+	<li>Bugfix: Incompatibilites with WP-Shopping-Cart because of Javascript global variable clash</li>
+	<li>Change: New directory structure</li>
 </ul>
 
 <h4 id="roadmap">Roadmap</h4>

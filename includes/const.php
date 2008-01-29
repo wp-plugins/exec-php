@@ -1,6 +1,6 @@
 <?php
 
-define('ExecPhp_VERSION', '4.3');
+define('ExecPhp_VERSION', '4.4');
 define('ExecPhp_PLUGIN_ID', 'exec-php');
 define('ExecPhp_DIR', 'wp-content/plugins/exec-php');
 
