@@ -66,7 +66,7 @@ class ExecPhp_AdminUi
 ?>
 	<script type="text/javascript">
 		//<![CDATA[
-		var ajax = new sack("<?php bloginfo('wpurl'); ?>/wp-admin/admin-ajax.php");
+		var g_execphp_ajax = new sack("<?php bloginfo('wpurl'); ?>/wp-admin/admin-ajax.php");
 
 		function ExecPhp_ajaxCompletion()
 		{
@@ -76,7 +76,7 @@ class ExecPhp_AdminUi
 			var container;
 			var security_hole = true;
 
-			eval(ajax.response);
+			eval(g_execphp_ajax.response);
 
 			container = document.getElementById("<?php echo ExecPhp_ID_INFO_EXECUTE_ARTICLES; ?>");
 			try {
@@ -119,11 +119,11 @@ class ExecPhp_AdminUi
 
 		function ExecPhp_getUsersOfCapability()
 		{
-			ajax.setVar("cookie", document.cookie);
-			ajax.setVar("action", "<?php echo ExecPhp_ACTION_REQUEST_USERS; ?>");
-			ajax.onError = function() {alert('<?php _e("AJAX HTTP error", ExecPhp_PLUGIN_ID); ?>')};
-			ajax.onCompletion = ExecPhp_ajaxCompletion;
-			ajax.runAJAX();
+			g_execphp_ajax.setVar("cookie", document.cookie);
+			g_execphp_ajax.setVar("action", "<?php echo ExecPhp_ACTION_REQUEST_USERS; ?>");
+			g_execphp_ajax.onError = function() {alert('<?php _e("Exec-PHP AJAX HTTP error", ExecPhp_PLUGIN_ID); ?>')};
+			g_execphp_ajax.onCompletion = ExecPhp_ajaxCompletion;
+			g_execphp_ajax.runAJAX();
 		}
 		//]]>
 	</script>
