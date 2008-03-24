@@ -30,28 +30,12 @@ class ExecPhp_Ajax
 
 	function action_ajax_request_user()
 	{
+		global $wpdb;
+
 		if (!current_user_can(ExecPhp_CAPABILITY_EDIT_PLUGINS)
 			&& !current_user_can(ExecPhp_CAPABILITY_EDIT_USERS))
 			die('-1');
-		die($this->handle_request());
-	}
 
-	// ---------------------------------------------------------------------------
-	// query
-	// ---------------------------------------------------------------------------
-
-	function adjust_reply($js_var, $output)
-	{
-
-		if (!empty($output))
-			$output = "<ul>{$output}</ul>";
-		$output = "$js_var = '$output'; ";
-		return $output;
-	}
-
-	function handle_request()
-	{
-		global $wpdb;
 		$query = "SELECT ID AS user_id FROM {$wpdb->users} ORDER BY display_name";
 		$wpdb->query($query);
 		$s = $wpdb->get_results($query);
@@ -84,7 +68,20 @@ class ExecPhp_Ajax
 		$output_edit_others_php = $this->adjust_reply('edit_others_php', $output_edit_others_php);
 		$output_switch_themes = $this->adjust_reply('switch_themes', $output_switch_themes);
 		$output_exec_php = $this->adjust_reply('exec_php', $output_exec_php);
-		return $output_edit_others_php. $output_switch_themes. $output_exec_php;
+		die($output_edit_others_php. $output_switch_themes. $output_exec_php);
+	}
+
+	// ---------------------------------------------------------------------------
+	// tools
+	// ---------------------------------------------------------------------------
+
+	function adjust_reply($js_var, $output)
+	{
+
+		if (!empty($output))
+			$output = "<ul>{$output}</ul>";
+		$output = "$js_var = '$output'; ";
+		return $output;
 	}
 }
 endif;

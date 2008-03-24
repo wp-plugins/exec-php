@@ -1,10 +1,9 @@
 === Plugin Name ===
 Contributors: McShelby
-Donate link: http://bluesome.net/post/2005/08/18/50/
 Tags: code, exec, execute, eval, php, run
 Requires at least: 2.0
-Tested up to: 2.3.2
-Stable tag: 4.4
+Tested up to: 2.5
+Stable tag: 4.5
 
 The Exec-PHP plugin executes PHP code in posts, pages and text widgets.
 
