@@ -13,9 +13,8 @@ define('ExecPhp_META_WYSIWYG_WARNING', 'execphp_wysiwyg_warning');
 if (!class_exists('ExecPhp_UserMeta')) :
 class ExecPhp_UserMeta
 {
-	var $m_user_id;
-
-	var $m_hide_wysiwyg_warning;
+	var $m_user_id = -1;
+	var $m_hide_wysiwyg_warning = false;
 
 	// ---------------------------------------------------------------------------
 	// init

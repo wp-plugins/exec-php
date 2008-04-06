@@ -13,8 +13,6 @@ require_once(dirname(__FILE__).'/runtime.php');
 if (!class_exists('ExecPhp_Manager')) :
 class ExecPhp_Manager
 {
-	var $m_status = ExecPhp_STATUS_UNINITIALIZED;
-	var $m_cache = NULL;
 	var $m_runtime = NULL;
 	var $m_admin = NULL;
 
@@ -33,11 +31,9 @@ class ExecPhp_Manager
 
 	function action_init()
 	{
-		$this->m_cache =& new ExecPhp_Cache();
-		$option =& $this->m_cache->get_option();
-		$this->m_status = $option->get_status();
-		$this->m_runtime =& new ExecPhp_Runtime($this->m_cache);
-		$this->m_admin =& new ExecPHP_Admin($this->m_cache, $this->m_status);
+		$cache =& new ExecPhp_Cache();
+		$this->m_runtime =& new ExecPhp_Runtime($cache);
+		$this->m_admin =& new ExecPHP_Admin($cache);
 	}
 }
 endif;

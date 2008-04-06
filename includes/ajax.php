@@ -11,7 +11,7 @@ require_once(dirname(__FILE__).'/const.php');
 if (!class_exists('ExecPhp_Ajax')) :
 class ExecPhp_Ajax
 {
-	var $m_cache;
+	var $m_cache = NULL;
 
 	// ---------------------------------------------------------------------------
 	// init

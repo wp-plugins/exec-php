@@ -19,7 +19,7 @@ require_once(dirname(__FILE__).'/write_ui.php');
 if (!class_exists('ExecPhp_Admin')) :
 class ExecPhp_Admin
 {
-	var $m_cache;
+	var $m_cache = NULL;
 	var $m_ajax = NULL;
 	var $m_write_ui = NULL;
 	var $m_user_ui = NULL;
@@ -29,7 +29,7 @@ class ExecPhp_Admin
 	// init
 	// ---------------------------------------------------------------------------
 
-	function ExecPhp_Admin(&$cache, $status)
+	function ExecPhp_Admin(&$cache)
 	{
 		global $wp_version;
 
@@ -47,7 +47,7 @@ class ExecPhp_Admin
 
 		$this->m_write_ui =& new ExecPhp_WriteUi($this->m_cache);
 		$this->m_user_ui =& new ExecPhp_UserUi($this->m_cache);
-		$this->m_config_ui =& new ExecPhp_ConfigUi($this->m_cache, $status);
+		$this->m_config_ui =& new ExecPhp_ConfigUi($this->m_cache);
 
 		add_action('admin_head', array(&$this, 'action_admin_head'));
 		add_action('admin_notices', array(&$this, 'action_admin_notices'), 5);
@@ -89,6 +89,9 @@ class ExecPhp_Admin
 	<script type="text/javascript">
 		//<![CDATA[
 		var g_execphp_ajax = new sack("<?php bloginfo('wpurl'); ?>/wp-admin/admin-ajax.php");
+		var g_execphp_error_message = "";
+		var g_execphp_retries = 0;
+		var g_execphp_max_retries = 3;
 
 		function ExecPhp_fillContainer(container_id, text)
 		{
@@ -99,7 +102,7 @@ class ExecPhp_Admin
 
 		function ExecPhp_markContainer(container_id)
 		{
-			var container = document.getElementById(container_id + '-container');
+			var container = document.getElementById(container_id + "-container");
 			try {container.style.backgroundColor = "red";}
 			catch (e) {;}
 
@@ -134,19 +137,30 @@ class ExecPhp_Admin
 
 		function ExecPhp_ajaxError()
 		{
-			var error_message = '<p><?php _es("Exec-PHP AJAX HTTP error ", ExecPhp_PLUGIN_ID); ?>'
-				+ g_execphp_ajax.responseStatus[0] + ' ' + g_execphp_ajax.responseStatus[1]
-				+ '<?php _es(" when receiving data from ", ExecPhp_PLUGIN_ID); ?></p>'
-				+ g_execphp_ajax.requestFile + "?" + g_execphp_ajax.setVar("action");
+			g_execphp_error_message += "<br />"
+				+ g_execphp_ajax.responseStatus[0] + " " + g_execphp_ajax.responseStatus[1];
 
-			ExecPhp_markContainer("<?php echo ExecPhp_ID_INFO_EXECUTE_ARTICLES; ?>");
-			ExecPhp_fillContainer("<?php echo ExecPhp_ID_INFO_EXECUTE_ARTICLES; ?>", error_message);
+			if (g_execphp_retries < g_execphp_max_retries)
+			{
+				// retry call; sometimes it seems that the AJAX admin script returns 404
+				++g_execphp_retries;
+				g_execphp_ajax.runAJAX();
+			}
+			else
+			{
+				// finally give up after certain amount of retries
+				var error_message = "<p><?php _es("Exec-PHP AJAX HTTP error when receiving data from ", ExecPhp_PLUGIN_ID); ?>"
+					+ g_execphp_ajax.requestFile + ": " + g_execphp_error_message;
 
-			ExecPhp_markContainer("<?php echo ExecPhp_ID_INFO_WIDGETS; ?>");
-			ExecPhp_fillContainer("<?php echo ExecPhp_ID_INFO_WIDGETS; ?>", error_message);
+				ExecPhp_markContainer("<?php echo ExecPhp_ID_INFO_EXECUTE_ARTICLES; ?>");
+				ExecPhp_fillContainer("<?php echo ExecPhp_ID_INFO_EXECUTE_ARTICLES; ?>", error_message);
 
-			ExecPhp_markContainer("<?php echo ExecPhp_ID_INFO_SECURITY_HOLE; ?>");
-			ExecPhp_fillContainer("<?php echo ExecPhp_ID_INFO_SECURITY_HOLE; ?>", error_message);
+				ExecPhp_markContainer("<?php echo ExecPhp_ID_INFO_WIDGETS; ?>");
+				ExecPhp_fillContainer("<?php echo ExecPhp_ID_INFO_WIDGETS; ?>", error_message);
+
+				ExecPhp_markContainer("<?php echo ExecPhp_ID_INFO_SECURITY_HOLE; ?>");
+				ExecPhp_fillContainer("<?php echo ExecPhp_ID_INFO_SECURITY_HOLE; ?>", error_message);
+			}
 		}
 
 		function ExecPhp_getUsersOfCapability()
@@ -161,6 +175,7 @@ class ExecPhp_Admin
 	</script>
 
 	<style type="text/css">
+		/* <![CDATA[ */
 		#<?php echo ExecPhp_ID_INFO_SECURITY_HOLE; ?> li,
 		#<?php echo ExecPhp_ID_INFO_WIDGETS; ?> li,
 		#<?php echo ExecPhp_ID_INFO_EXECUTE_ARTICLES; ?> li {
@@ -197,6 +212,7 @@ class ExecPhp_Admin
 			}
 ?>
 
+		/* ]]> */
 	</style>
 <?php
 		}

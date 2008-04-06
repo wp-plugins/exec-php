@@ -15,19 +15,20 @@ require_once(dirname(__FILE__).'/l10n.php');
 if (!class_exists('ExecPhp_ConfigUi')) :
 class ExecPhp_ConfigUi
 {
-	var $m_cache;
+	var $m_cache = NULL;
 
 	// ---------------------------------------------------------------------------
 	// init
 	// ---------------------------------------------------------------------------
 
 	// Sets up the Exec-Php config menu
-	function ExecPhp_ConfigUi(&$cache, $status)
+	function ExecPhp_ConfigUi(&$cache)
 	{
 		$this->m_cache = $cache;
 
+		$option =& $this->m_cache->get_option();
+		$this->toggle_action($option->get_status());
 		add_action('admin_menu', array(&$this, 'action_admin_menu'));
-		$this->toggle_action($status);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -104,10 +105,11 @@ class ExecPhp_ConfigUi
 						<td>
 							<label for="<?php echo ExecPhp_POST_WIDGET_SUPPORT; ?>">
 								<?php echo $introduction; ?>
-								<div id="<?php echo $display_id; ?>">
+
+								<span id="<?php echo $display_id; ?>">
 									<?php _es('The list can not be displayed because you may have disabled Javascript or your browser does not support Javascript.', ExecPhp_PLUGIN_ID); ?>
 
-								</div>
+								</span>
 								<script type="text/javascript">
 									//<![CDATA[
 									document.getElementById('<?php echo $display_id; ?>').innerHTML =
@@ -163,7 +165,7 @@ class ExecPhp_ConfigUi
 			</fieldset>
 
 			<p class="submit">
-				<input type="submit" name="<?php echo ExecPhp_ACTION_UPDATE_OPTIONS; ?>" value="<?php _es('Save Changes') ?>" />
+				<input type="submit" name="<?php echo ExecPhp_ACTION_UPDATE_OPTIONS; ?>" value="<?php _es('Save Changes', ExecPhp_PLUGIN_ID) ?>" />
 			</p>
 		</form>
 

@@ -19,7 +19,7 @@ class ExecPhp_Option
 	var $m_version = ExecPhp_VERSION;
 
 	// default option values will be set during load()
-	var $m_widget_support;
+	var $m_widget_support = true;
 
 	// ---------------------------------------------------------------------------
 	// init
@@ -58,9 +58,7 @@ class ExecPhp_Option
 				$old_version = '4.0';
 			}
 			else if ($old_version == '4.0')
-			{
 				$old_version = '4.1';
-			}
 			else if ($old_version == '4.1')
 			{
 				// be sure standard roles are available, these may be deleted or
@@ -71,17 +69,13 @@ class ExecPhp_Option
 				$old_version = '4.2';
 			}
 			else if ($old_version == '4.2')
-			{
 				$old_version = '4.3';
-			}
 			else if ($old_version == '4.3')
-			{
 				$old_version = '4.4';
-			}
 			else if ($old_version == '4.4')
-			{
 				$old_version = '4.5';
-			}
+			else if ($old_version == '4.5')
+				$old_version = '4.6';
 			else
 			{
 				// very bad; programming error or system is messed up

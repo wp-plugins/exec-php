@@ -15,7 +15,7 @@ require_once(dirname(__FILE__).'/l10n.php');
 if (!class_exists('ExecPhp_WriteUi')) :
 class ExecPhp_WriteUi
 {
-	var $m_cache;
+	var $m_cache = NULL;
 
 	// ---------------------------------------------------------------------------
 	// init

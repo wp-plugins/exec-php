@@ -13,7 +13,7 @@
 <p>The Exec-PHP plugin executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets.</p>
 
 <h3>Make it quick. Where can I download it?</h3>
-<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.5 here!</a></p>
+<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.6 here!</a></p>
 
 <h3>Why is there so much text below?</h3>
 <p>Because I hate cool plugins that are badly documented. Even the smallest piece of code needs some documentation. The following text is pretty exhaustive. Feel free to skip the sections you are not interested in. If you have a question about the plugin please first make sure you refer to the latest version of the plugin and the question is not answered on this page or in the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments section of the plugin homepage</a>. Then - and only then - <a href="http://bluesome.net/post/2005/08/18/50/#response-50">post your question here</a>.</p><!--more-->
@@ -89,6 +89,7 @@
 			<li><a href="#new_versions">New versions</a></li>
 			<li><a href="#history">History of older versions</a>
 				<ol>
+					<li><a href="#version_4_6">Version 4.6 (2008-04-06)</a></li>
 					<li><a href="#version_4_5">Version 4.5 (2008-03-24)</a></li>
 					<li><a href="#version_4_4">Version 4.4 (2008-01-29)</a></li>
 					<li><a href="#version_4_3">Version 4.3 (2007-12-11)</a></li>
@@ -119,11 +120,11 @@
 <h4 id="features">Features</h4>
 <ul>
 	<li><a href="#execute_php">Executes PHP code in the excerpt and the content portion of your posts and pages</a></li>
+	<li><a href="#basic_test">Write PHP code in familiar syntax, e.g. <code>&lt;?php ... ?&gt;</code></a></li>
 	<li><a href="#execute_php">Works in your newsfeeds</a></li>
 	<li><a href="#allow_widget">Configurable execution of PHP code in text widgets (for WordPress 2.2 or higher)</a></li>
-	<li><a href="#allow_widget">Information about which user is allowed to execute PHP with the current security settings (for WordPress 2.1 or higher)</a></li>
+	<li><a href="#configuration">Information about which user is allowed to execute PHP with the current security settings (for WordPress 2.1 or higher)</a></li>
 	<li><a href="#execute_php">Configurable user warnings for inappropriate blog and user settings (for WordPress 2.1 or higher)</a></li>
-	<li><a href="#basic_test">Write PHP code in familiar syntax, e.g. <code>&lt;?php ... ?&gt;</code></a></li>
 	<li><a href="#wp_configuration">Restrict execution of PHP code in posts and pages to certain users by using roles and capabilities</a></li>
 	<li><a href="http://wordpress.org/extend/plugins/exec-php/">Update notifications through the 'Plugins' menu in WordPress if a new version of the Exec-PHP is available (for WordPress 2.3 or higher)</a></li>
 	<li><a href="#translation">Internationalization support</a></li>
@@ -195,6 +196,7 @@
 	<li>German (ships with the Exec-PHP plugin archive)</li>
 	<li><a href="http://liseweb.fr/BLOG/?page_id=160">French</a> (thanks to <a href="http://liseweb.fr/">Lise</a>)</li>
 	<li><a href="http://dimox.name/exec-php-russian-translation/">Russian</a> (thanks to <a href="http://dimox.name/">Dimox</a>)</li>
+	<li><a href="http://dcabai.blogspot.com/2008/04/exec-php-en-espaol.html">Spanish</a> (thanks to <a href="http://www.cabai.com.ar/">Diego</a>)</li>
 </ul>
 <p>If you like to see Exec-PHP in your language, get the Exec-PHP archive and use a tool like <a href="http://www.poedit.net/">poedit</a> to translate the <code>languages/exec-php.pot</code> file. Write a comment at the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments of the plugin homepage</a> and you will be mentioned in the credits.</p>
 
@@ -232,7 +234,9 @@
 <p>Depending on your PHP code it may be necessary to turn off WordPress' built in XHTML tag balancing if the code is written in the content of an article. This can be done through the setting 'WordPress should correct invalidly nested XHTML automatically' on the 'Settings &gt; Write' menu in WordPress. If in question, better turn this option off. An alternative to turning this option off may be to install the <a href="http://wp.uberdose.com/2006/10/15/mime-type-plugin/">Mime Type Plugin</a> and use the mime type <code>text/html</code> individually on each article that contains PHP.</p>
 
 <h4 id="wysiwyg_editor">Writing PHP code with the WYSIWYG editor</h4>
-<p>To successfully write PHP code in the content of an article, the WYSIWYG editor needs to be turned off through the 'Users &gt; Your Profile' menu. It is not enough to simply keep the WYSIWYG editor on, switch to the 'Code' tab of the editor in the 'Write' menu and save the article. This will render all contained PHP code permanently unuseful. If you still are in need of writing PHP code with the TinyMCE WYSIWYG editor, you may want to experiment with <a href="http://tinymce.moxiecode.com/punbb/viewtopic.php?id=3646">some TinyMCE plugins that may allow to write PHP code</a>. Such experiments are outside of the scope of this plugin. From my point of view there is a general requirements conflict when you are in need of writing PHP code with any kind of WYSIWYG editor. Therefore it is not planned to natively support writing PHP code in the WYSIWYG editor for any upcoming release of the Exec-PHP plugin.</p>
+<p>To successfully write PHP code in the content of an article, the WYSIWYG editor needs to be turned off through the 'Users &gt; Your Profile' menu. It is not enough to simply keep the WYSIWYG editor on, switch to the 'Code' tab of the editor in the 'Write' menu and save the article. This will render all contained PHP code permanently unuseful.</p>
+<p>Instead of turining off the WYSIWYG editor in your user profile you can temporarily disable it for certain articles by using the <a href="http://wordpress.org/extend/plugins/deactive-visual-editor/">Deactivate Visual Editor</a> plugin. I haven't tested it but it sounds like a reasonable solution for you guys that like to use the WYSIWYG editor.</p>
+<p>If you still are in need of writing PHP code with the TinyMCE WYSIWYG editor, you may want to experiment with <a href="http://tinymce.moxiecode.com/punbb/viewtopic.php?id=3646">some TinyMCE plugins that may allow to write PHP code</a>. Such experiments are outside of the scope of this plugin. From my point of view there is a general requirements conflict when you are in need of writing PHP code with any kind of WYSIWYG editor. Therefore it is not planned to natively support writing PHP code in the WYSIWYG editor for any upcoming release of the Exec-PHP plugin.</p>
 
 <h4 id="allow_writing">Allowing PHP code to be written in articles</h4>
 <p>Before executing PHP code, the user needs to write it first. ;-) A user may experience problems in writing PHP code in the content of an article, because in the way that WordPress will rewrite the code (and therefore will break it for later execution) during saving the article. This is because the user also needs the 'unfiltered_html' capability assigned to.</p>
@@ -260,7 +264,7 @@
 <p>If a user wants to write PHP code inside of a text widget, he only needs the 'unfiltered_html' capability. The execution of PHP code inside of widgets is not restricted by any capability. This means that every user of your blog who can write widgets - which is restricted by the 'switch_themes' capability - can execute PHP code.</p>
 
 <h4 id="security">A word about security</h4>
-<p>By using this plugin a user can use the full PHP API and WordPress API. There are no restrictions to execute only certain subsets of functionality. Allowing your users to write and execute PHP code will expose your WordPress installation in specific and your server installation in general. By that a user can easily take over your blog, your server or the whole internt (just kidding about the last one). If in doubt, don't allow a user to execute PHP code. This can be easily <a href="#allow_execution">adjusted on a per user base</a>.</p>
+<p>By using this plugin a user can use the full PHP API and WordPress API. There are no restrictions to execute only certain subsets of functionality. Allowing your users to write and execute PHP code will expose your WordPress installation in specific and your server installation in general. By that a user can easily take over your blog, your server or the whole internet (just kidding about the last one). If in doubt, don't allow a user to execute PHP code. This can be easily <a href="#allow_execution">adjusted on a per user base</a>.</p>
 
 <h4 id="security_holes">Security holes</h4>
 <p>Depending on your configuration, you may receive a security alert that will point you to <a href="#configuration">the 'Security hole' Information section of the plugin configuration menu</a>. This is because you have users defined in your blog (typically called Editors), that are allowed to edit others users articles. If the Editor is not allowed to execute PHP code but the user that the Editor is allowed to edit its articles, then the Editor can add malicious PHP code in this users article.</p>
@@ -387,11 +391,23 @@ hello();
 
 <h4 id="history">History of older versions</h4>
 
-<h5 id="version_4_5">Version 4.5 (2008-03-24)</h5>
+<h5 id="version_4_6">Version 4.6 (2008-04-06)</h5>
 <ul>
 	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a> (english and german translation)</li>
 	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">French translation</a></li>
 	<li>Download: <a href="http://dimox.name/exec-php-russian-translation/">Russian translation</a></li>
+	<li>Download: <a href="http://dcabai.blogspot.com/2008/04/exec-php-en-espaol.html">Spanish translation</a></li>
+	<li>Requirements: WordPress 2.0 or higher</li>
+	<li>Feature: In case of AJAX error retry call at most three more times</li>
+	<li>Bugfix: Making Exec-PHP configuration menu valid XHTML</li>
+</ul>
+
+<h5 id="version_4_5">Version 4.5 (2008-03-24)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php_4.5.zip">Plugin</a> (english and german translation)</li>
+	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">French translation</a></li>
+	<li>Download: <a href="http://dimox.name/exec-php-russian-translation/">Russian translation</a></li>
+	<li>Download: <a href="http://dcabai.blogspot.com/2008/04/exec-php-en-espaol.html">Spanish translation</a></li>
 	<li>Requirements: WordPress 2.0 or higher</li>
 	<li>Bugfix: Fixing WordPress 2.1.x compatibility</li>
 	<li>Bugfix: WYSIWYG Conversion Warning now displays correctly for pages, too</li>
@@ -402,7 +418,7 @@ hello();
 
 <h5 id="version_4_4">Version 4.4 (2008-01-29)</h5>
 <ul>
-	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a> (english and german translation)</li>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php_4.4..zip">Plugin</a> (english and german translation)</li>
 	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">French translation</a></li>
 	<li>Download: <a href="http://dimox.name/exec-php-russian-translation/">Russian translation</a></li>
 	<li>Requirements: WordPress 2.0 or higher</li>

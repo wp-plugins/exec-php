@@ -14,7 +14,7 @@ require_once(dirname(__FILE__).'/l10n.php');
 if (!class_exists('ExecPhp_UserUi')) :
 class ExecPhp_UserUi
 {
-	var $m_cache;
+	var $m_cache = NULL;
 
 	// ---------------------------------------------------------------------------
 	// init
