@@ -22,7 +22,7 @@ class ExecPhp_UserUi
 
 	function ExecPhp_UserUi(&$cache)
 	{
-		$this->m_cache = $cache;
+		$this->m_cache =& $cache;
 
 		add_action('show_user_profile', array(&$this, 'action_user_profile'));
 		add_action('edit_user_profile', array(&$this, 'action_user_profile'));

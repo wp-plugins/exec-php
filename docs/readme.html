@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>Bluesome - Exec-PHP plugin for WordPress</title>
 </head>
 <body>
@@ -13,7 +13,7 @@
 <p>The Exec-PHP plugin executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets.</p>
 
 <h3>Make it quick. Where can I download it?</h3>
-<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.6 here!</a></p>
+<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.7 here!</a></p>
 
 <h3>Why is there so much text below?</h3>
 <p>Because I hate cool plugins that are badly documented. Even the smallest piece of code needs some documentation. The following text is pretty exhaustive. Feel free to skip the sections you are not interested in. If you have a question about the plugin please first make sure you refer to the latest version of the plugin and the question is not answered on this page or in the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments section of the plugin homepage</a>. Then - and only then - <a href="http://bluesome.net/post/2005/08/18/50/#response-50">post your question here</a>.</p><!--more-->
@@ -47,6 +47,7 @@
 			<li><a href="#deactivation">Deactivating the plugin</a></li>
 			<li><a href="#uninstall">Uninstalling the plugin</a></li>
 			<li><a href="#translation">Exec-PHP in your language</a></li>
+			<li><a href="#translating">Translating Exec-PHP</a></li>
 		</ol>
 	</li>
 	<li><a href="#usage">Usage</a>
@@ -73,8 +74,8 @@
 			<li><a href="#tests">Tests to assert plugins functionality</a></li>
 			<li><a href="#faq">FAQ - Frequently asked questions</a>
 				<ol>
-					<li><a href="#generallybroken">Why doesn't the Exec-PHP plugin work as described her?</a></li>
-					<li><a href="#brokentag">Why does WordPress mess' up my <code>&lt;?php ?&gt;</code> tags after saving the post?</a></li>
+					<li><a href="#generallybroken">Why doesn't the Exec-PHP plugin work as described here?</a></li>
+					<li><a href="#brokentag">Why does WordPress mess' up my <code>&lt;?php ?&gt;</code> tags after saving the article?</a></li>
 					<li><a href="#evalerror">Why does the plugin fail with an <code>eval()</code> error when executing my code?</a></li>
 					<li><a href="#printcode">How can I just print out PHP code and don't execute it?</a></li>
 					<li><a href="#already_defined">Why does my newsfeed spits out parsing errors?</a></li>
@@ -89,6 +90,7 @@
 			<li><a href="#new_versions">New versions</a></li>
 			<li><a href="#history">History of older versions</a>
 				<ol>
+					<li><a href="#version_4_7">Version 4.7 (not-yet-released)</a></li>
 					<li><a href="#version_4_6">Version 4.6 (2008-04-06)</a></li>
 					<li><a href="#version_4_5">Version 4.5 (2008-03-24)</a></li>
 					<li><a href="#version_4_4">Version 4.4 (2008-01-29)</a></li>
@@ -198,7 +200,9 @@
 	<li><a href="http://dimox.name/exec-php-russian-translation/">Russian</a> (thanks to <a href="http://dimox.name/">Dimox</a>)</li>
 	<li><a href="http://dcabai.blogspot.com/2008/04/exec-php-en-espaol.html">Spanish</a> (thanks to <a href="http://www.cabai.com.ar/">Diego</a>)</li>
 </ul>
-<p>If you like to see Exec-PHP in your language, get the Exec-PHP archive and use a tool like <a href="http://www.poedit.net/">poedit</a> to translate the <code>languages/exec-php.pot</code> file. Write a comment at the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments of the plugin homepage</a> and you will be mentioned in the credits.</p>
+
+<h4 id="translating">Translating Exec-PHP</h4>
+<p>If you like to see Exec-PHP in a language not listed above, get the Exec-PHP archive and use a tool like <a href="http://www.poedit.net/">poedit</a> to translate the <code>languages/exec-php.pot</code> file. If you are a really tough, you can also translate this Readme file. If this is to much, just translate the <code>readme-generic.html</code> file. Afterwards write a comment at the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments of the plugin homepage</a> and you will be mentioned in the credits.</p>
 
 <h3 id="usage">Usage</h3>
 
@@ -215,13 +219,13 @@
 <h4 id="configuration">Configuration</h4>
 <p>The plugin comes with its own configuration menu that is accessible through 'Settings &gt;  Exec-PHP'. The configuration menu is only accessible for users that do have the 'edit_plugins' capability. This is usually only assigned to the Blog Administrator. If you have disabled Javascript or you are running Exec-PHP with WordPress 2.0.x you will not see or only see parts of the plugin configuration menu.</p>
 <p>The configuration menu is divided into two parts, the Settings section and the Information section. In the Settings section you can <a href="#allow_widget">adjust the plugin's behavior</a> to your needs while the Information section <a href="#security_holes">shows which users are allowed to execute PHP code</a> in different scenarios.</p>
-<p><a href="../docs/screenshot-1-full.png"><img src="../screenshot-1.png" alt="The plugin configuration menu" /></a></p>
+<p><a href="../docs/screenshot-1.png"><img src="../docs/screenshot-1.png" alt="The plugin configuration menu" /></a></p>
 
 <h4 id="misconfiguration">Misconfiguration</h4>
 <p>If the blog or user settings are not appropriate to write PHP code, you will get a warning on the 'Write' dialog or 'Widgets' menu respectivly.</p>
-<p><a href="../docs/screenshot-2-full.png"><img src="../screenshot-2.png" alt="An Exec-PHP warning in the 'Write' menu" /></a></p>
+<p><a href="../docs/screenshot-2.png"><img src="../docs/screenshot-2.png" alt="An Exec-PHP warning in the 'Write' menu" /></a></p>
 <p>The WYSIWYG Convesion Warning can be turned off through the user 'Profile' menu. Nevertheless, this is not the recommended way, because this can cause you to accidently render PHP code in articles permanently unuseful.</p>
-<p><a href="../docs/screenshot-3-full.png"><img src="../screenshot-3.png" alt="Exec-PHP warning configuration in the 'Your Profile' menu" /></a></p>
+<p><a href="../docs/screenshot-3.png"><img src="../docs/screenshot-3.png" alt="Exec-PHP warning configuration in the 'Your Profile' menu" /></a></p>
 <p>If you have disabled Javascript or you are running Exec-PHP with WordPress 2.0.x you will not receive any warnings if your blog or user settings are not configured appropriately to run Exec-PHP.</p>
 
 <h4 id="basic_test">Basic test</h4>
@@ -324,14 +328,14 @@ echo "\n\thandling\"";
 
 <h4 id="faq">FAQ - Frequently asked questions</h4>
 
-<h5 id="generallybroken">Why doesn't the Exec-PHP plugin work as described her?</h5>
+<h5 id="generallybroken">Why doesn't the Exec-PHP plugin work as described here?</h5>
 <p>If the plugin does not work as described on this site although you <a href="#execute_php">configured your blog and user settings properly</a> then it is very likely that a different plugin is interfering with Exec-PHPs functionality. To boil things down, deactivate <em>all</em> other plugins beside Exec-PHP and see if the malfunction still happens.</p>
 
-<h5 id="brokentag">Why does WordPress mess' up my <code>&lt;?php ?&gt;</code> tags after saving the post?</h5>
+<h5 id="brokentag">Why does WordPress mess' up my <code>&lt;?php ?&gt;</code> tags after saving the article?</h5>
 <p><a href="http://en.wikipedia.org/wiki/Rtfm">RTFM</a>. <a href="#execute_php">Read this</a>.</p>
 
 <h5 id="evalerror">Why does the plugin fail with an <code>eval()</code> error when executing my code?</h5>
-<p>If you experience a PHP error message like <code>'Some error in /home/minime/htdocs/blog/wp-content/plugins/exec-php/runtime.php(41) : eval()�d code on line 4'</code> then it's time to repair your PHP code. If you are unsure where your code breaks, first run it in a separate file to punch out all bugs and afterwards copy the code into your article or widget. To reduce the noise in the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments section of the plugin homepage</a> I will delete all entries refering to this topic.</p>
+<p>If you experience a PHP error message like <code>'Some error in /home/minime/htdocs/blog/wp-content/plugins/exec-php/runtime.php(41) : eval()â€™d code on line 4'</code> then it's time to repair your PHP code. If you are unsure where your code breaks, first run it in a separate file to punch out all bugs and afterwards copy the code into your article or widget. To reduce the noise in the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments section of the plugin homepage</a> I will delete all entries refering to this topic.</p>
 
 <h5 id="printcode">How can I just print out PHP code and don't execute it?</h5>
 <p>If you just want to print out code and don't want to execute it, e.g. like it is done here on this page, you have to make sure to convert your code to the correct XHTML representation. To do so you have to escape your whole code or at least change your tags from <code>&lt;?php ?&gt;</code> to <code>&amp;lt;?php ?&amp;gt;</code>. You can do this conversion in a semi automated fashion by using the <a href="http://www.village-idiot.org/archives/2006/04/09/wp-simplecode/">WP-Simplecode</a> plugin.</p>
@@ -391,9 +395,22 @@ hello();
 
 <h4 id="history">History of older versions</h4>
 
-<h5 id="version_4_6">Version 4.6 (2008-04-06)</h5>
+<h5 id="version_4_7">Version 4.7 (not yet released)</h5>
 <ul>
 	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a> (english and german translation)</li>
+	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">French translation</a></li>
+	<li>Download: <a href="http://dimox.name/exec-php-russian-translation/">Russian translation</a></li>
+	<li>Download: <a href="http://dcabai.blogspot.com/2008/04/exec-php-en-espaol.html">Spanish translation</a></li>
+	<li>Requirements: WordPress 2.0 or higher</li>
+	<li>Bugfix: For PHP4 the cache instance wasn't a reference, which was a bug but did not cause any known issues</li>
+	<li>Bugfix: Now Javascript works with single quotes for translated text</li>
+	<li>Feature: Increased performance for AJAX call</li>
+	<li>Feature: Better localization support inside of the plugin and the readme</li>
+</ul>
+
+<h5 id="version_4_6">Version 4.6 (2008-04-06)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php_4.6.zip">Plugin</a> (english and german translation)</li>
 	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">French translation</a></li>
 	<li>Download: <a href="http://dimox.name/exec-php-russian-translation/">Russian translation</a></li>
 	<li>Download: <a href="http://dcabai.blogspot.com/2008/04/exec-php-en-espaol.html">Spanish translation</a></li>
@@ -444,7 +461,7 @@ hello();
 	<li>Requirements: WordPress 2.2 or higher</li>
 	<li>Change: Remodeling the Information section of the plugin configuration menu</li>
 	<li>Feature: Showing security alarms in the Information section of the plugin configuration menu</li>
-	<li>Feature: A warning will be printed on the 'Write' and the 'Widgets dialog in case blog or user settings will screw up written PHP code during saving the article or widgets</li>
+	<li>Feature: A warning will be printed on the 'Write' and the 'Widgets' menu in case blog or user settings will screw up written PHP code during saving the article or widgets</li>
 </ul>
 
 <h5 id="version_4_1">Version 4.1 (2007-10-27)</h5>

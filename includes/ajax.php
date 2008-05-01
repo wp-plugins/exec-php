@@ -1,6 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__).'/const.php');
+require_once(dirname(__FILE__).'/l10n.php');
 
 // -----------------------------------------------------------------------------
 // the ExecPhp_Ajax class handles the AJAX communication incoming from the
@@ -19,7 +20,7 @@ class ExecPhp_Ajax
 
 	function ExecPhp_Ajax(&$cache)
 	{
-		$this->m_cache = $cache;
+		$this->m_cache =& $cache;
 		add_action('wp_ajax_'. ExecPhp_ACTION_REQUEST_USERS,
 			array(&$this, 'action_ajax_request_user'));
 	}
@@ -35,6 +36,11 @@ class ExecPhp_Ajax
 		if (!current_user_can(ExecPhp_CAPABILITY_EDIT_PLUGINS)
 			&& !current_user_can(ExecPhp_CAPABILITY_EDIT_USERS))
 			die('-1');
+
+		$feature = explode(',', $_POST['feature']);
+		$wants_edit_others_php = in_array(ExecPhp_REQUEST_FEATURE_SECURITY_HOLE, $feature);
+		$wants_switch_themes = in_array(ExecPhp_REQUEST_FEATURE_WIDGETS, $feature);
+		$wants_exec_php = in_array(ExecPhp_REQUEST_FEATURE_EXECUTE_ARTICLES, $feature);
 
 		$query = "SELECT ID AS user_id FROM {$wpdb->users} ORDER BY display_name";
 		$wpdb->query($query);
@@ -58,11 +64,11 @@ class ExecPhp_Ajax
 			$has_edit_others_php = $user->has_cap(ExecPhp_CAPABILITY_EDIT_OTHERS_PHP);
 
 			if (($has_edit_others_posts || $has_edit_others_pages)
-				&& $has_edit_others_php && ! $has_exec_php)
+				&& $has_edit_others_php && !$has_exec_php && $wants_edit_others_php)
 				$output_edit_others_php .= "<li>{$user->data->display_name}</li>";
-			if ($has_switch_themes && $widget_support)
+			if ($has_switch_themes && $widget_support && $wants_switch_themes)
 				$output_switch_themes .= "<li>{$user->data->display_name}</li>";
-			if ($has_exec_php)
+			if ($has_exec_php && $wants_exec_php)
 				$output_exec_php .= "<li>{$user->data->display_name}</li>";
 		}
 		$output_edit_others_php = $this->adjust_reply('edit_others_php', $output_edit_others_php);
@@ -77,10 +83,8 @@ class ExecPhp_Ajax
 
 	function adjust_reply($js_var, $output)
 	{
-
 		if (!empty($output))
-			$output = "<ul>{$output}</ul>";
-		$output = "$js_var = '$output'; ";
+			$output = "$js_var = \"<ul>". escape_dquote($output). "</ul>\"; ";
 		return $output;
 	}
 }

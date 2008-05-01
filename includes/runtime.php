@@ -20,7 +20,7 @@ class ExecPhp_Runtime
 
 	function ExecPhp_Runtime(&$cache)
 	{
-		$this->m_cache = $cache;
+		$this->m_cache =& $cache;
 
 		add_filter('the_content', array(&$this, 'filter_user_content'), 1);
 		add_filter('the_content_rss', array(&$this, 'filter_user_content'), 1);

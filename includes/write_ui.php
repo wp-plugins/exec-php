@@ -23,7 +23,7 @@ class ExecPhp_WriteUi
 
 	function ExecPhp_WriteUi(&$cache)
 	{
-		$this->m_cache = $cache;
+		$this->m_cache =& $cache;
 
 		add_action('edit_form_advanced', array(&$this, 'action_edit_form'));
 		add_action('edit_page_form', array(&$this, 'action_edit_form'));
@@ -38,9 +38,9 @@ class ExecPhp_WriteUi
 	{
 		if ($this->rtfm_article())
 		{
-			$heading = __s('Exec-PHP WYSIWYG Conversion Warning.', ExecPhp_PLUGIN_ID);
-			$text = __s('Saving this article will render all contained PHP code permanently unuseful. Even if you are saving this article through the Code editor. You can turn off this warning in your user profile. Ignore this warning in case this article does not contain PHP code. <a href="%s">Read the Exec-PHP documentation if you are unsure what to do next</a>.', ExecPhp_PLUGIN_ID
-				, get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/readme.html#execute_php');
+			$heading = escape_dquote(__s('Exec-PHP WYSIWYG Conversion Warning.', ExecPhp_PLUGIN_ID));
+			$text = escape_dquote(__s('Saving this article will render all contained PHP code permanently unuseful. Even if you are saving this article through the Code editor. You can turn off this warning in your user profile. Ignore this warning in case this article does not contain PHP code. <a href="%s">Read the Exec-PHP documentation if you are unsure what to do next</a>.', ExecPhp_PLUGIN_ID
+				, get_l10n_filename(get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/readme.html#execute_php')));
 			$this->print_message($heading, $text);
 		}
 	}
@@ -49,9 +49,9 @@ class ExecPhp_WriteUi
 	{
 		if ($this->rtfm_widget())
 		{
-			$heading = __s('Exec-PHP Widget Conversion Warning.', ExecPhp_PLUGIN_ID);
-			$text = __s('Saving the widgets will render all contained PHP code permanently unuseful. Ignore this warning in case the text widgets do not contain PHP code. <a href="%s">Read the Exec-PHP documentation if you are unsure what to do next</a>.', ExecPhp_PLUGIN_ID
-				, get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/readme.html#execute_php');
+			$heading = escape_dquote(__s('Exec-PHP Widget Conversion Warning.', ExecPhp_PLUGIN_ID));
+			$text = escape_dquote(__s('Saving the widgets will render all contained PHP code permanently unuseful. Ignore this warning in case the text widgets do not contain PHP code. <a href="%s">Read the Exec-PHP documentation if you are unsure what to do next</a>.', ExecPhp_PLUGIN_ID
+				, get_l10n_filename(get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/readme.html#execute_php')));
 			$this->print_message($heading, $text);
 		}
 	}
@@ -114,7 +114,7 @@ class ExecPhp_WriteUi
 ?>
 	<script type="text/javascript">
 		//<![CDATA[
-		ExecPhp_setMessage('<?php echo $heading; ?>', '<?php echo $text; ?>');
+		ExecPhp_setMessage("<?php echo $heading; ?>", "<?php echo $text; ?>");
 		//]]>
 	</script>
 <?php

@@ -24,7 +24,7 @@ class ExecPhp_ConfigUi
 	// Sets up the Exec-Php config menu
 	function ExecPhp_ConfigUi(&$cache)
 	{
-		$this->m_cache = $cache;
+		$this->m_cache =& $cache;
 
 		$option =& $this->m_cache->get_option();
 		$this->toggle_action($option->get_status());
@@ -47,18 +47,18 @@ class ExecPhp_ConfigUi
 	function action_admin_footer_plugin_version()
 	{
 		$option =& $this->m_cache->get_option();
-		$heading = __s('Exec-PHP Error.', ExecPhp_PLUGIN_ID);
-		$text = __s('No necessary upgrade of the the Exec-PHP plugin could be performed. PHP code in your articles or widgets may be viewable to your blog readers. This is plugin version %1$s, previously there was version %2$s installed. Downgrading from a newer version to an older version of the plugin is not supported.', ExecPhp_PLUGIN_ID
-			, ExecPhp_VERSION, $option->get_version());
+		$heading = escape_dquote(__s('Exec-PHP Error.', ExecPhp_PLUGIN_ID));
+		$text = escape_dquote(__s('No necessary upgrade of the the Exec-PHP plugin could be performed. PHP code in your articles or widgets may be viewable to your blog readers. This is plugin version %1$s, previously there was version %2$s installed. Downgrading from a newer version to an older version of the plugin is not supported.', ExecPhp_PLUGIN_ID
+			, ExecPhp_VERSION, $option->get_version()));
 		$this->print_message($heading, $text);
 	}
 
 	function action_admin_footer_unknown()
 	{
 		$option =& $this->m_cache->get_option();
-		$heading = __s('Exec-PHP Error.', ExecPhp_PLUGIN_ID);
-		$text = __s('An unknown error (%s) occured during execution of the Exec-PHP plugin. PHP code in your articles or widgets may be viewable to your blog readers. This error should never happen if you use the plugin with a compatible WordPress version and installed it as described in the documentation.', ExecPhp_PLUGIN_ID
-			, $option->get_status());
+		$heading = escape_dquote(__s('Exec-PHP Error.', ExecPhp_PLUGIN_ID));
+		$text = escape_dquote(__s('An unknown error (%s) occured during execution of the Exec-PHP plugin. PHP code in your articles or widgets may be viewable to your blog readers. This error should never happen if you use the plugin with a compatible WordPress version and installed it as described in the documentation.', ExecPhp_PLUGIN_ID
+			, $option->get_status()));
 		$this->print_message($heading, $text);
 	}
 
@@ -85,7 +85,7 @@ class ExecPhp_ConfigUi
 ?>
 	<script type="text/javascript">
 		//<![CDATA[
-		ExecPhp_setMessage('<?php echo $heading; ?>', '<?php echo $text; ?>');
+		ExecPhp_setMessage("<?php echo $heading; ?>", "<?php echo $text; ?>");
 		//]]>
 	</script>
 <?php
@@ -95,10 +95,10 @@ class ExecPhp_ConfigUi
 	// interface
 	// ---------------------------------------------------------------------------
 
-	function print_request_users($display_id, $title, $introduction)
+	function print_request_users($display_id, $feature, $title, $introduction)
 	{
 ?>
-			<fieldset class="options <?php echo ExecPhp_CLASS_WP_25_STYLE; ?>">
+			<fieldset class="options">
 				<table class="editform optiontable form-table">
 					<tr valign="top" id="<?php echo $display_id; ?>-container" >
 						<th scope="row"><?php echo $title; ?></th>
@@ -112,8 +112,9 @@ class ExecPhp_ConfigUi
 								</span>
 								<script type="text/javascript">
 									//<![CDATA[
-									document.getElementById('<?php echo $display_id; ?>').innerHTML =
-										'<p><img src="<?php echo get_option('siteurl'). '/'. ExecPhp_DIR. '/images/progress.gif'; ?>" alt="<?php _es('An animated icon signaling that this information is still be loaded.', ExecPhp_PLUGIN_ID); ?>" /> <?php _es('Loading user information...', ExecPhp_PLUGIN_ID); ?></p>';
+									document.getElementById("<?php echo $display_id; ?>").innerHTML =
+										"<p><img src=\"<?php echo get_option('siteurl'). '/'. ExecPhp_DIR. '/images/progress.gif'; ?>\" alt=\"<?php _es('An animated icon signaling that this information is still be loaded.', ExecPhp_PLUGIN_ID); ?>\" /> <?php _es('Loading user information...', ExecPhp_PLUGIN_ID); ?></p>";
+									ExecPhp_subscribeForFeature("<?php echo $feature; ?>");
 									//]]>
 								</script>
 							</label>
@@ -144,12 +145,12 @@ class ExecPhp_ConfigUi
 	<div class="wrap">
 <?php if (version_compare($wp_version, '2.2') >= 0 || substr($wp_version, 0, 3) == '2.2') : ?>
 		<h2><?php _es('Exec-PHP Settings', ExecPhp_PLUGIN_ID); ?></h2>
-		<p><?php echo __s('Exec-PHP executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets. See the <a href="%s">local documentation</a> for further information. The latest version of the plugin, documentation and information can be found on the <a href="http://bluesome.net/post/2005/08/18/50/">official plugin homepage</a>.', ExecPhp_PLUGIN_ID, get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/readme.html'); ?></p>
+		<p><?php echo __s('Exec-PHP executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets. See the <a href="%s">local documentation</a> for further information. The latest version of the plugin, documentation and information can be found on the <a href="http://bluesome.net/post/2005/08/18/50/">official plugin homepage</a>.', ExecPhp_PLUGIN_ID, get_l10n_filename(get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/readme.html')); ?></p>
 
 		<form action="" method="post" id="<?php echo ExecPhp_ID_CONFIG_FORM; ?>">
 			<?php wp_nonce_field(ExecPhp_ACTION_UPDATE_OPTIONS); ?>
 
-			<fieldset class="options <?php echo ExecPhp_CLASS_WP_25_STYLE; ?>">
+			<fieldset class="options">
 				<table class="editform optiontable form-table">
 					<tr valign="top">
 						<th scope="row"><?php _es('Execute PHP code in text widgets', ExecPhp_PLUGIN_ID); ?></th>
@@ -174,15 +175,21 @@ class ExecPhp_ConfigUi
 		<p><?php _es('The following lists show which users are allowed to write or execute PHP code in different cases. Allowing to write or execute PHP code can be adjusted by assigning the necessary capabilities to individual users or roles by using a role manager plugin.', ExecPhp_PLUGIN_ID); ?></p>
 
 		<form action="" id="<?php echo ExecPhp_ID_INFO_FORM; ?>">
-<?php $this->print_request_users(ExecPhp_ID_INFO_SECURITY_HOLE, __s('Security Hole', ExecPhp_PLUGIN_ID),
+<?php $this->print_request_users(ExecPhp_ID_INFO_SECURITY_HOLE,
+	ExecPhp_REQUEST_FEATURE_SECURITY_HOLE,
+	__s('Security Hole', ExecPhp_PLUGIN_ID),
 	__s('The following list shows which users have either or both of the &quot;%1$s&quot; or &quot;%2$s&quot; capability and are allowed to change others PHP code by having the &quot;%3$s&quot; capability but do not have the &quot;%4$s&quot; capability for themself. This is a security hole, because the listed users can write and execute PHP code in articles of other users although they are not supposed to execute PHP code at all.', ExecPhp_PLUGIN_ID, ExecPhp_CAPABILITY_EDIT_OTHERS_POSTS, ExecPhp_CAPABILITY_EDIT_OTHERS_PAGES, ExecPhp_CAPABILITY_EDIT_OTHERS_PHP, ExecPhp_CAPABILITY_EXECUTE_ARTICLES)); ?>
 
 <?php if (version_compare($wp_version, '2.2') >= 0) : ?>
-<?php $this->print_request_users(ExecPhp_ID_INFO_WIDGETS, __s('Executing PHP Code in Text Widgets', ExecPhp_PLUGIN_ID),
+<?php $this->print_request_users(ExecPhp_ID_INFO_WIDGETS,
+	ExecPhp_REQUEST_FEATURE_WIDGETS,
+	__s('Executing PHP Code in Text Widgets', ExecPhp_PLUGIN_ID),
 	__s('The following list shows which users have the &quot;%s&quot; capability and therefore are allowed to write and execute PHP code in text widgets. In case you have deselected the option &quot;Execute PHP code in text widgets&quot; from above, this list will appear empty.', ExecPhp_PLUGIN_ID, ExecPhp_CAPABILITY_EXECUTE_WIDGETS)); ?>
 
 <?php endif; ?>
-<?php $this->print_request_users(ExecPhp_ID_INFO_EXECUTE_ARTICLES, __s('Executing PHP Code in Articles', ExecPhp_PLUGIN_ID),
+<?php $this->print_request_users(ExecPhp_ID_INFO_EXECUTE_ARTICLES,
+	ExecPhp_REQUEST_FEATURE_EXECUTE_ARTICLES,
+	__s('Executing PHP Code in Articles', ExecPhp_PLUGIN_ID),
 	__s('The following list shows which users have the &quot;%s&quot; capability and therefore are allowed to execute PHP code in articles.', ExecPhp_PLUGIN_ID, ExecPhp_CAPABILITY_EXECUTE_ARTICLES)); ?>
 		</form>
 	</div>

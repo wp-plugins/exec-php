@@ -1,5 +1,28 @@
 <?php
 
+if (!function_exists('get_l10n_filename')) :
+function get_l10n_filename($filename_en)
+{
+	$locale = get_locale();
+	if ($locale == '')
+		return $filename_en;
+
+	$dot = strrpos($filename_en, '.');
+	if ($dot !== false)
+	{
+		$filename = substr($filename_en, 0, $dot);
+		$extension = substr($filename_en, $dot);
+	}
+	else
+	{
+		$filename = $filename_en;
+		$extension = '';
+	}
+
+	return $filename. '-'. $locale. $extension;
+}
+endif;
+
 if (!function_exists('translate')) :
 // downward compatibility for older WP installations
 function translate($text, $domain)
@@ -40,6 +63,13 @@ function _es($text, $domain = 'default')
 {
 	$args = func_get_args();
 	echo call_user_func_array('translate_sprintf', $args);
+}
+endif;
+
+if (!function_exists('escape_dquote')) :
+function escape_dquote($text)
+{
+	return str_replace('"', '\"', $text);
 }
 endif;
 

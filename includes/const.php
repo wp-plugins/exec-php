@@ -1,6 +1,6 @@
 <?php
 
-define('ExecPhp_VERSION', '4.6');
+define('ExecPhp_VERSION', '4.7');
 define('ExecPhp_PLUGIN_ID', 'exec-php');
 define('ExecPhp_DIR', 'wp-content/plugins/exec-php');
 
@@ -18,6 +18,10 @@ define('ExecPhp_STATUS_UNINITIALIZED', 1);
 define('ExecPhp_STATUS_PLUGIN_VERSION_MISMATCH', 2);
 
 define('ExecPhp_ACTION_REQUEST_USERS', 'execphp_request_users');
+define('ExecPhp_REQUEST_FEATURE_SECURITY_HOLE', 'security_hole');
+define('ExecPhp_REQUEST_FEATURE_WIDGETS', 'widgets');
+define('ExecPhp_REQUEST_FEATURE_EXECUTE_ARTICLES', 'execute_articles');
+
 define('ExecPhp_ACTION_UPDATE_OPTIONS', 'execphp_update_options');
 define('ExecPhp_ACTION_UPDATE_USERMETA', 'execphp_update_usermeta');
 
@@ -30,6 +34,5 @@ define('ExecPhp_ID_INFO_SECURITY_HOLE', 'execphp-security-hole');
 define('ExecPhp_ID_INFO_WIDGETS', 'execphp-widgets');
 define('ExecPhp_ID_INFO_EXECUTE_ARTICLES', 'execphp-execute-articles');
 define('ExecPhp_ID_MESSAGE', 'execphp-message');
-define('ExecPhp_CLASS_WP_25_STYLE', 'execphp-wp-25-style');
 
 ?>

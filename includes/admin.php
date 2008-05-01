@@ -36,7 +36,7 @@ class ExecPhp_Admin
 		if (version_compare($wp_version, '2.1') < 0)
 			return;
 
-		$this->m_cache = $cache;
+		$this->m_cache =& $cache;
 
 		// ajax server needs to be installed without is_admin() check
 		$this->m_ajax =& new ExecPhp_Ajax($this->m_cache);
@@ -92,6 +92,14 @@ class ExecPhp_Admin
 		var g_execphp_error_message = "";
 		var g_execphp_retries = 0;
 		var g_execphp_max_retries = 3;
+		var g_execphp_feature = "";
+
+		function ExecPhp_subscribeForFeature(feature)
+		{
+			if (g_execphp_feature.length)
+				g_execphp_feature += ",";
+			g_execphp_feature += feature;
+		}
 
 		function ExecPhp_fillContainer(container_id, text)
 		{
@@ -116,19 +124,19 @@ class ExecPhp_Admin
 			eval(g_execphp_ajax.response);
 
 			if (!exec_php.length)
-				exec_php = "<p><?php _es('No user matching the query.', ExecPhp_PLUGIN_ID); ?></p>";
+				exec_php = "<p><?php echo escape_dquote(__s('No user matching the query.', ExecPhp_PLUGIN_ID)); ?></p>";
 			ExecPhp_fillContainer("<?php echo ExecPhp_ID_INFO_EXECUTE_ARTICLES; ?>", exec_php);
 
 			if (!switch_themes.length)
-				switch_themes = "<p><?php _es('No user matching the query.', ExecPhp_PLUGIN_ID); ?></p>";
+				switch_themes = "<p><?php echo escape_dquote(__s('No user matching the query.', ExecPhp_PLUGIN_ID)); ?></p>";
 			ExecPhp_fillContainer("<?php echo ExecPhp_ID_INFO_WIDGETS; ?>", switch_themes);
 
 			if (!edit_others_php.length)
-				edit_others_php = "<p><?php _es('No user matching the query.', ExecPhp_PLUGIN_ID); ?></p>";
+				edit_others_php = "<p><?php echo escape_dquote(__s('No user matching the query.', ExecPhp_PLUGIN_ID)); ?></p>";
 			else
 			{
-				heading = "<?php _es('Exec-PHP Security Alert.', ExecPhp_PLUGIN_ID); ?>";
-				text = "<?php _es('The Exec-PHP plugin found a security hole with the configured user rights of this blog. For further information consult the plugin configuration menu or contact your blog administrator.', ExecPhp_PLUGIN_ID); ?>";
+				heading = "<?php echo escape_dquote(__s('Exec-PHP Security Alert.', ExecPhp_PLUGIN_ID)); ?>";
+				text = "<?php echo escape_dquote(__s('The Exec-PHP plugin found a security hole with the configured user rights of this blog. For further information consult the plugin configuration menu or contact your blog administrator.', ExecPhp_PLUGIN_ID)); ?>";
 				ExecPhp_setMessage(heading, text);
 				ExecPhp_markContainer("<?php echo ExecPhp_ID_INFO_SECURITY_HOLE; ?>");
 			}
@@ -149,7 +157,7 @@ class ExecPhp_Admin
 			else
 			{
 				// finally give up after certain amount of retries
-				var error_message = "<p><?php _es("Exec-PHP AJAX HTTP error when receiving data from ", ExecPhp_PLUGIN_ID); ?>"
+				var error_message = "<p><?php echo escape_dquote(__s("Exec-PHP AJAX HTTP error when receiving data from ", ExecPhp_PLUGIN_ID)); ?>"
 					+ g_execphp_ajax.requestFile + ": " + g_execphp_error_message;
 
 				ExecPhp_markContainer("<?php echo ExecPhp_ID_INFO_EXECUTE_ARTICLES; ?>");
@@ -160,16 +168,22 @@ class ExecPhp_Admin
 
 				ExecPhp_markContainer("<?php echo ExecPhp_ID_INFO_SECURITY_HOLE; ?>");
 				ExecPhp_fillContainer("<?php echo ExecPhp_ID_INFO_SECURITY_HOLE; ?>", error_message);
+
+				g_execphp_error_message = "";
+				g_execphp_retries = 0;
 			}
 		}
 
-		function ExecPhp_getUsersOfCapability()
+		function ExecPhp_requestUser()
 		{
+			ExecPhp_subscribeForFeature('<?php echo ExecPhp_REQUEST_FEATURE_SECURITY_HOLE; ?>');
 			g_execphp_ajax.setVar("cookie", document.cookie);
 			g_execphp_ajax.setVar("action", "<?php echo ExecPhp_ACTION_REQUEST_USERS; ?>");
+			g_execphp_ajax.setVar("feature", g_execphp_feature);
 			g_execphp_ajax.onError = ExecPhp_ajaxError;
 			g_execphp_ajax.onCompletion = ExecPhp_ajaxCompletion;
 			g_execphp_ajax.runAJAX();
+			g_execphp_feature = "";
 		}
 		//]]>
 	</script>
@@ -201,8 +215,8 @@ class ExecPhp_Admin
 			{
 ?>
 
-		div#wpbody > div.wrap > form > fieldset.<?php echo ExecPhp_CLASS_WP_25_STYLE; ?> {
-			clear: float;
+		div#wpbody > div.wrap > form#<?php echo ExecPhp_ID_CONFIG_FORM; ?> > fieldset,
+		div#wpbody > div.wrap > form#<?php echo ExecPhp_ID_INFO_FORM; ?> > fieldset{
 			border: 0;
 			margin: 0;
 			padding: 0;
@@ -233,7 +247,7 @@ class ExecPhp_Admin
 ?>
 	<script type="text/javascript">
 		//<![CDATA[
-		ExecPhp_getUsersOfCapability();
+		ExecPhp_requestUser();
 		//]]>
 	</script>
 <?php
