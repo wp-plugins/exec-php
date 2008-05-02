@@ -81,6 +81,7 @@
 					<li><a href="#already_defined">Why does my newsfeed spits out parsing errors?</a></li>
 					<li><a href="#globals">Why does my included PHP file causes parsing errors?</a></li>
 					<li><a href="#wordpressmu">Does the plugin works with WordPress MU?</a></li>
+					<li><a href="#create_site">How do you create the plugin homepage?</a></li>
 				</ol>
 			</li>
 		</ol>
@@ -230,7 +231,7 @@
 
 <h4 id="basic_test">Basic test</h4>
 <p>For validating, that the plugin works properly, log in as Administrator, <a href="#execute_php">apply the settings listed above</a>, create a new article and write the following text:</p>
-<pre><code code-lang="php" class="doll" id = "blu">&lt;?php echo "This is the Exec-PHP 'Hello World'"; ?&gt;</code></pre>
+<pre><code code-lang="php">&lt;?php echo "This is the Exec-PHP 'Hello World'"; ?&gt;</code></pre>
 <p>This should always work. When displaying the post and everything works fine, you should see:</p>
 <pre><code>This is the Exec-PHP 'Hello World'</code></pre>
 
@@ -386,6 +387,45 @@ hello();
 
 <h5 id="wordpressmu">Does the plugin works with WordPress MU?</h5>
 <p>WordPress is not WordPress MU. The plugin was designed for WordPress. If you want to provide a patch to let this work with WordPress MU, I will be happy to incooperate it in the official plugin release.</p>
+
+<h5 id="create_site">How do you create the plugin homepage?</h5>
+<p>Glad you've asked. This is a great use case to show you what can be achieved by the Exec-PHP plugin. The <a href="http://bluesome.net/post/2005/08/18/50/">plugin homepage</a> is basically a WordPress post running a PHP script thru Exec-PHP that reads and parses the readme.html that comes with the Exec-PHP installation. By that, when I release a new plugin version, I only have to upload the plugin files to the webserver and the documentation gets updated automatically on the plugin homepage. The complete code is:</p>
+<pre><code code-lang="php">&lt;?php
+// load plugin domain first, because this is usually done only for
+// the admin menu
+load_plugin_textdomain(ExecPhp_PLUGIN_ID, ExecPhp_DIR. '/languages');
+
+// read readme.html
+$doc_dir = 'wp-content/plugins/exec-php/docs/';
+$doc_filename = ABSPATH. $doc_dir. __('readme.html', ExecPhp_PLUGIN_ID);
+$content = file_get_contents($doc_filename);
+
+// strip HTML header
+$content = preg_replace('/^.*&lt;!\-\-\s*start of content\s*\-\-&gt;/is',
+  '', $content);
+
+// strip HTML footer depending whether viewing the whole post or only
+// the excerpt
+$pattern = '/&lt;!\-\-\s*more\s*\-\-&gt;.*$/is';
+if (is_single())
+  $pattern = '/&lt;!\-\-\s*end of content\s*\-\-&gt;.*$/is';
+$content = preg_replace($pattern, '', $content);
+
+// eval readme.html to generate output of test cases
+ob_start();
+eval(" ?&gt; $content &lt;?php ");
+$content = ob_get_contents();
+ob_end_clean();
+
+// adjust relative image links
+$content = preg_replace('/&lt;img\s+src\s*=\s*([\'\"])/is',
+  '&lt;img src=\1'. get_option('siteurl'). '/'. $doc_dir, $content);
+$content = preg_replace('/&lt;a\s+href\s*=\s*([\'\"])\s*([^\1p]+\.png\s*\1)/isU',
+  '&lt;a href=\1'. get_option('siteurl'). '/'. $doc_dir. '\2', $content);
+
+// done
+echo $content;
+?&gt;</code></pre>
 
 <h3 id="past_present_future">Past, present and future</h3>
 
