@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exec-PHP\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-05-01 22:07+0100\n"
+"PO-Revision-Date: 2008-05-02 23:11+0100\n"
 "Last-Translator: Sören Weber <soeren@bluesome.net>\n"
 "Language-Team: Sören Weber <soeren@bluesome.net>\n"
 "MIME-Version: 1.0\n"
@@ -73,6 +73,12 @@ msgstr "Lade Benutzer Informationen..."
 #: includes/config_ui.php:141
 msgid "Settings saved."
 msgstr "Einstellungen gespeichert."
+
+#: includes/config_ui.php:148
+#: includes/write_ui.php:43
+#: includes/write_ui.php:54
+msgid "readme.html"
+msgstr "readme-de_DE.html"
 
 #: includes/config_ui.php:148
 #, php-format

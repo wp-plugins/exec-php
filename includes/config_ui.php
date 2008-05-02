@@ -145,7 +145,7 @@ class ExecPhp_ConfigUi
 	<div class="wrap">
 <?php if (version_compare($wp_version, '2.2') >= 0 || substr($wp_version, 0, 3) == '2.2') : ?>
 		<h2><?php _es('Exec-PHP Settings', ExecPhp_PLUGIN_ID); ?></h2>
-		<p><?php echo __s('Exec-PHP executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets. See the <a href="%s">local documentation</a> for further information. The latest version of the plugin, documentation and information can be found on the <a href="http://bluesome.net/post/2005/08/18/50/">official plugin homepage</a>.', ExecPhp_PLUGIN_ID, get_l10n_filename(get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/readme.html')); ?></p>
+		<p><?php echo __s('Exec-PHP executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets. See the <a href="%s">local documentation</a> for further information. The latest version of the plugin, documentation and information can be found on the <a href="http://bluesome.net/post/2005/08/18/50/">official plugin homepage</a>.', ExecPhp_PLUGIN_ID, get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/'. __s('readme.html', ExecPhp_PLUGIN_ID)); ?></p>
 
 		<form action="" method="post" id="<?php echo ExecPhp_ID_CONFIG_FORM; ?>">
 			<?php wp_nonce_field(ExecPhp_ACTION_UPDATE_OPTIONS); ?>
