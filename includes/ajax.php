@@ -21,6 +21,8 @@ class ExecPhp_Ajax
 	function ExecPhp_Ajax(&$cache)
 	{
 		$this->m_cache =& $cache;
+		if (!defined('DOING_AJAX'))
+			return;
 		add_action('wp_ajax_'. ExecPhp_ACTION_REQUEST_USERS,
 			array(&$this, 'action_ajax_request_user'));
 	}
