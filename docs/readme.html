@@ -367,7 +367,7 @@ hello();
 <p>As a general rule I would advise to separate all definitions into a file and reference to it by calling <code>require_once()</code>. So the above example would be split into two parts, your article and a file.</p>
 <p>Article:</p>
 <pre><code code-lang="php">&lt;?php
-require_once(get_option('home'). '/example.php');
+require_once(ABSPATH. 'example.php');
 hello();
 ?&gt;</code></pre>
 <p>File (here example.php):</p>
@@ -382,7 +382,7 @@ function hello()
 <h5 id="globals">Why does my included PHP file causes parsing errors?</h5>
 <p>Assume your included code is working outside an article and the path to the include file is correct. The PHP parser may still spit out error messages even if everything seems to be correct. This can happen when your included file assumes it runs on global scope level and does not use the keyword <code>global</code> to declare its global variables. As example create a new article with the following code:</p>
 <p>Article:</p>
-<pre><code code-lang="php">&lt;?php require_once(get_option('home'). '/example.php'); ?&gt;</code></pre>
+<pre><code code-lang="php">&lt;?php require_once(ABSPATH. 'example.php'); ?&gt;</code></pre>
 <p>After that copy the following code into a new file named <code>example.php</code> and store it in your webservers root directory:</p>
 <p>File (here example.php):</p>
 <pre><code code-lang="php">&lt;?php
@@ -403,7 +403,7 @@ hello();
 
 <h5 id="create_site">How do you create the plugin homepage?</h5>
 <p>Glad you've asked. This is a great use case to show you what can be achieved by the Exec-PHP plugin. The <a href="http://bluesome.net/post/2005/08/18/50/">plugin homepage</a> is basically a WordPress post running a PHP script thru Exec-PHP that reads and parses the readme.html that comes with the Exec-PHP installation. By that, when I release a new plugin version, I only have to upload the plugin files to the webserver. The documentation will be updated automatically on the plugin homepage. The complete code is:</p>
-<pre><code code-lang="php">&lt;?php
+<pre><code code-lang="php" set_header_type="GESHI_HEADER_NONE" start_line_numbers_at="3" enable_line_numbers="GESHI_TABLED_LINE_NUMBERS">&lt;?php
 // read readme.html depending on locale; plugin translation not yet loaded
 load_plugin_textdomain(ExecPhp_PLUGIN_ID, ExecPhp_DIR. '/languages');
 $doc_dir = 'wp-content/plugins/exec-php/docs/';
