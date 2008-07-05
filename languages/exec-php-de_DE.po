@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exec-PHP\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-07-05 23:11+0100\n"
+"PO-Revision-Date: 2008-07-05 23:13+0100\n"
 "Last-Translator: Sören Weber <soeren@bluesome.net>\n"
 "Language-Team: Sören Weber <soeren@bluesome.net>\n"
 "MIME-Version: 1.0\n"
@@ -106,7 +106,7 @@ msgstr "&Auml;nderungen speichern"
 
 #: includes/config_ui.php:183
 msgid "Security Information"
-msgstr "Sicherheits-Informationen"
+msgstr "Sicherheitsinformationen"
 
 #: includes/config_ui.php:184
 msgid "The following lists show which users are allowed to write or execute PHP code in different cases. Allowing to write or execute PHP code can be adjusted by assigning the necessary capabilities to individual users or roles by using a role manager plugin."
