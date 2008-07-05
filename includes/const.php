@@ -2,7 +2,29 @@
 
 define('ExecPhp_VERSION', '4.7');
 define('ExecPhp_PLUGIN_ID', 'exec-php');
-define('ExecPhp_DIR', 'wp-content/plugins/exec-php');
+
+// relative path of stored plugins to ABSPATH
+if (defined('PLUGINDIR'))
+	define('ExecPhp_PLUGINDIR', PLUGINDIR);
+else
+	define('ExecPhp_PLUGINDIR', 'wp-content/plugins');
+
+// relative path of plugin to ExecPhp_PLUGINDIR
+$path = str_replace('\\', '/', dirname(dirname(__FILE__)));
+$offset = -1;
+while (($n = strpos($path, ExecPhp_PLUGINDIR, $offset + 1)) !== false)
+	$offset = $n;
+define('ExecPhp_HOMEDIR', substr($path, $offset + 1 + strlen(ExecPhp_PLUGINDIR)));
+
+if (defined('WP_PLUGIN_DIR'))
+	define('ExecPhp_HOME_DIR', WP_PLUGIN_DIR. '/'. ExecPhp_HOMEDIR);
+else
+	define('ExecPhp_HOME_DIR', ABSPATH. ExecPhp_PLUGINDIR. '/'. ExecPhp_HOMEDIR);
+
+if (defined('WP_PLUGIN_URL'))
+	define('ExecPhp_HOME_URL', WP_PLUGIN_URL. '/'. ExecPhp_HOMEDIR);
+else
+	define('ExecPhp_HOME_URL', get_option('siteurl'). ExecPhp_PLUGINDIR. '/'. ExecPhp_HOMEDIR);
 
 define('ExecPhp_CAPABILITY_EXECUTE_WIDGETS', 'switch_themes');
 define('ExecPhp_CAPABILITY_EXECUTE_ARTICLES', 'exec_php');

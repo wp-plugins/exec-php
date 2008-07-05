@@ -33,7 +33,7 @@ class ExecPhp_Admin
 	{
 		global $wp_version;
 
-		if (version_compare($wp_version, '2.1') < 0)
+		if (version_compare($wp_version, '2.1.dev') < 0)
 			return;
 
 		$this->m_cache =& $cache;
@@ -43,7 +43,10 @@ class ExecPhp_Admin
 		if (!is_admin())
 			return;
 
-		load_plugin_textdomain(ExecPhp_PLUGIN_ID, ExecPhp_DIR. '/languages');
+		if (version_compare($wp_version, '2.6.dev') >= 0)
+			load_plugin_textdomain(ExecPhp_PLUGIN_ID, false, ExecPhp_HOMEDIR. '/languages');
+		else
+			load_plugin_textdomain(ExecPhp_PLUGIN_ID, ExecPhp_PLUGINDIR. '/'. ExecPhp_HOMEDIR. '/languages');
 
 		$this->m_write_ui =& new ExecPhp_WriteUi($this->m_cache);
 		$this->m_user_ui =& new ExecPhp_UserUi($this->m_cache);
@@ -211,7 +214,7 @@ class ExecPhp_Admin
 		}
 <?php
 			global $wp_version;
-			if (version_compare($wp_version, '2.5') >= 0 || substr($wp_version, 0, 3) == '2.5')
+			if (version_compare($wp_version, '2.5.dev') >= 0)
 			{
 ?>
 

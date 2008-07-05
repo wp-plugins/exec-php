@@ -41,7 +41,7 @@ class ExecPhp_UserUi
 		{
 			$usermeta =& $this->m_cache->get_usermeta($profileuser->ID);
 ?>
-<?php if (version_compare($wp_version, '2.5') >= 0 || substr($wp_version, 0, 3) == '2.5') : ?>
+<?php if (version_compare($wp_version, '2.5.dev') >= 0) : ?>
 	<h3><?php _es('Exec-PHP Settings', ExecPhp_PLUGIN_ID); ?></h3>
 <?php else : ?>
 	<fieldset><legend><?php _es('Exec-PHP Settings', ExecPhp_PLUGIN_ID); ?></legend>
@@ -58,7 +58,7 @@ class ExecPhp_UserUi
 			</td>
 		</tr>
 	</table>
-<?php if (!(version_compare($wp_version, '2.5') >= 0 || substr($wp_version, 0, 3) == '2.5')) : ?>
+<?php if (version_compare($wp_version, '2.5.dev') < 0) : ?>
 	</fieldset>
 <?php endif; ?>
 <?php

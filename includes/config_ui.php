@@ -97,6 +97,13 @@ class ExecPhp_ConfigUi
 
 	function print_request_users($display_id, $feature, $title, $introduction)
 	{
+		global $wp_version;
+
+		if (version_compare($wp_version, '2.6.dev') >= 0)
+			// since WP 2.6 it comes with its own progress animation
+			$image_url = get_option('siteurl'). '/wp-admin/images/loading.gif';
+		else
+			$image_url = ExecPhp_HOME_URL. '/images/progress.gif';
 ?>
 			<fieldset class="options">
 				<table class="editform optiontable form-table">
@@ -113,7 +120,7 @@ class ExecPhp_ConfigUi
 								<script type="text/javascript">
 									//<![CDATA[
 									document.getElementById("<?php echo $display_id; ?>").innerHTML =
-										"<p><img src=\"<?php echo get_option('siteurl'). '/'. ExecPhp_DIR. '/images/progress.gif'; ?>\" alt=\"<?php _es('An animated icon signaling that this information is still be loaded.', ExecPhp_PLUGIN_ID); ?>\" /> <?php _es('Loading user information...', ExecPhp_PLUGIN_ID); ?></p>";
+										"<p><img src=\"<?php echo $image_url; ?>\" alt=\"<?php _es('An animated icon signaling that this information is still be loaded.', ExecPhp_PLUGIN_ID); ?>\" /> <?php _es('Loading user information...', ExecPhp_PLUGIN_ID); ?></p>";
 									ExecPhp_subscribeForFeature("<?php echo $feature; ?>");
 									//]]>
 								</script>
@@ -143,9 +150,9 @@ class ExecPhp_ConfigUi
 		$this->toggle_action($option->get_status());
 ?>
 	<div class="wrap">
-<?php if (version_compare($wp_version, '2.2') >= 0 || substr($wp_version, 0, 3) == '2.2') : ?>
+<?php if (version_compare($wp_version, '2.2.dev') >= 0) : ?>
 		<h2><?php _es('Exec-PHP Settings', ExecPhp_PLUGIN_ID); ?></h2>
-		<p><?php echo __s('Exec-PHP executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets. See the <a href="%s">local documentation</a> for further information. The latest version of the plugin, documentation and information can be found on the <a href="http://bluesome.net/post/2005/08/18/50/">official plugin homepage</a>.', ExecPhp_PLUGIN_ID, get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/'. __s('readme.html', ExecPhp_PLUGIN_ID)); ?></p>
+		<p><?php echo __s('Exec-PHP executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets. See the <a href="%s">local documentation</a> for further information. The latest version of the plugin, documentation and information can be found on the <a href="http://bluesome.net/post/2005/08/18/50/">official plugin homepage</a>.', ExecPhp_PLUGIN_ID, ExecPhp_HOME_URL. '/docs/'. __s('readme.html', ExecPhp_PLUGIN_ID)); ?></p>
 
 		<form action="" method="post" id="<?php echo ExecPhp_ID_CONFIG_FORM; ?>">
 			<?php wp_nonce_field(ExecPhp_ACTION_UPDATE_OPTIONS); ?>
@@ -180,7 +187,7 @@ class ExecPhp_ConfigUi
 	__s('Security Hole', ExecPhp_PLUGIN_ID),
 	__s('The following list shows which users have either or both of the &quot;%1$s&quot; or &quot;%2$s&quot; capability and are allowed to change others PHP code by having the &quot;%3$s&quot; capability but do not have the &quot;%4$s&quot; capability for themself. This is a security hole, because the listed users can write and execute PHP code in articles of other users although they are not supposed to execute PHP code at all.', ExecPhp_PLUGIN_ID, ExecPhp_CAPABILITY_EDIT_OTHERS_POSTS, ExecPhp_CAPABILITY_EDIT_OTHERS_PAGES, ExecPhp_CAPABILITY_EDIT_OTHERS_PHP, ExecPhp_CAPABILITY_EXECUTE_ARTICLES)); ?>
 
-<?php if (version_compare($wp_version, '2.2') >= 0) : ?>
+<?php if (version_compare($wp_version, '2.2.dev') >= 0) : ?>
 <?php $this->print_request_users(ExecPhp_ID_INFO_WIDGETS,
 	ExecPhp_REQUEST_FEATURE_WIDGETS,
 	__s('Executing PHP Code in Text Widgets', ExecPhp_PLUGIN_ID),

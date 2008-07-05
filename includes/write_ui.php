@@ -40,7 +40,7 @@ class ExecPhp_WriteUi
 		{
 			$heading = escape_dquote(__s('Exec-PHP WYSIWYG Conversion Warning.', ExecPhp_PLUGIN_ID));
 			$text = escape_dquote(__s('Saving this article will render all contained PHP code permanently unuseful. Even if you are saving this article through the Code editor. You can turn off this warning in your user profile. Ignore this warning in case this article does not contain PHP code. <a href="%s">Read the Exec-PHP documentation if you are unsure what to do next</a>.', ExecPhp_PLUGIN_ID
-				, get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/'. __s('readme.html', ExecPhp_PLUGIN_ID). '#execute_php'));
+				, ExecPhp_HOME_URL. '/docs/'. __s('readme.html', ExecPhp_PLUGIN_ID). '#execute_php'));
 			$this->print_message($heading, $text);
 		}
 	}
@@ -51,7 +51,7 @@ class ExecPhp_WriteUi
 		{
 			$heading = escape_dquote(__s('Exec-PHP Widget Conversion Warning.', ExecPhp_PLUGIN_ID));
 			$text = escape_dquote(__s('Saving the widgets will render all contained PHP code permanently unuseful. Ignore this warning in case the text widgets do not contain PHP code. <a href="%s">Read the Exec-PHP documentation if you are unsure what to do next</a>.', ExecPhp_PLUGIN_ID
-				, get_option('siteurl'). '/'. ExecPhp_DIR. '/docs/'. __s('readme.html', ExecPhp_PLUGIN_ID). '#execute_php'));
+				, ExecPhp_HOME_URL. '/docs/'. __s('readme.html', ExecPhp_PLUGIN_ID). '#execute_php'));
 			$this->print_message($heading, $text);
 		}
 	}
