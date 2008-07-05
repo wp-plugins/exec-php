@@ -78,6 +78,8 @@ class ExecPhp_Option
 				$old_version = '4.6';
 			else if ($old_version == '4.6')
 				$old_version = '4.7';
+			else if ($old_version == '4.7')
+				$old_version = '4.8';
 			else
 			{
 				// very bad; programming error or system is messed up

@@ -13,7 +13,7 @@
 <p>The Exec-PHP plugin executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets.</p>
 
 <h3>Make it quick. Where can I download the plugin?</h3>
-<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.7 here!</a></p>
+<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.8 here!</a></p>
 
 <h3>Why is there so much text below?</h3>
 <p>Because I hate cool plugins that are badly documented. Even the smallest piece of code needs some documentation. The following text is pretty exhaustive. Feel free to skip the sections you are not interested in. If you have a question about the plugin please first make sure you refer to the latest version and the question is not answered on this page or in the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments section of the plugin homepage</a>. Then - and only then - <a href="http://bluesome.net/post/2005/08/18/50/#response-50">post your question here</a>.</p><!--more-->
@@ -91,6 +91,7 @@
 			<li><a href="#new_versions">New versions</a></li>
 			<li><a href="#history">History of older versions</a>
 				<ol>
+					<li><a href="#version_4_8">Version 4.8 (2008-07-05)</a></li>
 					<li><a href="#version_4_7">Version 4.7 (2008-05-05)</a></li>
 					<li><a href="#version_4_6">Version 4.6 (2008-04-06)</a></li>
 					<li><a href="#version_4_5">Version 4.5 (2008-03-24)</a></li>
@@ -405,9 +406,15 @@ hello();
 <p>Glad you've asked. This is a great use case to show you what can be achieved by the Exec-PHP plugin. The <a href="http://bluesome.net/post/2005/08/18/50/">plugin homepage</a> is basically a WordPress post running a PHP script thru Exec-PHP that reads and parses the readme.html that comes with the Exec-PHP installation. By that, when I release a new plugin version, I only have to upload the plugin files to the webserver. The documentation will be updated automatically on the plugin homepage. The complete code is:</p>
 <pre><code code-lang="php" set_header_type="GESHI_HEADER_NONE" start_line_numbers_at="3" enable_line_numbers="GESHI_TABLED_LINE_NUMBERS">&lt;?php
 // read readme.html depending on locale; plugin translation not yet loaded
-load_plugin_textdomain(ExecPhp_PLUGIN_ID, ExecPhp_DIR. '/languages');
-$doc_dir = 'wp-content/plugins/exec-php/docs/';
-$doc_filename = ABSPATH. $doc_dir. __('readme.html', ExecPhp_PLUGIN_ID);
+if (version_compare($wp_version, '2.6.dev') >= 0)
+  load_plugin_textdomain(ExecPhp_PLUGIN_ID,
+    false, ExecPhp_HOMEDIR. '/languages');
+else
+  load_plugin_textdomain(ExecPhp_PLUGIN_ID,
+    ExecPhp_PLUGINDIR. '/'. ExecPhp_HOMEDIR. '/languages');
+
+$doc_dir = ExecPhp_PLUGINDIR. '/'. ExecPhp_HOMEDIR. '/docs/';
+$doc_filename = ExecPhp_HOME_DIR. '/docs/'. __s('readme.html', ExecPhp_PLUGIN_ID);
 $content = file_get_contents($doc_filename);
 
 // strip HTML header
@@ -445,9 +452,20 @@ echo $content;
 
 <h4 id="history">History of older versions</h4>
 
-<h5 id="version_4_7">Version 4.7 (2008-05-05)</h5>
+<h5 id="version_4_8">Version 4.8 (2008-07-05)</h5>
 <ul>
 	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a> (english and german translation)</li>
+	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">French translation</a></li>
+	<li>Download: <a href="http://gidibao.net/index.php/2008/05/07/exec-php-in-italiano/">Italian translation</a></li>
+	<li>Download: <a href="http://dimox.name/exec-php-russian-translation/">Russian translation</a></li>
+	<li>Download: <a href="http://dcabai.blogspot.com/2008/04/exec-php-en-espaol.html">Spanish translation</a></li>
+	<li>Requirements: WordPress 2.0 or higher</li>
+	<li>Feature: Support for WordPress 2.6 (relocation of wp-content)</li>
+</ul>
+
+<h5 id="version_4_7">Version 4.7 (2008-05-05)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.4.7.zip">Plugin</a> (english and german translation)</li>
 	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">French translation</a></li>
 	<li>Download: <a href="http://gidibao.net/index.php/2008/05/07/exec-php-in-italiano/">Italian translation</a></li>
 	<li>Download: <a href="http://dimox.name/exec-php-russian-translation/">Russian translation</a></li>

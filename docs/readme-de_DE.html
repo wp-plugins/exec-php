@@ -13,7 +13,7 @@
 <p>Das Exec-PHP Plugin führt <code>&lt;?php ?&gt;</code> Code in deinen Beiträgen, Seiten und Text-Widgets aus.</p>
 
 <h3>Mach schnell. Wo kann ich das Plugin runterladen?</h3>
-<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.7 hier!</a></p>
+<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.8 hier!</a></p>
 
 <h3>Warum ist hier soviel Text?</h3>
 <p>Ich hasse coole Plugins, die schlecht dokumentiert sind. Selbst das kleinste Stück Code benötigt ein wenig Dokumentation. Der folgende Text ist ziemlich ausführlich. Überspringe einfach die Kapitel, die dich nicht interessieren. Wenn du Fragen zum Plugin hast, vergewissere dich, dass du die neuste Version benutzt und die Frage noch nicht auf dieser Seite oder in den <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">Kommentaren der Plugin Homepage</a> beantwortet sind. Dann - und nur dann - <a href="http://bluesome.net/post/2005/08/18/50/#response-50">stell deine Frage hier</a>.</p><!--more-->
@@ -91,6 +91,7 @@
 			<li><a href="#new_versions">Neue Versionen</a></li>
 			<li><a href="#history">Historie alter Versionen</a>
 				<ol>
+					<li><a href="#version_4_8">Version 4.8 (2008-07-05)</a></li>
 					<li><a href="#version_4_7">Version 4.7 (2008-05-05)</a></li>
 					<li><a href="#version_4_6">Version 4.6 (2008-04-06)</a></li>
 					<li><a href="#version_4_5">Version 4.5 (2008-03-24)</a></li>
@@ -372,7 +373,7 @@ hello();
 require_once(get_option('home'). '/example.php');
 hello();
 ?&gt;</code></pre>
-<p>Datei (hie example.php):</p>
+<p>Datei (hier example.php):</p>
 <pre><code code-lang="php">&lt;?php
 function hello()
 {
@@ -407,9 +408,15 @@ hello();
 <p>Gut das du fragst. Das ist eine gute Gelegenheit, um zu zeigen, welche Möglichkeiten das Exec-PHP Plugin bietet. Die <a href="http://bluesome.net/post/2005/08/18/50/">Plugin Homepage</a> ist ein WordPress Beitrag, der im Wesentlichen aus einem PHP Script besteht, dass durch Exec-PHP ausgeführt wird und die in der Exec-PHP Installation enthaltene readme.html liest und parst. Dadurch muss ich bei einer neuen Version des Plugins lediglich die Plugindateien auf den Webserver hochladen. Die Dokumentation wird dann automatisch auf der Plugin Homepage aktualisiert. Der komplette Code sieht wie folgt aus:</p>
 <pre><code code-lang="php">&lt;?php
 // read readme.html depending on locale; plugin translation not yet loaded
-load_plugin_textdomain(ExecPhp_PLUGIN_ID, ExecPhp_DIR. '/languages');
-$doc_dir = 'wp-content/plugins/exec-php/docs/';
-$doc_filename = ABSPATH. $doc_dir. __('readme.html', ExecPhp_PLUGIN_ID);
+if (version_compare($wp_version, '2.6.dev') >= 0)
+  load_plugin_textdomain(ExecPhp_PLUGIN_ID,
+    false, ExecPhp_HOMEDIR. '/languages');
+else
+  load_plugin_textdomain(ExecPhp_PLUGIN_ID,
+    ExecPhp_PLUGINDIR. '/'. ExecPhp_HOMEDIR. '/languages');
+
+$doc_dir = ExecPhp_PLUGINDIR. '/'. ExecPhp_HOMEDIR. '/docs/';
+$doc_filename = ExecPhp_HOME_DIR. '/docs/'. __s('readme.html', ExecPhp_PLUGIN_ID);
 $content = file_get_contents($doc_filename);
 
 // strip HTML header
@@ -447,9 +454,20 @@ echo $content;
 
 <h4 id="history">Historie alter Versionen</h4>
 
-<h5 id="version_4_7">Version 4.7 (2008-05-05)</h5>
+<h5 id="version_4_8">Version 4.8 (2008-07-05)</h5>
 <ul>
 	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a> (Englische und deutsche Übersetzung)</li>
+	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">Französische Übersetzung</a></li>
+	<li>Download: <a href="http://gidibao.net/index.php/2008/05/07/exec-php-in-italiano/">Italienische Übersetzung</a></li>
+	<li>Download: <a href="http://dimox.name/exec-php-russian-translation/">Russische Übersetzung</a></li>
+	<li>Download: <a href="http://dcabai.blogspot.com/2008/04/exec-php-en-espaol.html">Spanische Übersetzung</a></li>
+	<li>Anforderungen: WordPress 2.0 oder höher</li>
+	<li>Feature: Support für WordPress 2.6 (Umplatzierung von wp-content)</li>
+</ul>
+
+<h5 id="version_4_7">Version 4.7 (2008-05-05)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.4.7.zip">Plugin</a> (Englische und deutsche Übersetzung)</li>
 	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">Französische Übersetzung</a></li>
 	<li>Download: <a href="http://gidibao.net/index.php/2008/05/07/exec-php-in-italiano/">Italienische Übersetzung</a></li>
 	<li>Download: <a href="http://dimox.name/exec-php-russian-translation/">Russische Übersetzung</a></li>

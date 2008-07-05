@@ -1,6 +1,6 @@
 <?php
 
-define('ExecPhp_VERSION', '4.7');
+define('ExecPhp_VERSION', '4.8');
 define('ExecPhp_PLUGIN_ID', 'exec-php');
 
 // relative path of stored plugins to ABSPATH

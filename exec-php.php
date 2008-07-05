@@ -5,7 +5,7 @@ Plugin URI: http://bluesome.net/post/2005/08/18/50/
 Description: Executes &lt;?php ?&gt; code in your posts, pages and text widgets.
 Author: S&ouml;ren Weber
 Author URI: http://bluesome.net
-Version: 4.7
+Version: 4.8
 */
 
 require_once(dirname(__FILE__).'/includes/manager.php');
