@@ -10,11 +10,11 @@ else
 	define('ExecPhp_PLUGINDIR', 'wp-content/plugins');
 
 // relative path of plugin to ExecPhp_PLUGINDIR
-$path = str_replace('\\', '/', dirname(dirname(__FILE__)));
-$offset = -1;
-while (($n = strpos($path, ExecPhp_PLUGINDIR, $offset + 1)) !== false)
-	$offset = $n;
-define('ExecPhp_HOMEDIR', substr($path, $offset + 1 + strlen(ExecPhp_PLUGINDIR)));
+$execphp_path = str_replace('\\', '/', dirname(dirname(__FILE__)));
+$execphp_offset = 0;
+while (($execphp_n = strpos($execphp_path, ExecPhp_PLUGINDIR, $execphp_offset)) !== false)
+	$execphp_offset = $execphp_n + 1;
+define('ExecPhp_HOMEDIR', substr($execphp_path, $execphp_offset + strlen(ExecPhp_PLUGINDIR)));
 
 if (defined('WP_PLUGIN_DIR'))
 	define('ExecPhp_HOME_DIR', WP_PLUGIN_DIR. '/'. ExecPhp_HOMEDIR);
