@@ -150,9 +150,11 @@ class ExecPhp_ConfigUi
 		$this->toggle_action($option->get_status());
 ?>
 	<div class="wrap">
-<?php if (version_compare($wp_version, '2.2.dev') >= 0) : ?>
-		<h2><?php _es('Exec-PHP Settings', ExecPhp_PLUGIN_ID); ?></h2>
+		<h2><?php _es('Exec-PHP Plugin', ExecPhp_PLUGIN_ID); ?></h2>
 		<p><?php echo __s('Exec-PHP executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets. See the <a href="%s">local documentation</a> for further information. The latest version of the plugin, documentation and information can be found on the <a href="http://bluesome.net/post/2005/08/18/50/">official plugin homepage</a>.', ExecPhp_PLUGIN_ID, ExecPhp_HOME_URL. '/docs/'. __s('readme.html', ExecPhp_PLUGIN_ID)); ?></p>
+
+<?php if (version_compare($wp_version, '2.2.dev') >= 0) : ?>
+		<h3><?php _es('Settings', ExecPhp_PLUGIN_ID); ?></h3>
 
 		<form action="" method="post" id="<?php echo ExecPhp_ID_CONFIG_FORM; ?>">
 			<?php wp_nonce_field(ExecPhp_ACTION_UPDATE_OPTIONS); ?>
@@ -178,7 +180,7 @@ class ExecPhp_ConfigUi
 		</form>
 
 <?php endif; ?>
-		<h2><?php _es('Exec-PHP Information', ExecPhp_PLUGIN_ID); ?></h2>
+		<h3><?php _es('Security Information', ExecPhp_PLUGIN_ID); ?></h3>
 		<p><?php _es('The following lists show which users are allowed to write or execute PHP code in different cases. Allowing to write or execute PHP code can be adjusted by assigning the necessary capabilities to individual users or roles by using a role manager plugin.', ExecPhp_PLUGIN_ID); ?></p>
 
 		<form action="" id="<?php echo ExecPhp_ID_INFO_FORM; ?>">
