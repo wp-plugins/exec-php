@@ -24,7 +24,7 @@ else
 if (defined('WP_PLUGIN_URL'))
 	define('ExecPhp_HOME_URL', WP_PLUGIN_URL. '/'. ExecPhp_HOMEDIR);
 else
-	define('ExecPhp_HOME_URL', get_option('siteurl'). ExecPhp_PLUGINDIR. '/'. ExecPhp_HOMEDIR);
+	define('ExecPhp_HOME_URL', get_option('siteurl'). '/'. ExecPhp_PLUGINDIR. '/'. ExecPhp_HOMEDIR);
 
 define('ExecPhp_CAPABILITY_EXECUTE_WIDGETS', 'switch_themes');
 define('ExecPhp_CAPABILITY_EXECUTE_ARTICLES', 'exec_php');
