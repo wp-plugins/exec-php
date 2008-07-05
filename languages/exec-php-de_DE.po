@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exec-PHP\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-07-05 23:13+0100\n"
+"PO-Revision-Date: 2008-07-05 23:45+0100\n"
 "Last-Translator: Sören Weber <soeren@bluesome.net>\n"
 "Language-Team: Sören Weber <soeren@bluesome.net>\n"
 "MIME-Version: 1.0\n"
@@ -140,8 +140,8 @@ msgid "The following list shows which users have the &quot;%s&quot; capability a
 msgstr "Die folgende Liste zeigt an, welche Benutzer die &quot;%s&quot; Berechtigung haben und dementsprechend in der Lage sind, PHP Code in Artikeln auszuf&uuml;hren."
 
 #: includes/user_ui.php:51
-msgid "Disable WYSIWYG Conversion Warning:"
-msgstr "Exec-PHP WYSIWYG Konvertierungswarnung:"
+msgid "Disable WYSIWYG Conversion Warning"
+msgstr "Exec-PHP WYSIWYG Konvertierungswarnung"
 
 #: includes/user_ui.php:55
 msgid "Select this option to turn off the WYSIWYG Conversion Warning in the Write menu. Nevertheless the recommended way is to switch off the WYSIWYG editor so you can be sure not to break existing PHP code by accident."

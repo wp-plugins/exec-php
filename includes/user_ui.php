@@ -48,7 +48,7 @@ class ExecPhp_UserUi
 <?php endif; ?>
 	<table class="form-table">
 		<tr valign="top">
-			<th scope="row"><?php _es('Disable WYSIWYG Conversion Warning:', ExecPhp_PLUGIN_ID); ?></th>
+			<th scope="row"><?php _es('Disable WYSIWYG Conversion Warning', ExecPhp_PLUGIN_ID); ?></th>
 			<td>
 				<label for="<?php echo ExecPhp_POST_WYSIWYG_WARNING; ?>">
 					<input style="width: auto;" type="checkbox" name="<?php echo ExecPhp_POST_WYSIWYG_WARNING; ?>" id="<?php echo ExecPhp_POST_WYSIWYG_WARNING; ?>" value="true" <?php if ($usermeta->hide_wysiwyg_warning()) : ?>checked="checked" <?php endif; ?>/>

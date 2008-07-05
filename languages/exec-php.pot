@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Exec-PHP\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-07-05 23:11+0100\n"
+"PO-Revision-Date: 2008-07-05 23:45+0100\n"
 "Last-Translator: Sören Weber <soeren@bluesome.net>\n"
 "Language-Team: Sören Weber <soeren@bluesome.net>\n"
 "MIME-Version: 1.0\n"
@@ -140,7 +140,7 @@ msgid "The following list shows which users have the &quot;%s&quot; capability a
 msgstr ""
 
 #: includes/user_ui.php:51
-msgid "Disable WYSIWYG Conversion Warning:"
+msgid "Disable WYSIWYG Conversion Warning"
 msgstr ""
 
 #: includes/user_ui.php:55
