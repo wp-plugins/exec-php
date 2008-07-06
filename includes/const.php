@@ -3,18 +3,29 @@
 define('ExecPhp_VERSION', '4.8');
 define('ExecPhp_PLUGIN_ID', 'exec-php');
 
-// relative path of stored plugins to ABSPATH
-if (defined('PLUGINDIR'))
-	define('ExecPhp_PLUGINDIR', PLUGINDIR);
+// relative path of stored plugins to ABSPATH; only required for WP < 2.6
+if (version_compare($wp_version, '2.6.dev') >= 0)
+{
+	// relative path of plugin to PLUGINDIR
+	$execphp_path = str_replace('\\', '/', dirname(dirname(__FILE__)));
+	$plugin_path = str_replace('\\', '/', WP_PLUGIN_DIR);
+	define('ExecPhp_HOMEDIR', trim(str_replace($plugin_path, '', $execphp_path), '/'));
+}
 else
-	define('ExecPhp_PLUGINDIR', 'wp-content/plugins');
+{
+	// ExecPhp_PLUGINDIR only available for WP < 2.6
+	if (defined('PLUGINDIR'))
+		define('ExecPhp_PLUGINDIR', PLUGINDIR);
+	else
+		define('ExecPhp_PLUGINDIR', 'wp-content/plugins');
 
-// relative path of plugin to ExecPhp_PLUGINDIR
-$execphp_path = str_replace('\\', '/', dirname(dirname(__FILE__)));
-$execphp_offset = 0;
-while (($execphp_n = strpos($execphp_path, ExecPhp_PLUGINDIR, $execphp_offset)) !== false)
-	$execphp_offset = $execphp_n + 1;
-define('ExecPhp_HOMEDIR', substr($execphp_path, $execphp_offset + strlen(ExecPhp_PLUGINDIR)));
+	// relative path of plugin to PLUGINDIR
+	$execphp_path = str_replace('\\', '/', dirname(dirname(__FILE__)));
+	$execphp_offset = 0;
+	while (($execphp_n = strpos($execphp_path, ExecPhp_PLUGINDIR, $execphp_offset)) !== false)
+		$execphp_offset = $execphp_n + 1;
+	define('ExecPhp_HOMEDIR', substr($execphp_path, $execphp_offset + strlen(ExecPhp_PLUGINDIR)));
+}
 
 if (defined('WP_PLUGIN_DIR'))
 	define('ExecPhp_HOME_DIR', WP_PLUGIN_DIR. '/'. ExecPhp_HOMEDIR);
