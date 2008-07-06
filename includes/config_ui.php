@@ -37,11 +37,25 @@ class ExecPhp_ConfigUi
 
 	function action_admin_menu()
 	{
-		add_submenu_page('options-general.php',
-			__s('Exec-PHP Settings', ExecPhp_PLUGIN_ID),
-			__s('Exec-PHP', ExecPhp_PLUGIN_ID),
-			ExecPhp_CAPABILITY_EDIT_PLUGINS, __FILE__,
-			array(&$this, 'submenu_page_option_general'));
+		if (current_user_can(ExecPhp_CAPABILITY_EDIT_PLUGINS))
+		{
+			add_submenu_page('options-general.php',
+				__s('Exec-PHP Settings', ExecPhp_PLUGIN_ID),
+				__s('Exec-PHP', ExecPhp_PLUGIN_ID),
+				ExecPhp_CAPABILITY_EDIT_PLUGINS, __FILE__,
+				array(&$this, 'submenu_page_option_general'));
+			add_filter('plugin_action_links', array(&$this, 'filter_plugin_actions_links'), 10, 2);
+		}
+	}
+
+	function filter_plugin_actions_links($links, $file)
+	{
+		if ($file == ExecPhp_HOMEDIR. '/exec-php.php')
+		{
+			$settings_link = $settings_link = '<a href="options-general.php?page='. ExecPhp_HOMEDIR. '/includes/config_ui.php">' . __('Settings') . '</a>';
+			array_unshift($links, $settings_link);
+		}
+		return $links;
 	}
 
 	function action_admin_footer_plugin_version()

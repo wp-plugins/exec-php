@@ -13,7 +13,7 @@
 <p>The Exec-PHP plugin executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets.</p>
 
 <h3>Make it quick. Where can I download the plugin?</h3>
-<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.8 here!</a></p>
+<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.9 here!</a></p>
 
 <h3>Why is there so much text below?</h3>
 <p>Because I hate cool plugins that are badly documented. Even the smallest piece of code needs some documentation. The following text is pretty exhaustive. Feel free to skip the sections you are not interested in. If you have a question about the plugin please first make sure you refer to the latest version and the question is not answered on this page or in the <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">comments section of the plugin homepage</a>. Then - and only then - <a href="http://bluesome.net/post/2005/08/18/50/#response-50">post your question here</a>.</p><!--more-->
@@ -91,6 +91,7 @@
 			<li><a href="#new_versions">New versions</a></li>
 			<li><a href="#history">History of older versions</a>
 				<ol>
+					<li><a href="#version_4_9">Version 4.9 (not yet released)</a></li>
 					<li><a href="#version_4_8">Version 4.8 (2008-07-05)</a></li>
 					<li><a href="#version_4_7">Version 4.7 (2008-05-05)</a></li>
 					<li><a href="#version_4_6">Version 4.6 (2008-04-06)</a></li>
@@ -413,7 +414,7 @@ else
   load_plugin_textdomain(ExecPhp_PLUGIN_ID,
     ExecPhp_PLUGINDIR. '/'. ExecPhp_HOMEDIR. '/languages');
 
-$doc_dir = ExecPhp_PLUGINDIR. '/'. ExecPhp_HOMEDIR. '/docs/';
+$doc_dir = ExecPhp_HOME_URL. '/docs/';
 $doc_filename = ExecPhp_HOME_DIR. '/docs/'. __s('readme.html', ExecPhp_PLUGIN_ID);
 $content = file_get_contents($doc_filename);
 
@@ -436,9 +437,9 @@ ob_end_clean();
 
 // adjust relative image links
 $content = preg_replace('/&lt;img\s+src\s*=\s*([\'\"])/is',
-  '&lt;img src=\1'. get_option('siteurl'). '/'. $doc_dir, $content);
+  '&lt;img src=\1'. $doc_dir, $content);
 $content = preg_replace('/&lt;a\s+href\s*=\s*([\'\"])\s*([^\1p]+\.png\s*\1)/isU',
-  '&lt;a href=\1'. get_option('siteurl'). '/'. $doc_dir. '\2', $content);
+  '&lt;a href=\1'. $doc_dir. '\2', $content);
 
 // done
 echo $content;
@@ -452,9 +453,20 @@ echo $content;
 
 <h4 id="history">History of older versions</h4>
 
-<h5 id="version_4_8">Version 4.8 (2008-07-05)</h5>
+<h5 id="version_4_9">Version 4.9 (not yet released)</h5>
 <ul>
 	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a> (english and german translation)</li>
+	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">French translation</a></li>
+	<li>Download: <a href="http://gidibao.net/index.php/2008/05/07/exec-php-in-italiano/">Italian translation</a></li>
+	<li>Download: <a href="http://dimox.name/exec-php-russian-translation/">Russian translation</a></li>
+	<li>Download: <a href="http://dcabai.blogspot.com/2008/04/exec-php-en-espaol.html">Spanish translation</a></li>
+	<li>Requirements: WordPress 2.0 or higher</li>
+	<li>Feature: New 'Settings' link in WordPress 'Plugin' menu</li>
+</ul>
+
+<h5 id="version_4_8">Version 4.8 (2008-07-05)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.4.8.zip">Plugin</a> (english and german translation)</li>
 	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">French translation</a></li>
 	<li>Download: <a href="http://gidibao.net/index.php/2008/05/07/exec-php-in-italiano/">Italian translation</a></li>
 	<li>Download: <a href="http://dimox.name/exec-php-russian-translation/">Russian translation</a></li>

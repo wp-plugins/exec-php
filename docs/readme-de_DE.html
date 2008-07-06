@@ -13,7 +13,7 @@
 <p>Das Exec-PHP Plugin führt <code>&lt;?php ?&gt;</code> Code in deinen Beiträgen, Seiten und Text-Widgets aus.</p>
 
 <h3>Mach schnell. Wo kann ich das Plugin runterladen?</h3>
-<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.8 hier!</a></p>
+<p class="marker centered"><a style="font-size: 1.5em;" href="http://bluesome.net/data/2005/08/exec-php.zip">Download Exec-PHP 4.9 hier!</a></p>
 
 <h3>Warum ist hier soviel Text?</h3>
 <p>Ich hasse coole Plugins, die schlecht dokumentiert sind. Selbst das kleinste Stück Code benötigt ein wenig Dokumentation. Der folgende Text ist ziemlich ausführlich. Überspringe einfach die Kapitel, die dich nicht interessieren. Wenn du Fragen zum Plugin hast, vergewissere dich, dass du die neuste Version benutzt und die Frage noch nicht auf dieser Seite oder in den <a href="http://bluesome.net/post/2005/08/18/50/#comments-50">Kommentaren der Plugin Homepage</a> beantwortet sind. Dann - und nur dann - <a href="http://bluesome.net/post/2005/08/18/50/#response-50">stell deine Frage hier</a>.</p><!--more-->
@@ -91,6 +91,7 @@
 			<li><a href="#new_versions">Neue Versionen</a></li>
 			<li><a href="#history">Historie alter Versionen</a>
 				<ol>
+					<li><a href="#version_4_9">Version 4.9 (noch nicht veröffentlicht)</a></li>
 					<li><a href="#version_4_8">Version 4.8 (2008-07-05)</a></li>
 					<li><a href="#version_4_7">Version 4.7 (2008-05-05)</a></li>
 					<li><a href="#version_4_6">Version 4.6 (2008-04-06)</a></li>
@@ -232,7 +233,7 @@ Um Code in Artikeln oder Text-Widgets auszuführen, musst du eventuell deine Blo
 
 <h4 id="configuration">Konfiguration</h4>
 <p>Das Plugin hat ein eigenes Konfigurationsmenu unter 'Einstellungen &gt; Exec-PHP'. Das Konfigurationsmenu wird nur für Benutzer angezeigt, die die 'edit_plugins' Befugnis haben. Diese ist üblicherweise nur den Administratoren zugewiesen. Wenn du Javascript in deinem Browser abgeschaltet hast oder du Exec-PHP mit WordPress 2.0.x laufen lässt, so wirst du gar keine oder nur Teile des Konfigurationsmenus sehen.</p>
-<p>Das Konfigurationsmenu ist in zwei Abschnitte unterteilt, dem Einstellungsabschnitt und dem Informationsabschnitt. Im Einstellungsabschnitt kann <a href="#allow_widget">das Plugin konfiguriert</a> werden, während im Informatiosabschnitt angezeigt wird, <a href="#security_holes">welche Benutzer berechtigt sind, PHP Code auszuführen</a>.</p>
+<p>Das Konfigurationsmenu ist in zwei Abschnitte unterteilt, dem Einstellungsabschnitt und dem Sicherheitsinformationsabschnitt. Im Einstellungsabschnitt kann <a href="#allow_widget">das Plugin konfiguriert</a> werden, während im Informatiosabschnitt angezeigt wird, <a href="#security_holes">welche Benutzer berechtigt sind, PHP Code auszuführen</a>.</p>
 <p><a href="../docs/screenshot-1-de_DE.png"><img src="../docs/screenshot-1-de_DE.png" alt="Das Exec-PHP Konfigurationsmenu" /></a></p>
 
 <h4 id="misconfiguration">Fehlkonfiguration</h4>
@@ -415,7 +416,7 @@ else
   load_plugin_textdomain(ExecPhp_PLUGIN_ID,
     ExecPhp_PLUGINDIR. '/'. ExecPhp_HOMEDIR. '/languages');
 
-$doc_dir = ExecPhp_PLUGINDIR. '/'. ExecPhp_HOMEDIR. '/docs/';
+$doc_dir = ExecPhp_HOME_URL. '/docs/';
 $doc_filename = ExecPhp_HOME_DIR. '/docs/'. __s('readme.html', ExecPhp_PLUGIN_ID);
 $content = file_get_contents($doc_filename);
 
@@ -438,9 +439,9 @@ ob_end_clean();
 
 // adjust relative image links
 $content = preg_replace('/&lt;img\s+src\s*=\s*([\'\"])/is',
-  '&lt;img src=\1'. get_option('siteurl'). '/'. $doc_dir, $content);
+  '&lt;img src=\1'. $doc_dir, $content);
 $content = preg_replace('/&lt;a\s+href\s*=\s*([\'\"])\s*([^\1p]+\.png\s*\1)/isU',
-  '&lt;a href=\1'. get_option('siteurl'). '/'. $doc_dir. '\2', $content);
+  '&lt;a href=\1'. $doc_dir. '\2', $content);
 
 // done
 echo $content;
@@ -454,9 +455,20 @@ echo $content;
 
 <h4 id="history">Historie alter Versionen</h4>
 
-<h5 id="version_4_8">Version 4.8 (2008-07-05)</h5>
+<h5 id="version_4_9">Version 4.9 (noch nicht veröffentlicht)</h5>
 <ul>
 	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a> (Englische und deutsche Übersetzung)</li>
+	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">Französische Übersetzung</a></li>
+	<li>Download: <a href="http://gidibao.net/index.php/2008/05/07/exec-php-in-italiano/">Italienische Übersetzung</a></li>
+	<li>Download: <a href="http://dimox.name/exec-php-russian-translation/">Russische Übersetzung</a></li>
+	<li>Download: <a href="http://dcabai.blogspot.com/2008/04/exec-php-en-espaol.html">Spanische Übersetzung</a></li>
+	<li>Anforderungen: WordPress 2.0 oder höher</li>
+	<li>Feature: Neuer 'Einstellungen' Link im WordPress 'Plugin' Menu</li>
+</ul>
+
+<h5 id="version_4_8">Version 4.8 (2008-07-05)</h5>
+<ul>
+	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.4.8.zip">Plugin</a> (Englische und deutsche Übersetzung)</li>
 	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">Französische Übersetzung</a></li>
 	<li>Download: <a href="http://gidibao.net/index.php/2008/05/07/exec-php-in-italiano/">Italienische Übersetzung</a></li>
 	<li>Download: <a href="http://dimox.name/exec-php-russian-translation/">Russische Übersetzung</a></li>
@@ -530,8 +542,8 @@ echo $content;
 	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.4.2.zip">Plugin</a> (Englische und deutsche Übersetzung)</li>
 	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">Französische Übersetzung</a></li>
 	<li>Anforderungen: WordPress 2.2 oder höher</li>
-	<li>Change: Redesign des Informationbereichs des Konfigurationsmenus</li>
-	<li>Feature: Anzeige eines Sicherheitsalarms im Informationsbereich des Konfigurationsmenus</li>
+	<li>Change: Redesign des Sicherheitsinformationbereichs des Konfigurationsmenus</li>
+	<li>Feature: Anzeige eines Sicherheitsalarms im Sicherheitsinformationsbereich des Konfigurationsmenus</li>
 	<li>Feature: Es wird nun eine Warnung im 'Schreiben' und 'Widgets' Menu ausgegeben, falls die Blog- oder Benutzereinstellungen geschriebenen PHP Code beim Speichern zerstören würden</li>
 </ul>
 
