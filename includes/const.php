@@ -8,8 +8,8 @@ if (version_compare($wp_version, '2.6.dev') >= 0)
 {
 	// relative path of plugin to PLUGINDIR
 	$execphp_path = str_replace('\\', '/', dirname(dirname(__FILE__)));
-	$plugin_path = str_replace('\\', '/', WP_PLUGIN_DIR);
-	define('ExecPhp_HOMEDIR', trim(str_replace($plugin_path, '', $execphp_path), '/'));
+	$execphp_plugin_path = str_replace('\\', '/', WP_PLUGIN_DIR);
+	define('ExecPhp_HOMEDIR', trim(str_replace($execphp_plugin_path, '', $execphp_path), '/'));
 }
 else
 {
