@@ -7,6 +7,8 @@
 if (!function_exists('ExecPhp_Const')) :
 function ExecPhp_Const()
 {
+	global $wp_version;
+
 	define('ExecPhp_VERSION', '4.8');
 	define('ExecPhp_PLUGIN_ID', 'exec-php');
 
