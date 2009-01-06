@@ -48,7 +48,7 @@ class ExecPhp_Admin
 		else
 			load_plugin_textdomain(ExecPhp_PLUGIN_ID, ExecPhp_PLUGINDIR. '/'. ExecPhp_HOMEDIR. '/languages');
 
-		$this->m_l10n_common = array(
+		$this->m_common_l10n = array(
 			'messageContainer' => ExecPhp_ID_MESSAGE);
 		$this->m_common_script =& new ExecPhp_Script(ExecPhp_ID_SCRIPT_COMMON,
 			ExecPhp_ID_L10N_COMMON, $this->m_common_l10n, '/js/common.js', array());
