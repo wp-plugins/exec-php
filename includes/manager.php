@@ -1,6 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__).'/admin.php');
+require_once(dirname(__FILE__).'/ajax.php');
 require_once(dirname(__FILE__).'/cache.php');
 require_once(dirname(__FILE__).'/const.php');
 require_once(dirname(__FILE__).'/runtime.php');
@@ -13,6 +14,7 @@ require_once(dirname(__FILE__).'/runtime.php');
 if (!class_exists('ExecPhp_Manager')) :
 class ExecPhp_Manager
 {
+	var $m_ajax = NULL;
 	var $m_runtime = NULL;
 	var $m_admin = NULL;
 
@@ -32,6 +34,7 @@ class ExecPhp_Manager
 	function action_init()
 	{
 		$cache =& new ExecPhp_Cache();
+		$this->m_ajax =& new ExecPhp_Ajax($this->m_cache);
 		$this->m_runtime =& new ExecPhp_Runtime($cache);
 		$this->m_admin =& new ExecPHP_Admin($cache);
 	}

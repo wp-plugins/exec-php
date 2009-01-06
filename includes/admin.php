@@ -1,6 +1,5 @@
 <?php
 
-require_once(dirname(__FILE__).'/ajax.php');
 require_once(dirname(__FILE__).'/cache.php');
 require_once(dirname(__FILE__).'/const.php');
 require_once(dirname(__FILE__).'/config_ui.php');
@@ -22,7 +21,6 @@ if (!class_exists('ExecPhp_Admin')) :
 class ExecPhp_Admin
 {
 	var $m_cache = NULL;
-	var $m_ajax = NULL;
 	var $m_script = NULL;
 	var $m_style = NULL;
 	var $m_write_ui = NULL;
@@ -37,13 +35,8 @@ class ExecPhp_Admin
 	{
 		global $wp_version;
 
-		if (version_compare($wp_version, '2.1.dev') < 0)
-			return;
-
 		$this->m_cache =& $cache;
 
-		// ajax server needs to be installed without is_admin() check
-		$this->m_ajax =& new ExecPhp_Ajax($this->m_cache);
 		if (!is_admin())
 			return;
 
@@ -53,12 +46,16 @@ class ExecPhp_Admin
 			load_plugin_textdomain(ExecPhp_PLUGIN_ID, ExecPhp_PLUGINDIR. '/'. ExecPhp_HOMEDIR. '/languages');
 
 		$this->m_script =& new ExecPhp_Script();
-		$this->m_style =& new ExecPhp_Style();
 		$this->m_write_ui =& new ExecPhp_WriteUi($this->m_cache, $this->m_script);
 		$this->m_user_ui =& new ExecPhp_UserUi($this->m_cache);
+		add_action('admin_notices', array(&$this, 'action_admin_notices'), 5);
+
+		if (version_compare($wp_version, '2.1.dev') < 0)
+			return;
+
+		$this->m_style =& new ExecPhp_Style();
 		$this->m_config_ui =& new ExecPhp_ConfigUi($this->m_cache, $this->m_script);
 
-		add_action('admin_notices', array(&$this, 'action_admin_notices'), 5);
 		add_action('admin_footer', array(&$this, 'action_admin_footer'));
 	}
 

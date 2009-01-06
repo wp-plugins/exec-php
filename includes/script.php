@@ -25,13 +25,20 @@ class ExecPhp_Script
 			'ajaxError' => escape_dquote(__s("Exec-PHP AJAX HTTP error when receiving data: ", ExecPhp_PLUGIN_ID)),
 			'l10n_print_after' => 'try{convertEntities('. ExecPhp_ID_L10N_ADMIN. ');}catch(e){};');
 
-		wp_enqueue_script(ExecPhp_ID_SCRIPT_COMMON, ExecPhp_HOME_URL. '/js/common.js');
+		if (function_exists('wp_enqueue_script'))
+			wp_enqueue_script(ExecPhp_ID_SCRIPT_COMMON, ExecPhp_HOME_URL. '/js/common.js');
+		else
+			// WP < 2.1
+			add_action('admin_head', array(&$this, 'action_admin_head_script'));
+
+		if (version_compare($wp_version, '2.1.dev') < 0)
+			return;
+
 		if (current_user_can(ExecPhp_CAPABILITY_EDIT_PLUGINS)
 			|| current_user_can(ExecPhp_CAPABILITY_EDIT_USERS))
 		{
 			wp_enqueue_script(ExecPhp_ID_SCRIPT_ADMIN, ExecPhp_HOME_URL. '/js/admin.js', array('sack'));
 		}
-
 		add_action('wp_print_scripts', array(&$this, 'action_wp_print_scripts'));
 	}
 
@@ -45,10 +52,10 @@ class ExecPhp_Script
 			wp_localize_script(ExecPhp_ID_SCRIPT_ADMIN, ExecPhp_ID_L10N_ADMIN, $this->m_l10n_tab);
 		else
 			// WP < 2.2
-			add_action('admin_head', array(&$this, 'action_admin_head'));
+			add_action('admin_head', array(&$this, 'action_admin_head_l10n'));
 	}
 
-	function action_admin_head()
+	function action_admin_head_l10n()
 	{
 ?>
 <script type='text/javascript'>
@@ -62,6 +69,13 @@ class ExecPhp_Script
 	try{convertEntities(<?php echo ExecPhp_ID_L10N_ADMIN; ?>);}catch(e){};
 /* ]]> */
 </script>
+<?php
+	}
+
+	function action_admin_head_script()
+	{
+?>
+<script type='text/javascript' src='<?php echo ExecPhp_HOME_URL; ?>/js/common.js'></script>
 <?php
 	}
 
