@@ -35,7 +35,8 @@ class ExecPhp_UserUi
 
 	function action_user_profile()
 	{
-		global $profileuser, $wp_version;
+		global $profileuser;
+		global $wp_version;
 
 		if ($profileuser->has_cap(ExecPhp_CAPABILITY_EXECUTE_ARTICLES))
 		{

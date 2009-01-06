@@ -100,7 +100,6 @@ class ExecPhp_ConfigUi
 	function print_request_users($display_id, $feature, $title, $introduction)
 	{
 		global $wp_version;
-
 		if (version_compare($wp_version, '2.6.dev') >= 0)
 			// since WP 2.6 it comes with its own progress animation
 			$image_url = get_option('siteurl'). '/wp-admin/images/loading.gif';

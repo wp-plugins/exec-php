@@ -20,11 +20,12 @@ class ExecPhp_Ajax
 
 	function ExecPhp_Ajax(&$cache)
 	{
-		global $wp_version;
-
 		$this->m_cache =& $cache;
+
+		global $wp_version;
 		if (version_compare($wp_version, '2.5.dev') >= 0 && !defined('DOING_AJAX'))
 			return;
+
 		add_action('wp_ajax_'. ExecPhp_ACTION_REQUEST_USERS,
 			array(&$this, 'action_ajax_request_user'));
 	}

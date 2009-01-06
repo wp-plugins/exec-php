@@ -31,6 +31,7 @@ class ExecPhp_Script
 			// WP < 2.1
 			add_action('admin_head', array(&$this, 'action_admin_head_script'));
 
+		global $wp_version;
 		if (version_compare($wp_version, '2.1.dev') < 0)
 			return;
 

@@ -33,13 +33,13 @@ class ExecPhp_Admin
 
 	function ExecPhp_Admin(&$cache)
 	{
-		global $wp_version;
 
 		$this->m_cache =& $cache;
 
 		if (!is_admin())
 			return;
 
+		global $wp_version;
 		if (version_compare($wp_version, '2.6.dev') >= 0)
 			load_plugin_textdomain(ExecPhp_PLUGIN_ID, false, ExecPhp_HOMEDIR. '/languages');
 		else
