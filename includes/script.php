@@ -43,6 +43,26 @@ class ExecPhp_Script
 	{
 		if (function_exists('wp_localize_script'))
 			wp_localize_script(ExecPhp_ID_SCRIPT_ADMIN, ExecPhp_ID_L10N_ADMIN, $this->m_l10n_tab);
+		else
+			// WP < 2.2
+			add_action('admin_head', array(&$this, 'action_admin_head'));
+	}
+
+	function action_admin_head()
+	{
+?>
+<script type='text/javascript'>
+/* <![CDATA[ */
+	<?php echo ExecPhp_ID_L10N_ADMIN; ?> = {
+		noUserFound: "<?php echo $this->m_l10n_tab['noUserFound']; ?>",
+		securityAlertHeading: "<?php echo $this->m_l10n_tab['securityAlertHeading']; ?>",
+		securityAlertText: "<?php echo $this->m_l10n_tab['securityAlertText']; ?>",
+		requestFile: "<?php echo $this->m_l10n_tab['requestFile']; ?>",
+		ajaxError: "<?php echo $this->m_l10n_tab['ajaxError']; ?>" }
+	try{convertEntities(<?php echo ExecPhp_ID_L10N_ADMIN; ?>);}catch(e){};
+/* ]]> */
+</script>
+<?php
 	}
 
 	// ---------------------------------------------------------------------------
