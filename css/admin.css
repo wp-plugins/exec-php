@@ -1,20 +1,19 @@
-#execphp-security-hole li,
-#execphp-widgets li,
-#execphp-execute-articles li {
-	float: left;
-	line-height: 1em;
-	width: 20em;
+.execphp-user-list ul {
+	font-style: italic;
+	margin: 1em;
 }
 
-#execphp-security-hole p,
-#execphp-widgets p,
-#execphp-execute-articles p {
+.execphp-user-list li {
+	float: left;
+	line-height: 1em;
+	width: 18em;
+}
+
+.execphp-user-list p {
 	text-align: center;
 }
 
-#execphp-security-hole p *,
-#execphp-widgets p *,
-#execphp-execute-articles p * {
+.execphp-user-list p * {
 	vertical-align: middle;
 }
 
