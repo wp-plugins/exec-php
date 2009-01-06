@@ -2,8 +2,6 @@
 
 require_once(dirname(__FILE__).'/const.php');
 
-define('ExecPhp_META_WYSIWYG_WARNING', 'execphp_wysiwyg_warning');
-
 // -----------------------------------------------------------------------------
 // the ExecPhp_UserMeta class handles the loading and storing of the
 // plugin settings for each individual article including all needed conversion
@@ -11,6 +9,9 @@ define('ExecPhp_META_WYSIWYG_WARNING', 'execphp_wysiwyg_warning');
 // -----------------------------------------------------------------------------
 
 if (!class_exists('ExecPhp_UserMeta')) :
+
+define('ExecPhp_META_WYSIWYG_WARNING', 'execphp_wysiwyg_warning');
+
 class ExecPhp_UserMeta
 {
 	var $m_user_id = -1;
