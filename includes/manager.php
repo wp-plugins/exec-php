@@ -34,7 +34,7 @@ class ExecPhp_Manager
 	function action_init()
 	{
 		$cache =& new ExecPhp_Cache();
-		$this->m_ajax =& new ExecPhp_Ajax($this->m_cache);
+		$this->m_ajax =& new ExecPhp_Ajax($cache);
 		$this->m_runtime =& new ExecPhp_Runtime($cache);
 		$this->m_admin =& new ExecPHP_Admin($cache);
 	}
