@@ -35,11 +35,11 @@ function ExecPhp_ajaxCompletion()
 
 	if (!exec_php.length)
 		exec_php = "<p>" + execphpAdminL10n.noUserFound + "</p>";
-	ExecPhp_fillContainer("execphp-execute-articles", exec_php);
+	ExecPhp_fillContainer(execphpAdminL10n.executeArticlesContainer, exec_php);
 
 	if (!switch_themes.length)
 		switch_themes = "<p>" + execphpAdminL10n.noUserFound + "</p>";
-	ExecPhp_fillContainer("execphp-widgets", switch_themes);
+	ExecPhp_fillContainer(execphpAdminL10n.widgetsContainer, switch_themes);
 
 	if (!edit_others_php.length)
 		edit_others_php = "<p>" + execphpAdminL10n.noUserFound + "</p>";
@@ -48,9 +48,9 @@ function ExecPhp_ajaxCompletion()
 		heading = execphpAdminL10n.securityAlertHeading;
 		text = execphpAdminL10n.securityAlertText;
 		ExecPhp_setMessage(heading, text);
-		ExecPhp_markContainer("execphp-security-hole");
+		ExecPhp_markContainer(execphpAdminL10n.securityHoleContainer);
 	}
-	ExecPhp_fillContainer("execphp-security-hole", edit_others_php);
+	ExecPhp_fillContainer(execphpAdminL10n.securityHoleContainer, edit_others_php);
 }
 
 function ExecPhp_ajaxError()
@@ -70,14 +70,14 @@ function ExecPhp_ajaxError()
 		var error_message = "<p>" + execphpAdminL10n.AjaxError + "</p>"
 			+ g_execphp_ajax.requestFile + " - " + g_execphp_error_message;
 
-		ExecPhp_markContainer("execphp-execute-articles");
-		ExecPhp_fillContainer("execphp-execute-articles", error_message);
+		ExecPhp_markContainer(execphpAdminL10n.executeArticlesContainer);
+		ExecPhp_fillContainer(execphpAdminL10n.executeArticlesContainer, error_message);
 
-		ExecPhp_markContainer("execphp-widgets");
-		ExecPhp_fillContainer("execphp-widgets", error_message);
+		ExecPhp_markContainer(execphpAdminL10n.widgetsContainer);
+		ExecPhp_fillContainer(execphpAdminL10n.widgetsContainer, error_message);
 
-		ExecPhp_markContainer("execphp-security-hole");
-		ExecPhp_fillContainer("execphp-security-hole", error_message);
+		ExecPhp_markContainer(execphpAdminL10n.securityHoleContainer);
+		ExecPhp_fillContainer(execphpAdminL10n.securityHoleContainer, error_message);
 
 		g_execphp_error_message = "";
 		g_execphp_retries = 0;
@@ -86,9 +86,8 @@ function ExecPhp_ajaxError()
 
 function ExecPhp_requestUser()
 {
-	ExecPhp_subscribeForFeature("security_hole");
 	g_execphp_ajax.setVar("cookie", document.cookie);
-	g_execphp_ajax.setVar("action", "execphp_request_users");
+	g_execphp_ajax.setVar("action", execphpAdminL10n.action);
 	g_execphp_ajax.setVar("feature", g_execphp_feature);
 	g_execphp_ajax.requestFile = execphpAdminL10n.requestFile;
 	g_execphp_ajax.onError = ExecPhp_ajaxError;

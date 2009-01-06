@@ -14,6 +14,9 @@ require_once(dirname(__FILE__).'/script.php');
 // is disabled because of a version conflict but you still try to reload
 // the plugins config interface
 if (!class_exists('ExecPhp_ConfigUi')) :
+
+define('ExecPhp_ACTION_UPDATE_OPTIONS', 'execphp_update_options');
+
 class ExecPhp_ConfigUi
 {
 	var $m_cache = NULL;
@@ -114,7 +117,7 @@ class ExecPhp_ConfigUi
 							<label for="<?php echo ExecPhp_POST_WIDGET_SUPPORT; ?>">
 								<?php echo $introduction; ?>
 
-								<span id="<?php echo $display_id; ?>">
+								<span class="execphp-user-list" id="<?php echo $display_id; ?>">
 									<?php _es('The list can not be displayed because you may have disabled Javascript or your browser does not support Javascript.', ExecPhp_PLUGIN_ID); ?>
 
 								</span>
