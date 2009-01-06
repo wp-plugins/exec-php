@@ -17,6 +17,7 @@ class ExecPhp_Style
 			if (function_exists('wp_enqueue_style'))
 				wp_enqueue_style(ExecPhp_ID_STYLE_ADMIN, ExecPhp_HOME_URL. '/css/admin.css');
 			else
+				// WP < 2.6
 				add_action('admin_head', array(&$this, 'action_admin_head'), 5);
 		}
 	}
