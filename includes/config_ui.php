@@ -117,10 +117,10 @@ class ExecPhp_ConfigUi
 							<label for="<?php echo ExecPhp_POST_WIDGET_SUPPORT; ?>">
 								<?php echo $introduction; ?>
 
-								<span class="execphp-user-list" id="<?php echo $display_id; ?>">
+								<div class="execphp-user-list" id="<?php echo $display_id; ?>">
 									<?php _es('The list can not be displayed because you may have disabled Javascript or your browser does not support Javascript.', ExecPhp_PLUGIN_ID); ?>
 
-								</span>
+								</div>
 								<script type="text/javascript">
 									//<![CDATA[
 									document.getElementById("<?php echo $display_id; ?>").innerHTML =
