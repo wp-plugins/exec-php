@@ -1,4 +1,4 @@
-g_execphp_ajax = new sack(execphpAdminL10n.ajaxScript);
+g_execphp_ajax = new sack();
 g_execphp_error_message = "";
 g_execphp_retries = 0;
 g_execphp_max_retries = 3;
@@ -90,6 +90,7 @@ function ExecPhp_requestUser()
 	g_execphp_ajax.setVar("cookie", document.cookie);
 	g_execphp_ajax.setVar("action", "execphp_request_users");
 	g_execphp_ajax.setVar("feature", g_execphp_feature);
+	g_execphp_ajax.requestFile = execphpAdminL10n.requestFile;
 	g_execphp_ajax.onError = ExecPhp_ajaxError;
 	g_execphp_ajax.onCompletion = ExecPhp_ajaxCompletion;
 	g_execphp_ajax.runAJAX();
