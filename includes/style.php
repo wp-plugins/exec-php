@@ -16,7 +16,20 @@ class ExecPhp_Style
 		{
 			if (function_exists('wp_enqueue_style'))
 				wp_enqueue_style(ExecPhp_ID_STYLE_ADMIN, ExecPhp_HOME_URL. '/css/admin.css');
+			else
+				add_action('admin_header', array(&$this, 'action_admin_header'), 5);
 		}
+	}
+
+	// ---------------------------------------------------------------------------
+	// hooks
+	// ---------------------------------------------------------------------------
+
+	function action_admin_header()
+	{
+?>
+<link rel='stylesheet' href='<?php echo ExecPhp_HOME_URL; ?>/css/admin.css' type='text/css' />
+<?php
 	}
 }
 endif;
