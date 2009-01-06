@@ -25,8 +25,6 @@ class ExecPhp_Script
 		$this->m_path = $path;
 		$this->m_dependency = $dependency;
 
-		$this->m_l10n_tab['l10n_print_after'] = 'try{convertEntities('. $this->m_tab_name. ');}catch(e){};';
-
 		if (function_exists('wp_enqueue_script'))
 			wp_enqueue_script($this->m_id, ExecPhp_HOME_URL. $this->m_path, $this->m_dependency);
 		else
@@ -44,7 +42,10 @@ class ExecPhp_Script
 		if (!$this->m_l10n_tab)
 			return;
 		if (function_exists('wp_localize_script'))
+		{
+			$this->m_l10n_tab['l10n_print_after'] = 'try{convertEntities('. $this->m_tab_name. ');}catch(e){};';
 			wp_localize_script($this->m_id, $this->m_tab_name, $this->m_l10n_tab);
+		}
 		else
 			// WP < 2.2
 			add_action('admin_head', array(&$this, 'action_admin_head_tab'));
@@ -66,10 +67,9 @@ class ExecPhp_Script
 <?php
 		foreach ($this->m_l10n_tab as $item => $value)
 		{
-			if ($item != 'l10n_print_after')
-				echo "$item: \"$value\",";
+			echo "\t\t$item: \"$value\",\n";
 		}
-		echo "last: \"last\"}";
+		echo "\t\tlast: \"last\"\n\t}\n";
 ?>
 	try{convertEntities(<?php echo $this->m_tab_name; ?>);}catch(e){};
 /* ]]> */
