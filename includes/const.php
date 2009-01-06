@@ -57,8 +57,8 @@ define('ExecPhp_STATUS_OKAY', 0);
 define('ExecPhp_STATUS_UNINITIALIZED', 1);
 define('ExecPhp_STATUS_PLUGIN_VERSION_MISMATCH', 2);
 
-define('ExecPhp_ACTION_REQUEST_USERS', 'execphp_request_users');
-define('ExecPhp_REQUEST_FEATURE_SECURITY_HOLE', 'security_hole');
+define('ExecPhp_ACTION_REQUEST_USERS', 'execphp_request_users');       // partly hardcoded
+define('ExecPhp_REQUEST_FEATURE_SECURITY_HOLE', 'security_hole');      // partly hardcoded
 define('ExecPhp_REQUEST_FEATURE_WIDGETS', 'widgets');
 define('ExecPhp_REQUEST_FEATURE_EXECUTE_ARTICLES', 'execute_articles');
 
@@ -68,12 +68,15 @@ define('ExecPhp_ACTION_UPDATE_USERMETA', 'execphp_update_usermeta');
 define('ExecPhp_POST_WIDGET_SUPPORT', 'execphp_widget_support');
 define('ExecPhp_POST_WYSIWYG_WARNING', 'execphp_wysiwyg_warning');
 
-define('ExecPhp_ID_CONFIG_FORM', 'execphp-configuration');
-define('ExecPhp_ID_INFO_FORM', 'execphp-information');
-define('ExecPhp_ID_INFO_SECURITY_HOLE', 'execphp-security-hole');
-define('ExecPhp_ID_INFO_WIDGETS', 'execphp-widgets');
-define('ExecPhp_ID_INFO_EXECUTE_ARTICLES', 'execphp-execute-articles');
-define('ExecPhp_ID_MESSAGE', 'execphp-message');
+define('ExecPhp_ID_CONFIG_FORM', 'execphp-configuration');              // partly hardcoded
+define('ExecPhp_ID_INFO_FORM', 'execphp-information');                  // partly hardcoded
+define('ExecPhp_ID_INFO_SECURITY_HOLE', 'execphp-security-hole');       // partly hardcoded
+define('ExecPhp_ID_INFO_WIDGETS', 'execphp-widgets');                   // partly hardcoded
+define('ExecPhp_ID_INFO_EXECUTE_ARTICLES', 'execphp-execute-articles'); // partly hardcoded
+define('ExecPhp_ID_MESSAGE', 'execphp-message');                        // partly hardcoded
+define('ExecPhp_ID_SCRIPT_COMMON', 'execphp_common');
+define('ExecPhp_ID_SCRIPT_ADMIN', 'execphp_admin');
+define('ExecPhp_ID_STYLE_ADMIN', 'execphp_admin');
 
 class ExecPhp_Const
 {

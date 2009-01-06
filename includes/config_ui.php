@@ -3,6 +3,7 @@
 require_once(dirname(__FILE__).'/cache.php');
 require_once(dirname(__FILE__).'/const.php');
 require_once(dirname(__FILE__).'/l10n.php');
+require_once(dirname(__FILE__).'/script.php');
 
 // -----------------------------------------------------------------------------
 // the ExecPhp_ConfigUi class displays the config interface in the
@@ -16,15 +17,17 @@ if (!class_exists('ExecPhp_ConfigUi')) :
 class ExecPhp_ConfigUi
 {
 	var $m_cache = NULL;
+	var $m_script = NULL;
 
 	// ---------------------------------------------------------------------------
 	// init
 	// ---------------------------------------------------------------------------
 
 	// Sets up the Exec-Php config menu
-	function ExecPhp_ConfigUi(&$cache)
+	function ExecPhp_ConfigUi(&$cache, &$script)
 	{
 		$this->m_cache =& $cache;
+		$this->m_script =& $script;
 
 		$option =& $this->m_cache->get_option();
 		$this->toggle_action($option->get_status());
@@ -61,19 +64,19 @@ class ExecPhp_ConfigUi
 	function action_admin_footer_plugin_version()
 	{
 		$option =& $this->m_cache->get_option();
-		$heading = escape_dquote(__s('Exec-PHP Error.', ExecPhp_PLUGIN_ID));
-		$text = escape_dquote(__s('No necessary upgrade of the the Exec-PHP plugin could be performed. PHP code in your articles or widgets may be viewable to your blog readers. This is plugin version %1$s, previously there was version %2$s installed. Downgrading from a newer version to an older version of the plugin is not supported.', ExecPhp_PLUGIN_ID
-			, ExecPhp_VERSION, $option->get_version()));
-		$this->print_message($heading, $text);
+		$heading = __s('Exec-PHP Error.', ExecPhp_PLUGIN_ID);
+		$text = __s('No necessary upgrade of the the Exec-PHP plugin could be performed. PHP code in your articles or widgets may be viewable to your blog readers. This is plugin version %1$s, previously there was version %2$s installed. Downgrading from a newer version to an older version of the plugin is not supported.', ExecPhp_PLUGIN_ID
+			, ExecPhp_VERSION, $option->get_version());
+		$this->m_script->print_message($heading, $text);
 	}
 
 	function action_admin_footer_unknown()
 	{
 		$option =& $this->m_cache->get_option();
-		$heading = escape_dquote(__s('Exec-PHP Error.', ExecPhp_PLUGIN_ID));
-		$text = escape_dquote(__s('An unknown error (%s) occured during execution of the Exec-PHP plugin. PHP code in your articles or widgets may be viewable to your blog readers. This error should never happen if you use the plugin with a compatible WordPress version and installed it as described in the documentation.', ExecPhp_PLUGIN_ID
-			, $option->get_status()));
-		$this->print_message($heading, $text);
+		$heading = __s('Exec-PHP Error.', ExecPhp_PLUGIN_ID);
+		$text = __s('An unknown error (%s) occured during execution of the Exec-PHP plugin. PHP code in your articles or widgets may be viewable to your blog readers. This error should never happen if you use the plugin with a compatible WordPress version and installed it as described in the documentation.', ExecPhp_PLUGIN_ID
+			, $option->get_status());
+		$this->m_script->print_message($heading, $text);
 	}
 
 	function toggle_action($status)
@@ -88,21 +91,6 @@ class ExecPhp_ConfigUi
 			add_action('admin_footer', array(&$this, 'action_admin_footer_unknown'));
 		else
 			remove_action('admin_footer', array(&$this, 'action_admin_footer_unknown'));
-	}
-
-	// ---------------------------------------------------------------------------
-	// tools
-	// ---------------------------------------------------------------------------
-
-	function print_message($heading, $text)
-	{
-?>
-	<script type="text/javascript">
-		//<![CDATA[
-		ExecPhp_setMessage("<?php echo $heading; ?>", "<?php echo $text; ?>");
-		//]]>
-	</script>
-<?php
 	}
 
 	// ---------------------------------------------------------------------------
@@ -134,7 +122,7 @@ class ExecPhp_ConfigUi
 								<script type="text/javascript">
 									//<![CDATA[
 									document.getElementById("<?php echo $display_id; ?>").innerHTML =
-										"<p><img src=\"<?php echo $image_url; ?>\" alt=\"<?php _es('An animated icon signaling that this information is still be loaded.', ExecPhp_PLUGIN_ID); ?>\" /> <?php _es('Loading user information...', ExecPhp_PLUGIN_ID); ?></p>";
+										"<p><img src=\"<?php echo $image_url; ?>\" alt=\"<?php escape_dquote(_es('An animated icon signaling that this information is still be loaded.', ExecPhp_PLUGIN_ID)); ?>\" /> <?php escape_dquote(_es('Loading user information...', ExecPhp_PLUGIN_ID)); ?></p>";
 									ExecPhp_subscribeForFeature("<?php echo $feature; ?>");
 									//]]>
 								</script>
@@ -164,13 +152,16 @@ class ExecPhp_ConfigUi
 		$this->toggle_action($option->get_status());
 ?>
 	<div class="wrap">
+<?php if (version_compare($wp_version, '2.7.dev') >= 0) : ?>
+		<div id="icon-options-general" class="icon32"><br /></div>
+<?php endif; ?>
 		<h2><?php _es('Exec-PHP Plugin', ExecPhp_PLUGIN_ID); ?></h2>
 		<p><?php echo __s('Exec-PHP executes <code>&lt;?php ?&gt;</code> code in your posts, pages and text widgets. See the <a href="%s">local documentation</a> for further information. The latest version of the plugin, documentation and information can be found on the <a href="http://bluesome.net/post/2005/08/18/50/">official plugin homepage</a>.', ExecPhp_PLUGIN_ID, ExecPhp_HOME_URL. '/docs/'. __s('readme.html', ExecPhp_PLUGIN_ID)); ?></p>
 
 <?php if (version_compare($wp_version, '2.2.dev') >= 0) : ?>
 		<h3><?php _es('Settings', ExecPhp_PLUGIN_ID); ?></h3>
 
-		<form action="" method="post" id="<?php echo ExecPhp_ID_CONFIG_FORM; ?>">
+		<form action="" method="post" id="<?php echo ExecPhp_ID_CONFIG_FORM; ?>"<?php if (version_compare($wp_version, '2.5.dev') < 0) : ?> class="pre-wp-2-5"<?php endif; ?>>
 			<?php wp_nonce_field(ExecPhp_ACTION_UPDATE_OPTIONS); ?>
 
 			<fieldset class="options">
@@ -189,7 +180,7 @@ class ExecPhp_ConfigUi
 			</fieldset>
 
 			<p class="submit">
-				<input type="submit" name="<?php echo ExecPhp_ACTION_UPDATE_OPTIONS; ?>" value="<?php _es('Save Changes', ExecPhp_PLUGIN_ID) ?>" />
+				<input type="submit" name="<?php echo ExecPhp_ACTION_UPDATE_OPTIONS; ?>" class="button-primary" value="<?php _es('Save Changes', ExecPhp_PLUGIN_ID) ?>" />
 			</p>
 		</form>
 
@@ -197,7 +188,7 @@ class ExecPhp_ConfigUi
 		<h3><?php _es('Security Information', ExecPhp_PLUGIN_ID); ?></h3>
 		<p><?php _es('The following lists show which users are allowed to write or execute PHP code in different cases. Allowing to write or execute PHP code can be adjusted by assigning the necessary capabilities to individual users or roles by using a role manager plugin.', ExecPhp_PLUGIN_ID); ?></p>
 
-		<form action="" id="<?php echo ExecPhp_ID_INFO_FORM; ?>">
+		<form action="" id="<?php echo ExecPhp_ID_INFO_FORM; ?>"<?php if (version_compare($wp_version, '2.5.dev') < 0) : ?> class="pre-wp-2-5"<?php endif; ?>>
 <?php $this->print_request_users(ExecPhp_ID_INFO_SECURITY_HOLE,
 	ExecPhp_REQUEST_FEATURE_SECURITY_HOLE,
 	__s('Security Hole', ExecPhp_PLUGIN_ID),

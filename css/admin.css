@@ -1,0 +1,26 @@
+#execphp-security-hole li,
+#execphp-widgets li,
+#execphp-execute-articles li {
+	float: left;
+	line-height: 1em;
+	width: 20em;
+}
+
+#execphp-security-hole p,
+#execphp-widgets p,
+#execphp-execute-articles p {
+	text-align: center;
+}
+
+#execphp-security-hole p *,
+#execphp-widgets p *,
+#execphp-execute-articles p * {
+	vertical-align: middle;
+}
+
+div#wpbody > div.wrap > form.pre-wp-2-5 > fieldset{
+	border: 0;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}

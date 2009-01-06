@@ -1,5 +1,7 @@
 <?php
 
+if (!class_exists('ExecPhp_L10n')) :
+
 if (!function_exists('translate')) :
 // downward compatibility for older WP installations
 function translate($text, $domain)
@@ -47,6 +49,11 @@ if (!function_exists('escape_dquote')) :
 function escape_dquote($text)
 {
 	return str_replace('"', '\"', $text);
+}
+endif;
+
+class ExecPhp_L10n
+{
 }
 endif;
 
