@@ -163,7 +163,7 @@ class ExecPhp_ConfigUi
 <?php if (version_compare($wp_version, '2.2.dev') >= 0) : ?>
 		<h3><?php _es('Settings', ExecPhp_PLUGIN_ID); ?></h3>
 
-		<form action="" method="post" id="<?php echo ExecPhp_ID_CONFIG_FORM; ?>"<?php if (version_compare($wp_version, '2.5.dev') < 0) : ?> class="pre-wp-2-5"<?php endif; ?>>
+		<form action="" method="post" id="<?php echo ExecPhp_ID_CONFIG_FORM; ?>"<?php if (version_compare($wp_version, '2.5.dev') >= 0 && version_compare($wp_version, '2.6.dev') < 0) : ?> class="wp-2-5"<?php endif; ?>>
 			<?php wp_nonce_field(ExecPhp_ACTION_UPDATE_OPTIONS); ?>
 
 			<fieldset class="options">
@@ -190,7 +190,7 @@ class ExecPhp_ConfigUi
 		<h3><?php _es('Security Information', ExecPhp_PLUGIN_ID); ?></h3>
 		<p><?php _es('The following lists show which users are allowed to write or execute PHP code in different cases. Allowing to write or execute PHP code can be adjusted by assigning the necessary capabilities to individual users or roles by using a role manager plugin.', ExecPhp_PLUGIN_ID); ?></p>
 
-		<form action="" id="<?php echo ExecPhp_ID_INFO_FORM; ?>"<?php if (version_compare($wp_version, '2.5.dev') < 0) : ?> class="pre-wp-2-5"<?php endif; ?>>
+		<form action="" id="<?php echo ExecPhp_ID_INFO_FORM; ?>"<?php if (version_compare($wp_version, '2.5.dev') >= 0 && version_compare($wp_version, '2.6.dev') < 0) : ?> class="wp-2-5"<?php endif; ?>>
 <?php $this->print_request_users(ExecPhp_ID_INFO_SECURITY_HOLE,
 	ExecPhp_REQUEST_FEATURE_SECURITY_HOLE,
 	__s('Security Hole', ExecPhp_PLUGIN_ID),
