@@ -30,7 +30,16 @@ class ExecPhp_Script
 		else
 			// WP < 2.1
 			add_action('admin_head', array(&$this, 'action_admin_head_script'));
-		add_action('wp_print_scripts', array(&$this, 'action_wp_print_scripts'));
+
+		if (!$this->m_l10n_tab)
+			return;
+
+		global $wp_version;
+
+		if (version_compare($wp_version, '2.1.dev') >= 0)
+			add_action('wp_print_scripts', array(&$this, 'action_wp_print_scripts'));
+		else
+			add_action('admin_head', array(&$this, 'action_admin_head_tab'));
 	}
 
 	// ---------------------------------------------------------------------------
@@ -39,8 +48,6 @@ class ExecPhp_Script
 
 	function action_wp_print_scripts()
 	{
-		if (!$this->m_l10n_tab)
-			return;
 		if (function_exists('wp_localize_script'))
 		{
 			$this->m_l10n_tab['l10n_print_after'] = 'try{convertEntities('. $this->m_tab_name. ');}catch(e){};';
