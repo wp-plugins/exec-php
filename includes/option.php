@@ -42,30 +42,32 @@ class ExecPhp_Option
 		while ($old_version != ExecPhp_VERSION)
 		{
 			$this->load();
-			if (version_compare($old_version, '4.0') < 0)
+			if (version_compare($old_version, '4.0.dev') < 0)
 			{
 				$this->upgrade_to_4_0();
 				$old_version = '4.0';
 			}
-			else if (version_compare($old_version, '4.1') < 0)
+			else if (version_compare($old_version, '4.1.dev') < 0)
 				$old_version = '4.1';
-			else if (version_compare($old_version, '4.2') < 0)
+			else if (version_compare($old_version, '4.2.dev') < 0)
 			{
 				$this->upgrade_to_4_2();
 				$old_version = '4.2';
 			}
-			else if (version_compare($old_version, '4.3') < 0)
+			else if (version_compare($old_version, '4.3.dev') < 0)
 				$old_version = '4.3';
-			else if (version_compare($old_version, '4.4') < 0)
+			else if (version_compare($old_version, '4.4.dev') < 0)
 				$old_version = '4.4';
-			else if (version_compare($old_version, '4.5') < 0)
+			else if (version_compare($old_version, '4.5.dev') < 0)
 				$old_version = '4.5';
-			else if (version_compare($old_version, '4.6') < 0)
+			else if (version_compare($old_version, '4.6.dev') < 0)
 				$old_version = '4.6';
-			else if (version_compare($old_version, '4.7') < 0)
+			else if (version_compare($old_version, '4.7.dev') < 0)
 				$old_version = '4.7';
-			else if (version_compare($old_version, '4.8') < 0)
+			else if (version_compare($old_version, '4.8.dev') < 0)
 				$old_version = '4.8';
+			else if (version_compare($old_version, '4.9.dev') < 0)
+				$old_version = '4.9';
 			else
 				// we are downgrading to an older version of the plugin by
 				// resetting the version to 0 and walking up the conversion path

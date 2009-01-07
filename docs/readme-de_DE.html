@@ -92,7 +92,7 @@
 			<li><a href="#new_versions">Neue Versionen</a></li>
 			<li><a href="#history">Historie alter Versionen</a>
 				<ol>
-					<li><a href="#version_4_9">Version 4.9 (noch nicht veröffentlicht)</a></li>
+					<li><a href="#version_4_9">Version 4.9 (2009-01-07)</a></li>
 					<li><a href="#version_4_8">Version 4.8 (2008-07-05)</a></li>
 					<li><a href="#version_4_7">Version 4.7 (2008-05-05)</a></li>
 					<li><a href="#version_4_6">Version 4.6 (2008-04-06)</a></li>
@@ -166,7 +166,7 @@
 <h4 id="requirements">Anforderungen</h4>
 <p>Du brauchst die folgende Software auf deinem Webserver um das Exec-PHP Plugin benutzen zu können:</p>
 <ul>
-	<li><a href="http://WordPress.org">Eine lauffähige Installation von WordPress 2.0 oder höher</a></li>
+	<li><a href="http://WordPress.org">Eine lauffähige Installation von WordPress 2.0.11 oder höher</a></li>
 	<li><a href="http://bluesome.net/data/2005/08/exec-php.zip">Das Exec-PHP Plugin</a> ;-)</li>
 	<li><a href="http://im-web-gefunden.de/wordpress-plugins/role-manager/">Optional: Das Role Manager Plugin von Thomas Schneider</a></li>
 </ul>
@@ -411,6 +411,7 @@ hello();
 <p>Gut das du fragst. Das ist eine gute Gelegenheit, um zu zeigen, welche Möglichkeiten das Exec-PHP Plugin bietet. Die <a href="http://bluesome.net/post/2005/08/18/50/">Plugin Homepage</a> ist ein WordPress Beitrag, der im Wesentlichen aus einem PHP Script besteht, dass durch Exec-PHP ausgeführt wird und die in der Exec-PHP Installation enthaltene readme.html liest und parst. Dadurch muss ich bei einer neuen Version des Plugins lediglich die Plugindateien auf den Webserver hochladen. Die Dokumentation wird dann automatisch auf der Plugin Homepage aktualisiert. Der komplette Code sieht wie folgt aus:</p>
 <pre><code code-lang="php">&lt;?php
 // read readme.html depending on locale; plugin translation not yet loaded
+global $wp_version;
 if (version_compare($wp_version, '2.6.dev') >= 0)
   load_plugin_textdomain(ExecPhp_PLUGIN_ID,
     false, ExecPhp_HOMEDIR. '/languages');
@@ -457,7 +458,7 @@ echo $content;
 
 <h4 id="history">Historie alter Versionen</h4>
 
-<h5 id="version_4_9">Version 4.9 (noch nicht veröffentlicht)</h5>
+<h5 id="version_4_9">Version 4.9 (2009-01-07)</h5>
 <ul>
 	<li>Download: <a href="http://bluesome.net/data/2005/08/exec-php.zip">Plugin</a> (Englische und deutsche Übersetzung)</li>
 	<li>Download: <a href="http://liseweb.fr/BLOG/?page_id=160">Französische Übersetzung</a></li>
@@ -465,7 +466,7 @@ echo $content;
 	<li>Download: <a href="http://dimox.name/exec-php-russian-translation/">Russische Übersetzung</a></li>
 	<li>Download: <a href="http://dcabai.blogspot.com/2008/04/exec-php-en-espaol.html">Spanische Übersetzung</a></li>
 	<li>Download: <a href="http://www.wordthai.com/index.php?topic=34.0">Thai Übersetzung</a></li>
-	<li>Anforderungen: WordPress 2.0 oder höher</li>
+	<li>Anforderungen: WordPress 2.0.11 oder höher</li>
 	<li>Feature: Verbesserte Performance beim Laden des Admin Menus</li>
 	<li>Feature: Neuer 'Einstellungen' Link im WordPress 'Plugin' Menu</li>
 	<li>Feature: WYSIWYG Konvertierungswarnung nun auch für WordPress 2.0.11</li>

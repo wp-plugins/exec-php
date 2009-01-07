@@ -6,7 +6,7 @@
 
 if (!class_exists('ExecPhp_Const')) :
 
-define('ExecPhp_VERSION', '4.8');
+define('ExecPhp_VERSION', '4.9');
 define('ExecPhp_PLUGIN_ID', 'exec-php');
 
 // relative path of stored plugins to ABSPATH; only required for WP < 2.6
@@ -65,8 +65,8 @@ define('ExecPhp_REQUEST_FEATURE_EXECUTE_ARTICLES', 'execute_articles');
 define('ExecPhp_POST_WIDGET_SUPPORT', 'execphp_widget_support');
 define('ExecPhp_POST_WYSIWYG_WARNING', 'execphp_wysiwyg_warning');
 
-define('ExecPhp_ID_CONFIG_FORM', 'execphp-configuration');              // partly hardcoded
-define('ExecPhp_ID_INFO_FORM', 'execphp-information');                  // partly hardcoded
+define('ExecPhp_ID_CONFIG_FORM', 'execphp-configuration');
+define('ExecPhp_ID_INFO_FORM', 'execphp-information');
 
 define('ExecPhp_ID_INFO_SECURITY_HOLE', 'execphp-security-hole');
 define('ExecPhp_ID_INFO_WIDGETS', 'execphp-widgets');
