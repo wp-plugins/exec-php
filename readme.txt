@@ -2,7 +2,7 @@
 Contributors: McShelby
 Tags: code, exec, execute, eval, php, run
 Requires at least: 2.0.11
-Tested up to: 2.7
+Tested up to: 2.8
 Stable tag: 4.9
 
 The Exec-PHP plugin executes PHP code in posts, pages and text widgets.
@@ -20,7 +20,7 @@ Features:
 * Information about which users are allowed to execute PHP with the current security settings (for WordPress 2.1 or higher)
 * Configurable user warnings for inappropriate blog and user settings (for WordPress 2.1 or higher)
 * Restrict execution of PHP code in posts and pages to certain users by using roles and capabilities
-* Update notifications through the 'Plugins' menu in WordPress if a new version of the Exec-PHP is available (for WordPress 2.3 or higher)
+* Update notifications through the 'Plugins' menu in WordPress if a new version of the Exec-PHP plugin is available (for WordPress 2.3 or higher)
 * Internationalization support (english and german included, many more available)
 * Comes with documentation
 
