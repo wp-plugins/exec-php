@@ -39,40 +39,35 @@ class ExecPhp_Option
 	function upgrade()
 	{
 		$old_version = $this->detect_plugin_version();
-		while ($old_version != ExecPhp_VERSION)
-		{
+		while (version_compare($old_version, ExecPhp_VERSION) < 0) {
 			$this->load();
-			if (version_compare($old_version, '4.0.dev') < 0)
-			{
+			if (version_compare($old_version, '4.0.dev') < 0) {
 				$this->upgrade_to_4_0();
 				$old_version = '4.0';
-			}
-			else if (version_compare($old_version, '4.1.dev') < 0)
+			} else if (version_compare($old_version, '4.1.dev') < 0) {
 				$old_version = '4.1';
-			else if (version_compare($old_version, '4.2.dev') < 0)
-			{
+			} else if (version_compare($old_version, '4.2.dev') < 0) {
 				$this->upgrade_to_4_2();
 				$old_version = '4.2';
-			}
-			else if (version_compare($old_version, '4.3.dev') < 0)
+			} else if (version_compare($old_version, '4.3.dev') < 0) {
 				$old_version = '4.3';
-			else if (version_compare($old_version, '4.4.dev') < 0)
+			} else if (version_compare($old_version, '4.4.dev') < 0) {
 				$old_version = '4.4';
-			else if (version_compare($old_version, '4.5.dev') < 0)
+			} else if (version_compare($old_version, '4.5.dev') < 0) {
 				$old_version = '4.5';
-			else if (version_compare($old_version, '4.6.dev') < 0)
+			} else if (version_compare($old_version, '4.6.dev') < 0) {
 				$old_version = '4.6';
-			else if (version_compare($old_version, '4.7.dev') < 0)
+			} else if (version_compare($old_version, '4.7.dev') < 0) {
 				$old_version = '4.7';
-			else if (version_compare($old_version, '4.8.dev') < 0)
+			} else if (version_compare($old_version, '4.8.dev') < 0) {
 				$old_version = '4.8';
-			else if (version_compare($old_version, '4.9.dev') < 0)
+			} else if (version_compare($old_version, '4.9.dev') < 0) {
 				$old_version = '4.9';
-			else
-				// we are downgrading to an older version of the plugin by
-				// resetting the version to 0 and walking up the conversion path
-				$old_version = '0';
-
+			} else if (version_compare($old_version, '4.10.dev') < 0) {
+				$old_version = '4.10';
+			} else {
+				die('Exec-PHP: There is no upgrade path to your current Exec-PHP version. Please upload the plugin again or contact the author.');
+			}
 			$this->m_version = $old_version;
 			$this->save();
 		}
@@ -96,10 +91,11 @@ class ExecPhp_Option
 		$option = get_option(ExecPhp_PLUGIN_ID);
 
 		// introduced in 4.0
-		if (isset($option[ExecPhp_OPTION_WIDGET_SUPPORT]))
+		if (isset($option[ExecPhp_OPTION_WIDGET_SUPPORT])) {
 			$this->m_widget_support = $option[ExecPhp_OPTION_WIDGET_SUPPORT];
-		else
+		} else {
 			$this->m_widget_support = true;
+		}
 	}
 
 	// ---------------------------------------------------------------------------
@@ -109,10 +105,17 @@ class ExecPhp_Option
 	function detect_plugin_version()
 	{
 		$option = get_option(ExecPhp_PLUGIN_ID);
-		if ($option === false)
+		if ($option === false) {
 			$version = '0';
-		else
+		} else {
 			$version = $option[ExecPhp_OPTION_VERSION];
+		}
+		// we are allowing downgrading; because we do not know if any upgrade
+		// between this and the downgraded version changed or deleted any options
+		// we are starting from scratch
+		if (version_compare(ExecPhp_VERSION, $version) < 0) {
+			$version = 0;
+		}
 		return $version;
 	}
 
@@ -128,8 +131,9 @@ class ExecPhp_Option
 		// be sure standard roles are available, these may be deleted or
 		// renamed by the blog administrator
 		$role = get_role('administrator');
-		if ($role !== NULL)
+		if ($role !== NULL) {
 			$role->add_cap(ExecPhp_CAPABILITY_EXECUTE_ARTICLES);
+		}
 	}
 
 	function upgrade_to_4_2()
@@ -137,8 +141,9 @@ class ExecPhp_Option
 		// be sure standard roles are available, these may be deleted or
 		// renamed by the blog administrator
 		$role = get_role('administrator');
-		if ($role !== NULL)
+		if ($role !== NULL) {
 			$role->add_cap(ExecPhp_CAPABILITY_EDIT_OTHERS_PHP);
+		}
 	}
 
 	// ---------------------------------------------------------------------------
@@ -147,8 +152,7 @@ class ExecPhp_Option
 
 	function set_from_POST()
 	{
-		$this->m_widget_support
-			= isset($_POST[ExecPhp_POST_WIDGET_SUPPORT]);
+		$this->m_widget_support = isset($_POST[ExecPhp_POST_WIDGET_SUPPORT]);
 	}
 
 	function get_status()
