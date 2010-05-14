@@ -26,6 +26,16 @@ class ExecPhp_Cache
 	// access
 	// ---------------------------------------------------------------------------
 
+	function uninstall()
+	{
+		$this->m_option->uninstall();
+
+		$wp_user_search = new WP_User_Search();
+		foreach ($wp_user_search->get_results() as $userid) {
+			$this->get_usermeta($userid)->uninstall();
+		}
+	}
+
 	function &get_option()
 	{
 		return $this->m_option;

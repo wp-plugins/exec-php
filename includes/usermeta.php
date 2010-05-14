@@ -27,9 +27,17 @@ class ExecPhp_UserMeta
 		$this->load();
 	}
 
+	function uninstall()
+	{
+		delete_user_meta($this->m_user_id, ExecPhp_META_WYSIWYG_WARNING);
+		$user = new WP_User($this->m_user_id);
+		$user->remove_cap(ExecPhp_CAPABILITY_EXECUTE_ARTICLES);
+		$user->remove_cap(ExecPhp_CAPABILITY_EDIT_OTHERS_PHP);
+	}
+
 	function save()
 	{
-		update_usermeta($this->m_user_id, ExecPhp_META_WYSIWYG_WARNING,
+		update_user_meta($this->m_user_id, ExecPhp_META_WYSIWYG_WARNING,
 			$this->m_hide_wysiwyg_warning);
 	}
 
@@ -38,7 +46,7 @@ class ExecPhp_UserMeta
 		if ($this->m_user_id > 0)
 		{
 			$this->m_hide_wysiwyg_warning =
-				get_usermeta($this->m_user_id, ExecPhp_META_WYSIWYG_WARNING);
+				get_user_meta($this->m_user_id, ExecPhp_META_WYSIWYG_WARNING);
 		}
 	}
 

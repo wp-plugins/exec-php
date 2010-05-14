@@ -75,6 +75,17 @@ class ExecPhp_Option
 		return ExecPhp_STATUS_OKAY;
 	}
 
+	function uninstall()
+	{
+		delete_option(ExecPhp_PLUGIN_ID, $option);
+
+		$roles = new WP_Roles();
+		foreach ($roles->role_objects as $role) {
+			$role->remove_cap(ExecPhp_CAPABILITY_EXECUTE_ARTICLES);
+			$role->remove_cap(ExecPhp_CAPABILITY_EDIT_OTHERS_PHP);
+		}
+	}
+
 	function save()
 	{
 		// introduced in 4.0
