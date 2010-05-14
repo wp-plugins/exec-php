@@ -6,7 +6,7 @@
 
 if (!class_exists('ExecPhp_Const')) :
 
-define('ExecPhp_VERSION', '4.9');
+define('ExecPhp_VERSION', '4.10.dev');
 define('ExecPhp_PLUGIN_ID', 'exec-php');
 
 // relative path of stored plugins to ABSPATH; only required for WP < 2.6
