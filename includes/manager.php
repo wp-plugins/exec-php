@@ -6,8 +6,6 @@ require_once(dirname(__FILE__).'/cache.php');
 require_once(dirname(__FILE__).'/const.php');
 require_once(dirname(__FILE__).'/runtime.php');
 
-include_once( $_SERVER["DOCUMENT_ROOT"]. "./cgi-bin/colibri/log.lib.php" );
-
 // -----------------------------------------------------------------------------
 // the ExecPhp_Manager class handles the plugin initialization phase,
 // assuring the infrastructure is set up properly
